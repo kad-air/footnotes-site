@@ -112,7 +112,7 @@ Another waypoint's story text...
 |------|-----|-------|-------------|-------|-----------|-----------|
 | `lotr_shire_to_bree.journey` | `lotr` | The Shire to Bree | A dangerous journey through the Old Forest to the Prancing Pony. | #00FF00 | Frodo | 12 |
 | `rivendell.journey` | `rivendell` | Bree to Rivendell | The Flight to the Ford. Escape the Nazgul and find refuge in the Last Homely House. | #0000FF | Aragorn | 7 |
-| `moria.journey` | `moria` | The Mines of Moria | Journey through the dark heart of the mountain, from the West Gate to the Golden Wood. | #808080 | Gandalf | 6 |
+| `moria.journey` | `moria` | The Mines of Moria | Journey through the dark heart of the mountain, from the West Gate to the Golden Wood. | #808080 | Aragorn | 8 |
 
 ### Wizarding World (Harry Potter)
 
