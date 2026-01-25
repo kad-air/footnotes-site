@@ -22,7 +22,7 @@
     <header class="header">
         <nav class="nav container">
             <a href="/" class="nav-logo">Footnotes</a>
-            <a href="/quests/" class="nav-link">Quest Gallery</a>
+            <a href="/quests/" class="nav-link">Bonus Quests</a>
         </nav>
     </header>
 
@@ -35,7 +35,7 @@
                 </div>
                 <h1 class="hero-title">Footnotes</h1>
                 <p class="hero-tagline">Walk through your favorite stories</p>
-                <p class="hero-description">Turn your daily walks into epic literary adventures. Track your real-world steps as you journey through Middle-earth, Hogwarts, and beyond.</p>
+                <p class="hero-description">Turn your daily walks into epic literary adventures. The app includes 12 built-in quests from beloved classics—Beowulf, The Odyssey, Edgar Allan Poe, Mark Twain, Shakespeare, and more.</p>
 
                 <div class="hero-cta">
                     <a href="https://apps.apple.com/app/footnotes" class="app-store-badge" id="app-store-link">
@@ -48,6 +48,38 @@
                 </div>
 
                 <p class="platform-notice" id="platform-notice"></p>
+            </div>
+        </section>
+
+        <!-- Screenshots Section -->
+        <section class="screenshots">
+            <div class="container">
+                <h2 class="section-title">See It In Action</h2>
+                <div class="screenshot-carousel">
+                    <div class="screenshot-track" id="screenshot-track">
+                        <div class="screenshot-slide">
+                            <img src="assets/screenshot-storybook.png" alt="Storybook - Browse available quests" loading="lazy">
+                            <p class="screenshot-caption">Browse quests from classic literature</p>
+                        </div>
+                        <div class="screenshot-slide">
+                            <img src="assets/screenshot-map.png" alt="Journey Map - Track your progress" loading="lazy">
+                            <p class="screenshot-caption">Track your journey on the map</p>
+                        </div>
+                        <div class="screenshot-slide">
+                            <img src="assets/screenshot-preview.png" alt="Story Preview - See waypoints" loading="lazy">
+                            <p class="screenshot-caption">Preview waypoints before you start</p>
+                        </div>
+                        <div class="screenshot-slide">
+                            <img src="assets/screenshot-history.png" alt="History - Achievements and stats" loading="lazy">
+                            <p class="screenshot-caption">Earn achievements as you walk</p>
+                        </div>
+                    </div>
+                    <div class="screenshot-nav">
+                        <button class="screenshot-btn" onclick="scrollScreenshots(-1)" aria-label="Previous screenshot">&larr;</button>
+                        <div class="screenshot-dots" id="screenshot-dots"></div>
+                        <button class="screenshot-btn" onclick="scrollScreenshots(1)" aria-label="Next screenshot">&rarr;</button>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -114,12 +146,64 @@
             </div>
         </section>
 
+        <!-- Built-in Journeys Section -->
+        <section class="built-in-journeys">
+            <div class="container">
+                <h2 class="section-title">12 Journeys Included</h2>
+                <p class="section-subtitle">Start walking through these public domain classics the moment you download the app.</p>
+                <div class="journey-list">
+                    <div class="journey-category">
+                        <h3>Beowulf</h3>
+                        <ul>
+                            <li>The Coming of Grendel</li>
+                            <li>The Dragon's Barrow</li>
+                        </ul>
+                    </div>
+                    <div class="journey-category">
+                        <h3>The Odyssey</h3>
+                        <ul>
+                            <li>Calypso's Isle</li>
+                            <li>The Long Way Home</li>
+                        </ul>
+                    </div>
+                    <div class="journey-category">
+                        <h3>Edgar Allan Poe</h3>
+                        <ul>
+                            <li>The Raven's Path</li>
+                            <li>The Tell-Tale Heart</li>
+                        </ul>
+                    </div>
+                    <div class="journey-category">
+                        <h3>Mark Twain</h3>
+                        <ul>
+                            <li>Tom Sawyer's Hannibal</li>
+                            <li>Huckleberry Finn's River</li>
+                        </ul>
+                    </div>
+                    <div class="journey-category">
+                        <h3>Shakespeare</h3>
+                        <ul>
+                            <li>Hamlet's Elsinore</li>
+                            <li>Romeo & Juliet's Verona</li>
+                        </ul>
+                    </div>
+                    <div class="journey-category">
+                        <h3>The Bible</h3>
+                        <ul>
+                            <li>Exodus: Out of Egypt</li>
+                            <li>David and Goliath</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Quest Gallery CTA -->
         <section class="cta-section">
             <div class="container">
-                <h2>Ready to Start Walking?</h2>
-                <p>Browse our collection of literary quests, from Middle-earth to Hogwarts.</p>
-                <a href="/quests/" class="btn btn-primary">View Quest Gallery</a>
+                <h2>Want Even More Adventures?</h2>
+                <p>Looking for journeys beyond the classics? Browse bonus quests from Middle-earth, Hogwarts, Panem, and more that you can add to your library.</p>
+                <a href="/quests/" class="btn btn-primary">Browse Bonus Quests</a>
             </div>
         </section>
     </main>

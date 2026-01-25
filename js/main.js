@@ -116,8 +116,67 @@ function initModalBehavior() {
     }
 }
 
+/**
+ * Screenshot carousel functionality
+ */
+let currentScreenshot = 0;
+const totalScreenshots = 4;
+
+function initScreenshotCarousel() {
+    const track = document.getElementById('screenshot-track');
+    const dotsContainer = document.getElementById('screenshot-dots');
+
+    if (!track || !dotsContainer) return;
+
+    // Create dots
+    for (let i = 0; i < totalScreenshots; i++) {
+        const dot = document.createElement('span');
+        dot.className = 'screenshot-dot' + (i === 0 ? ' active' : '');
+        dot.onclick = () => scrollToScreenshot(i);
+        dotsContainer.appendChild(dot);
+    }
+
+    // Update dots on scroll
+    track.addEventListener('scroll', () => {
+        const slideWidth = track.querySelector('.screenshot-slide').offsetWidth + 24; // gap
+        const newIndex = Math.round(track.scrollLeft / slideWidth);
+        if (newIndex !== currentScreenshot && newIndex >= 0 && newIndex < totalScreenshots) {
+            currentScreenshot = newIndex;
+            updateDots();
+        }
+    });
+}
+
+function scrollScreenshots(direction) {
+    const track = document.getElementById('screenshot-track');
+    if (!track) return;
+
+    currentScreenshot = Math.max(0, Math.min(totalScreenshots - 1, currentScreenshot + direction));
+    scrollToScreenshot(currentScreenshot);
+}
+
+function scrollToScreenshot(index) {
+    const track = document.getElementById('screenshot-track');
+    if (!track) return;
+
+    const slides = track.querySelectorAll('.screenshot-slide');
+    if (slides[index]) {
+        slides[index].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        currentScreenshot = index;
+        updateDots();
+    }
+}
+
+function updateDots() {
+    const dots = document.querySelectorAll('.screenshot-dot');
+    dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentScreenshot);
+    });
+}
+
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     initPlatformUI();
     initModalBehavior();
+    initScreenshotCarousel();
 });
