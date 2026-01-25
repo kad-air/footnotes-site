@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Quest Gallery - Footnotes</title>
+    <meta name="description" content="Browse literary quests for the Footnotes iOS app. Journey through Middle-earth, Hogwarts, Panem, and Cold War London.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Quest Gallery - Footnotes">
+    <meta property="og:description" content="Browse literary quests for the Footnotes iOS app. Journey through Middle-earth, Hogwarts, Panem, and Cold War London.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://footnotes.keithadair.com/quests/">
+
+    <!-- iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="nav-logo">Footnotes</a>
+            <a href="/quests/" class="nav-link">Quest Gallery</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <h1>Quest Gallery</h1>
+                <p>Tap a quest to open it in the Footnotes app and start your journey.</p>
+            </div>
+        </section>
+
+        <!-- Quest Cards -->
+        <section class="quest-section">
+            <div class="container">
+                <!-- iOS Notice Banner (hidden on iOS) -->
+                <div class="ios-notice" id="ios-notice">
+                    <p>Footnotes is currently available for iPhone only. These quests can be opened in the Footnotes iOS app.</p>
+                </div>
+
+                <!-- Middle-earth -->
+                <h2 class="category-title">Middle-earth</h2>
+                <div class="quest-grid">
+                    <!-- The Shire to Bree -->
+                    <article class="quest-card">
+                        <div class="quest-card-accent accent-middle-earth"></div>
+                        <div class="quest-card-content">
+                            <h3 class="quest-card-title">The Shire to Bree</h3>
+                            <p class="quest-card-description">A dangerous journey through the Old Forest to the Prancing Pony.</p>
+                            <div class="quest-card-meta">
+                                <span>12 waypoints</span>
+                                <span>Frodo</span>
+                            </div>
+                            <button class="btn btn-primary quest-card-button" onclick="openQuest('lotr_shire_to_bree.journey')">
+                                Open in Footnotes
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Bree to Rivendell -->
+                    <article class="quest-card">
+                        <div class="quest-card-accent accent-middle-earth"></div>
+                        <div class="quest-card-content">
+                            <h3 class="quest-card-title">Bree to Rivendell</h3>
+                            <p class="quest-card-description">The Flight to the Ford. Escape the Nazgul and find refuge in the Last Homely House.</p>
+                            <div class="quest-card-meta">
+                                <span>7 waypoints</span>
+                                <span>Aragorn</span>
+                            </div>
+                            <button class="btn btn-primary quest-card-button" onclick="openQuest('rivendell.journey')">
+                                Open in Footnotes
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- The Mines of Moria -->
+                    <article class="quest-card">
+                        <div class="quest-card-accent accent-middle-earth"></div>
+                        <div class="quest-card-content">
+                            <h3 class="quest-card-title">The Mines of Moria</h3>
+                            <p class="quest-card-description">Journey through the dark heart of the mountain, from the West Gate to the Golden Wood.</p>
+                            <div class="quest-card-meta">
+                                <span>6 waypoints</span>
+                                <span>Gandalf</span>
+                            </div>
+                            <button class="btn btn-primary quest-card-button" onclick="openQuest('moria.journey')">
+                                Open in Footnotes
+                            </button>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Wizarding World -->
+                <h2 class="category-title">Wizarding World</h2>
+                <div class="quest-grid">
+                    <!-- The Hogwarts Express -->
+                    <article class="quest-card">
+                        <div class="quest-card-accent accent-wizarding"></div>
+                        <div class="quest-card-content">
+                            <h3 class="quest-card-title">The Hogwarts Express</h3>
+                            <p class="quest-card-description">A magical journey from King's Cross to the castle in the Highlands.</p>
+                            <div class="quest-card-meta">
+                                <span>15 waypoints</span>
+                                <span>Harry</span>
+                            </div>
+                            <button class="btn btn-primary quest-card-button" onclick="openQuest('potter_hogwarts_express.journey')">
+                                Open in Footnotes
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Privet Drive to Platform 9 3/4 -->
+                    <article class="quest-card">
+                        <div class="quest-card-accent accent-wizarding"></div>
+                        <div class="quest-card-content">
+                            <h3 class="quest-card-title">Privet Drive to Platform 9 3/4</h3>
+                            <p class="quest-card-description">An eleven-year-old's first steps into the wizarding world.</p>
+                            <div class="quest-card-meta">
+                                <span>11 waypoints</span>
+                                <span>Harry</span>
+                            </div>
+                            <button class="btn btn-primary quest-card-button" onclick="openQuest('diagon_alley.journey')">
+                                Open in Footnotes
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Hogwarts to Hogsmeade -->
+                    <article class="quest-card">
+                        <div class="quest-card-accent accent-wizarding"></div>
+                        <div class="quest-card-content">
+                            <h3 class="quest-card-title">Hogwarts to Hogsmeade</h3>
+                            <p class="quest-card-description">A weekend stroll to the wizarding village for butterbeer and sweets.</p>
+                            <div class="quest-card-meta">
+                                <span>12 waypoints</span>
+                                <span>Hermione</span>
+                            </div>
+                            <button class="btn btn-primary quest-card-button" onclick="openQuest('hogsmeade.journey')">
+                                Open in Footnotes
+                            </button>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Panem -->
+                <h2 class="category-title">Panem</h2>
+                <div class="quest-grid">
+                    <!-- The 74th Hunger Games -->
+                    <article class="quest-card">
+                        <div class="quest-card-accent accent-panem"></div>
+                        <div class="quest-card-content">
+                            <h3 class="quest-card-title">The 74th Hunger Games</h3>
+                            <p class="quest-card-description">Survival in the woods. From the bloodbath at the Cornucopia to the final showdown.</p>
+                            <div class="quest-card-meta">
+                                <span>6 waypoints</span>
+                                <span>Katniss</span>
+                            </div>
+                            <button class="btn btn-primary quest-card-button" onclick="openQuest('hunger_games_74th.journey')">
+                                Open in Footnotes
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Mockingjay: The Final March -->
+                    <article class="quest-card">
+                        <div class="quest-card-accent accent-panem"></div>
+                        <div class="quest-card-content">
+                            <h3 class="quest-card-title">Mockingjay: The Final March</h3>
+                            <p class="quest-card-description">The Star Squad's final mission. Navigate the pods and traps of the Capitol on foot.</p>
+                            <div class="quest-card-meta">
+                                <span>6 waypoints</span>
+                                <span>Katniss</span>
+                            </div>
+                            <button class="btn btn-primary quest-card-button" onclick="openQuest('hunger_games_mockingjay.journey')">
+                                Open in Footnotes
+                            </button>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- le Carre's Cold War -->
+                <h2 class="category-title">le Carre's Cold War</h2>
+                <div class="quest-grid">
+                    <!-- The Spy Who Came In -->
+                    <article class="quest-card">
+                        <div class="quest-card-accent accent-lecarre"></div>
+                        <div class="quest-card-content">
+                            <h3 class="quest-card-title">The Spy Who Came In: The Circus</h3>
+                            <p class="quest-card-description">Leamas returns to London and begins his degradation.</p>
+                            <div class="quest-card-meta">
+                                <span>6 waypoints</span>
+                                <span>Leamas</span>
+                            </div>
+                            <button class="btn btn-primary quest-card-button" onclick="openQuest('lecarre_circus.journey')">
+                                Open in Footnotes
+                            </button>
+                        </div>
+                    </article>
+
+                    <!-- Smiley's London -->
+                    <article class="quest-card">
+                        <div class="quest-card-accent accent-lecarre"></div>
+                        <div class="quest-card-content">
+                            <h3 class="quest-card-title">Smiley's London</h3>
+                            <p class="quest-card-description">A contemplative walk through George Smiley's city, from Chelsea to Hampstead.</p>
+                            <div class="quest-card-meta">
+                                <span>12 waypoints</span>
+                                <span>Smiley</span>
+                            </div>
+                            <button class="btn btn-primary quest-card-button" onclick="openQuest('smiley_london.journey')">
+                                Open in Footnotes
+                            </button>
+                        </div>
+                    </article>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Back to Home CTA -->
+        <section class="cta-section">
+            <div class="container">
+                <h2>Don't have the app yet?</h2>
+                <p>Download Footnotes for iPhone to start your literary adventures.</p>
+                <a href="https://apps.apple.com/app/footnotes" class="btn btn-primary">Download on the App Store</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- App Store Modal -->
+    <div class="modal-overlay" id="app-store-modal">
+        <div class="modal">
+            <h3>Get Footnotes</h3>
+            <p>Download the Footnotes app to open this quest and start your journey.</p>
+            <div class="modal-buttons">
+                <a href="https://apps.apple.com/app/footnotes" class="btn btn-primary">Download App</a>
+                <button class="btn btn-secondary" onclick="hideAppStoreModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Footnotes. Available on iOS.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

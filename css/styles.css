@@ -1,0 +1,612 @@
+/* ==========================================================================
+   Footnotes Landing Page - Mobile-First Responsive Styles
+   ========================================================================== */
+
+/* CSS Variables */
+:root {
+    /* Colors */
+    --color-primary: #007AFF;
+    --color-primary-dark: #0056CC;
+    --color-background: #F2F2F7;
+    --color-surface: #FFFFFF;
+    --color-text: #1C1C1E;
+    --color-text-secondary: #8E8E93;
+    --color-border: #E5E5EA;
+
+    /* Category Colors */
+    --color-middle-earth: #228B22;
+    --color-wizarding: #800080;
+    --color-panem: #DC143C;
+    --color-lecarre: #4169E1;
+
+    /* Spacing */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+
+    /* Typography */
+    --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.25rem;
+    --font-size-2xl: 1.5rem;
+    --font-size-3xl: 2rem;
+    --font-size-4xl: 2.5rem;
+
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+    /* Safe areas for iPhone notch/home indicator */
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+}
+
+/* Reset & Base */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    color: var(--color-text);
+    background-color: var(--color-background);
+    min-height: 100vh;
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bottom);
+}
+
+/* Container */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: calc(var(--space-md) + var(--safe-left));
+    padding-right: calc(var(--space-md) + var(--safe-right));
+}
+
+/* Typography */
+h1, h2, h3, h4 {
+    line-height: 1.2;
+    font-weight: 600;
+}
+
+h1 { font-size: var(--font-size-3xl); }
+h2 { font-size: var(--font-size-2xl); }
+h3 { font-size: var(--font-size-xl); }
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   Header & Navigation
+   ========================================================================== */
+
+.header {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 56px;
+}
+
+.nav-logo {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.nav-logo:hover {
+    text-decoration: none;
+}
+
+.nav-link {
+    font-weight: 500;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-sm);
+    transition: background-color 0.2s;
+}
+
+.nav-link:hover {
+    background-color: var(--color-background);
+    text-decoration: none;
+}
+
+/* ==========================================================================
+   Hero Section
+   ========================================================================== */
+
+.hero {
+    background: var(--color-surface);
+    padding: var(--space-3xl) 0;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 600px;
+}
+
+.hero-icon {
+    margin-bottom: var(--space-lg);
+}
+
+.hero-icon svg {
+    width: 100px;
+    height: 100px;
+}
+
+.hero-title {
+    font-size: var(--font-size-4xl);
+    font-weight: 700;
+    margin-bottom: var(--space-sm);
+}
+
+.hero-tagline {
+    font-size: var(--font-size-xl);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-lg);
+}
+
+.hero-description {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xl);
+}
+
+.hero-cta {
+    margin-bottom: var(--space-lg);
+}
+
+.app-store-badge {
+    display: inline-block;
+    transition: transform 0.2s;
+}
+
+.app-store-badge:hover {
+    transform: scale(1.05);
+}
+
+.platform-notice {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    min-height: 1.5em;
+}
+
+/* ==========================================================================
+   Features Section
+   ========================================================================== */
+
+.features {
+    padding: var(--space-3xl) 0;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+}
+
+.feature-card {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+}
+
+.feature-icon {
+    margin-bottom: var(--space-md);
+}
+
+.feature-card h3 {
+    margin-bottom: var(--space-sm);
+}
+
+.feature-card p {
+    color: var(--color-text-secondary);
+}
+
+/* ==========================================================================
+   How It Works Section
+   ========================================================================== */
+
+.how-it-works {
+    background: var(--color-surface);
+    padding: var(--space-3xl) 0;
+}
+
+.steps-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+}
+
+.step {
+    text-align: center;
+}
+
+.step-number {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    color: white;
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--space-md);
+}
+
+.step h3 {
+    margin-bottom: var(--space-sm);
+}
+
+.step p {
+    color: var(--color-text-secondary);
+    max-width: 280px;
+    margin: 0 auto;
+}
+
+/* ==========================================================================
+   CTA Section
+   ========================================================================== */
+
+.cta-section {
+    padding: var(--space-3xl) 0;
+    text-align: center;
+}
+
+.cta-section h2 {
+    margin-bottom: var(--space-sm);
+}
+
+.cta-section p {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xl);
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.btn {
+    display: inline-block;
+    padding: var(--space-md) var(--space-xl);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-height: 44px;
+    min-width: 44px;
+}
+
+.btn:hover {
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: var(--color-primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--color-primary-dark);
+}
+
+.btn-secondary {
+    background: var(--color-background);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+}
+
+.btn-secondary:hover {
+    background: var(--color-border);
+}
+
+.btn-disabled {
+    background: var(--color-border);
+    color: var(--color-text-secondary);
+    cursor: not-allowed;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.footer {
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    padding: var(--space-xl) 0;
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+/* ==========================================================================
+   Quest Gallery Page
+   ========================================================================== */
+
+.page-header {
+    background: var(--color-surface);
+    padding: var(--space-xl) 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.page-header h1 {
+    margin-bottom: var(--space-sm);
+}
+
+.page-header p {
+    color: var(--color-text-secondary);
+}
+
+/* iOS Notice Banner */
+.ios-notice {
+    background: #FFF3CD;
+    border: 1px solid #FFECB5;
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    margin-bottom: var(--space-xl);
+    text-align: center;
+}
+
+.ios-notice p {
+    color: #856404;
+    margin: 0;
+}
+
+/* Quest Grid */
+.quest-section {
+    padding: var(--space-2xl) 0;
+}
+
+.category-title {
+    font-size: var(--font-size-lg);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-lg);
+    padding-bottom: var(--space-sm);
+    border-bottom: 2px solid var(--color-border);
+}
+
+.quest-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-2xl);
+}
+
+/* Quest Cards */
+.quest-card {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.quest-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.quest-card-accent {
+    height: 6px;
+}
+
+.quest-card-content {
+    padding: var(--space-lg);
+}
+
+.quest-card-title {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--space-sm);
+}
+
+.quest-card-description {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-md);
+}
+
+.quest-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+.quest-card-meta span {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.quest-card-button {
+    width: 100%;
+}
+
+/* Category-specific accent colors */
+.accent-middle-earth { background-color: var(--color-middle-earth); }
+.accent-wizarding { background-color: var(--color-wizarding); }
+.accent-panem { background-color: var(--color-panem); }
+.accent-lecarre { background-color: var(--color-lecarre); }
+
+/* ==========================================================================
+   App Store Modal
+   ========================================================================== */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-md);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    background: var(--color-surface);
+    border-radius: var(--radius-xl);
+    padding: var(--space-xl);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    transform: scale(0.95);
+    transition: transform 0.3s;
+}
+
+.modal-overlay.active .modal {
+    transform: scale(1);
+}
+
+.modal h3 {
+    margin-bottom: var(--space-md);
+}
+
+.modal p {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xl);
+}
+
+.modal-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+/* ==========================================================================
+   Tablet Styles (768px+)
+   ========================================================================== */
+
+@media (min-width: 768px) {
+    .container {
+        padding-left: var(--space-xl);
+        padding-right: var(--space-xl);
+    }
+
+    .hero-icon svg {
+        width: 120px;
+        height: 120px;
+    }
+
+    .features-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .steps-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .quest-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .modal-buttons {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+/* ==========================================================================
+   Desktop Styles (1024px+)
+   ========================================================================== */
+
+@media (min-width: 1024px) {
+    .container {
+        padding-left: var(--space-2xl);
+        padding-right: var(--space-2xl);
+    }
+
+    h1 { font-size: var(--font-size-4xl); }
+
+    .hero {
+        padding: var(--space-3xl) 0 var(--space-3xl);
+    }
+
+    .quest-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .feature-card {
+        padding: var(--space-2xl);
+    }
+}
+
+/* ==========================================================================
+   Utility Classes
+   ========================================================================== */
+
+.hidden {
+    display: none !important;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
