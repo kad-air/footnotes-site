@@ -166,9 +166,11 @@ a:hover {
     margin-bottom: var(--space-lg);
 }
 
-.hero-icon svg {
+.hero-icon img {
     width: 100px;
     height: 100px;
+    border-radius: 22px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .hero-title {
@@ -543,9 +545,10 @@ a:hover {
         padding-right: var(--space-xl);
     }
 
-    .hero-icon svg {
+    .hero-icon img {
         width: 120px;
         height: 120px;
+        border-radius: 27px;
     }
 
     .features-grid {
