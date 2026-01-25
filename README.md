@@ -5,7 +5,7 @@ A static website for the Footnotes iOS app, hosted on GitHub Pages at `footnotes
 ## What This Site Does
 
 1. **Landing Page** (`/`) - Promotes the Footnotes iOS app with features, how it works, and App Store download link
-2. **Quest Gallery** (`/quests/`) - Displays cards for 10 legacy quests that can be opened directly in the iOS app via deep links
+2. **Quest Gallery** (`/quests/`) - Displays cards for 10 quests that can be opened directly in the iOS app via deep links
 
 ## About the Footnotes iOS App
 
@@ -104,7 +104,7 @@ Another waypoint's story text...
 
 ---
 
-## Quest Data (10 Legacy Quests)
+## Quest Data (10 Quests)
 
 ### Middle-earth (Lord of the Rings)
 
