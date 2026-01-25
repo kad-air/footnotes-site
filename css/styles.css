@@ -18,6 +18,7 @@
     --color-wizarding: #800080;
     --color-panem: #DC143C;
     --color-lecarre: #4169E1;
+    --color-king: #8B0000;
 
     /* Spacing */
     --space-xs: 0.25rem;
@@ -478,6 +479,7 @@ a:hover {
 .accent-wizarding { background-color: var(--color-wizarding); }
 .accent-panem { background-color: var(--color-panem); }
 .accent-lecarre { background-color: var(--color-lecarre); }
+.accent-king { background-color: var(--color-king); }
 
 /* ==========================================================================
    App Store Modal
