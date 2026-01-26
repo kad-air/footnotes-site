@@ -170,7 +170,7 @@ a:hover {
 
 .hero {
     background: var(--color-surface);
-    padding: var(--space-3xl) 0;
+    padding: var(--space-2xl) 0;
     text-align: center;
 }
 
@@ -231,7 +231,7 @@ a:hover {
    ========================================================================== */
 
 .screenshots {
-    padding: var(--space-3xl) 0;
+    padding: var(--space-2xl) 0;
     background: var(--color-surface);
     overflow: hidden;
 }
@@ -328,7 +328,7 @@ a:hover {
    ========================================================================== */
 
 .features {
-    padding: var(--space-3xl) 0;
+    padding: var(--space-2xl) 0;
 }
 
 .section-title {
@@ -368,7 +368,7 @@ a:hover {
 
 .how-it-works {
     background: var(--color-surface);
-    padding: var(--space-3xl) 0;
+    padding: var(--space-2xl) 0;
 }
 
 .steps-grid {
@@ -410,7 +410,7 @@ a:hover {
    ========================================================================== */
 
 .built-in-journeys {
-    padding: var(--space-3xl) 0;
+    padding: var(--space-2xl) 0;
     background: var(--color-surface);
 }
 
@@ -464,7 +464,7 @@ a:hover {
    ========================================================================== */
 
 .cta-section {
-    padding: var(--space-3xl) 0;
+    padding: var(--space-2xl) 0;
     text-align: center;
 }
 
