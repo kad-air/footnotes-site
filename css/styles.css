@@ -639,6 +639,29 @@ a:hover {
     gap: var(--space-xs);
 }
 
+.quest-card-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+}
+
+.quest-card-details span {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.quest-distance::before {
+    content: "📏 ";
+}
+
+.quest-region::before {
+    content: "🌍 ";
+}
+
 .quest-card-button {
     width: 100%;
 }
