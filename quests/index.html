@@ -48,6 +48,18 @@
                     <p>Footnotes is currently available for iPhone only. These quests can be opened in the Footnotes iOS app.</p>
                 </div>
 
+                <!-- Distance Toggle -->
+                <div class="distance-toggle-container">
+                    <label class="distance-toggle-label">
+                        <input type="checkbox" id="distance-toggle" class="distance-toggle-input">
+                        <span class="toggle-slider"></span>
+                        <span class="toggle-text">
+                            <span class="toggle-miles">miles</span>
+                            <span class="toggle-km">km</span>
+                        </span>
+                    </label>
+                </div>
+
                 <!-- le Carre's Cold War -->
                 <h2 class="category-title">le Carré's Cold War</h2>
                 <div class="quest-grid">
@@ -60,6 +72,10 @@
                             <div class="quest-card-meta">
                                 <span>6 waypoints</span>
                                 <span>Leamas</span>
+                            </div>
+                            <div class="quest-card-details">
+                                <span class="quest-distance" data-km="19.5"></span>
+                                <span class="quest-region">London, UK</span>
                             </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('lecarre_circus.journey')">
                                 Open in Footnotes
@@ -76,6 +92,10 @@
                             <div class="quest-card-meta">
                                 <span>12 waypoints</span>
                                 <span>Smiley</span>
+                            </div>
+                            <div class="quest-card-details">
+                                <span class="quest-distance" data-km="23.1"></span>
+                                <span class="quest-region">London, UK</span>
                             </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('smiley_london.journey')">
                                 Open in Footnotes
@@ -97,6 +117,10 @@
                                 <span>12 waypoints</span>
                                 <span>Frodo</span>
                             </div>
+                            <div class="quest-card-details">
+                                <span class="quest-distance" data-km="465.9"></span>
+                                <span class="quest-region">New Zealand</span>
+                            </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('lotr_shire_to_bree.journey')">
                                 Open in Footnotes
                             </button>
@@ -113,6 +137,10 @@
                                 <span>7 waypoints</span>
                                 <span>Aragorn</span>
                             </div>
+                            <div class="quest-card-details">
+                                <span class="quest-distance" data-km="207.0"></span>
+                                <span class="quest-region">New Zealand</span>
+                            </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('rivendell.journey')">
                                 Open in Footnotes
                             </button>
@@ -128,6 +156,10 @@
                             <div class="quest-card-meta">
                                 <span>8 waypoints</span>
                                 <span>Aragorn</span>
+                            </div>
+                            <div class="quest-card-details">
+                                <span class="quest-distance" data-km="93.0"></span>
+                                <span class="quest-region">New Zealand</span>
                             </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('moria.journey')">
                                 Open in Footnotes
@@ -149,6 +181,10 @@
                                 <span>6 waypoints</span>
                                 <span>Katniss</span>
                             </div>
+                            <div class="quest-card-details">
+                                <span class="quest-distance" data-km="81.0"></span>
+                                <span class="quest-region">North Carolina, USA</span>
+                            </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('hunger_games_74th.journey')">
                                 Open in Footnotes
                             </button>
@@ -164,6 +200,10 @@
                             <div class="quest-card-meta">
                                 <span>6 waypoints</span>
                                 <span>Katniss</span>
+                            </div>
+                            <div class="quest-card-details">
+                                <span class="quest-distance" data-km="104.0"></span>
+                                <span class="quest-region">North Carolina, USA</span>
                             </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('hunger_games_mockingjay.journey')">
                                 Open in Footnotes
@@ -185,6 +225,10 @@
                                 <span>10 waypoints</span>
                                 <span>Bill</span>
                             </div>
+                            <div class="quest-card-details">
+                                <span class="quest-distance" data-km="47.8"></span>
+                                <span class="quest-region">Maine, USA</span>
+                            </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('king_it.journey')">
                                 Open in Footnotes
                             </button>
@@ -200,6 +244,10 @@
                             <div class="quest-card-meta">
                                 <span>11 waypoints</span>
                                 <span>Garraty</span>
+                            </div>
+                            <div class="quest-card-details">
+                                <span class="quest-distance" data-km="701.0"></span>
+                                <span class="quest-region">Maine to Massachusetts, USA</span>
                             </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('king_long_walk.journey')">
                                 Open in Footnotes
@@ -221,6 +269,10 @@
                                 <span>15 waypoints</span>
                                 <span>Harry</span>
                             </div>
+                            <div class="quest-card-details">
+                                <span class="quest-distance" data-km="972.0"></span>
+                                <span class="quest-region">England to Scotland, UK</span>
+                            </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('potter_hogwarts_express.journey')">
                                 Open in Footnotes
                             </button>
@@ -237,6 +289,10 @@
                                 <span>11 waypoints</span>
                                 <span>Harry</span>
                             </div>
+                            <div class="quest-card-details">
+                                <span class="quest-distance" data-km="31.5"></span>
+                                <span class="quest-region">London, UK</span>
+                            </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('diagon_alley.journey')">
                                 Open in Footnotes
                             </button>
@@ -252,6 +308,10 @@
                             <div class="quest-card-meta">
                                 <span>12 waypoints</span>
                                 <span>Hermione</span>
+                            </div>
+                            <div class="quest-card-details">
+                                <span class="quest-distance" data-km="5.6"></span>
+                                <span class="quest-region">Scotland, UK</span>
                             </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('hogsmeade.journey')">
                                 Open in Footnotes
