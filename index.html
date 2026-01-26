@@ -43,16 +43,50 @@
                 <p class="hero-description">Your morning walk becomes Odysseus's voyage home. Your evening stroll, a path through Poe's shadowed lanes. Footnotes transforms the miles beneath your feet into passages from the world's greatest tales.</p>
 
                 <div class="hero-cta">
-                    <a href="https://apps.apple.com/app/footnotes" class="app-store-badge" id="app-store-link">
-                        <svg viewBox="0 0 120 40" width="150" height="50">
-                            <rect width="120" height="40" rx="6" fill="#000"/>
-                            <text x="60" y="14" fill="#fff" font-size="8" text-anchor="middle" font-family="-apple-system, sans-serif">Download on the</text>
-                            <text x="60" y="28" fill="#fff" font-size="14" font-weight="600" text-anchor="middle" font-family="-apple-system, sans-serif">App Store</text>
-                        </svg>
+                    <a href="#" class="app-store-badge" id="app-store-link">
+                        <img src="assets/app-store-badge.svg" alt="Download on the App Store" height="50">
                     </a>
                 </div>
 
-                <p class="platform-notice" id="platform-notice"></p>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">Your Steps, Their Story</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                <circle cx="24" cy="24" r="20" stroke="#007AFF" stroke-width="3"/>
+                                <path d="M24 14V24L30 28" stroke="#007AFF" stroke-width="3" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h3>Track Real Progress</h3>
+                        <p>Your actual steps (via Apple Health) unlock waypoints in the story. Reach Ithaca with Odysseus without leaving your neighborhood.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                <path d="M8 38L24 10L40 38H8Z" stroke="#007AFF" stroke-width="3" stroke-linejoin="round"/>
+                                <circle cx="24" cy="28" r="4" fill="#007AFF"/>
+                            </svg>
+                        </div>
+                        <h3>Literary Adventures</h3>
+                        <p>Journey through classic tales. Each waypoint reveals story moments that match your progress through the narrative.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                <rect x="8" y="8" width="32" height="32" rx="4" stroke="#007AFF" stroke-width="3"/>
+                                <path d="M16 24H32M24 16V32" stroke="#007AFF" stroke-width="3" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h3>Import Custom Quests</h3>
+                        <p>Create your own journeys or import quests shared by other fans. Any story, any route, any adventure.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -83,45 +117,6 @@
                         <button class="screenshot-btn" onclick="scrollScreenshots(-1)" aria-label="Previous screenshot">&larr;</button>
                         <div class="screenshot-dots" id="screenshot-dots"></div>
                         <button class="screenshot-btn" onclick="scrollScreenshots(1)" aria-label="Next screenshot">&rarr;</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Features Section -->
-        <section class="features">
-            <div class="container">
-                <h2 class="section-title">Your Steps, Their Story</h2>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                                <circle cx="24" cy="24" r="20" stroke="#007AFF" stroke-width="3"/>
-                                <path d="M24 14V24L30 28" stroke="#007AFF" stroke-width="3" stroke-linecap="round"/>
-                            </svg>
-                        </div>
-                        <h3>Track Real Progress</h3>
-                        <p>Your actual steps (via Apple Health) unlock waypoints in the story. Walk to Mordor without leaving your neighborhood.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                                <path d="M8 38L24 10L40 38H8Z" stroke="#007AFF" stroke-width="3" stroke-linejoin="round"/>
-                                <circle cx="24" cy="28" r="4" fill="#007AFF"/>
-                            </svg>
-                        </div>
-                        <h3>Literary Adventures</h3>
-                        <p>Journey through classic tales. Each waypoint reveals story moments that match your progress through the narrative.</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                                <rect x="8" y="8" width="32" height="32" rx="4" stroke="#007AFF" stroke-width="3"/>
-                                <path d="M16 24H32M24 16V32" stroke="#007AFF" stroke-width="3" stroke-linecap="round"/>
-                            </svg>
-                        </div>
-                        <h3>Import Custom Quests</h3>
-                        <p>Create your own journeys or import quests shared by other fans. Any story, any route, any adventure.</p>
                     </div>
                 </div>
             </div>
@@ -220,11 +215,5 @@
     </footer>
 
     <script src="js/main.js"></script>
-    <script>
-        // Set platform notice
-        if (!isIOS()) {
-            document.getElementById('platform-notice').textContent = 'Currently available for iPhone only';
-        }
-    </script>
 </body>
 </html>
