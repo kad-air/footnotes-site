@@ -174,9 +174,52 @@ function updateDots() {
     });
 }
 
+/**
+ * Distance toggle functionality (miles/km)
+ */
+function initDistanceToggle() {
+    const toggle = document.getElementById('distance-toggle');
+    if (!toggle) return;
+
+    // Get saved preference or default to miles (unchecked = miles)
+    const savedUnit = localStorage.getItem('distance-unit');
+    if (savedUnit === 'km') {
+        toggle.checked = true;
+    }
+
+    // Update distances on toggle
+    toggle.addEventListener('change', () => {
+        updateAllDistances(toggle.checked);
+        localStorage.setItem('distance-unit', toggle.checked ? 'km' : 'miles');
+    });
+
+    // Apply initial units
+    updateAllDistances(toggle.checked);
+}
+
+/**
+ * Update all distance displays based on selected unit
+ * @param {boolean} showKm - true for km, false for miles
+ */
+function updateAllDistances(showKm) {
+    const distances = document.querySelectorAll('.quest-distance');
+    distances.forEach(element => {
+        const km = parseFloat(element.getAttribute('data-km'));
+        if (!isNaN(km)) {
+            if (showKm) {
+                element.textContent = km.toFixed(1) + ' km';
+            } else {
+                const miles = (km * 0.621371).toFixed(1);
+                element.textContent = miles + ' mi';
+            }
+        }
+    });
+}
+
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     initPlatformUI();
     initModalBehavior();
     initScreenshotCarousel();
+    initDistanceToggle();
 });

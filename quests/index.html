@@ -48,6 +48,18 @@
                     <p>Footnotes is currently available for iPhone only. These quests can be opened in the Footnotes iOS app.</p>
                 </div>
 
+                <!-- Distance Toggle -->
+                <div class="distance-toggle-container">
+                    <label class="distance-toggle-label">
+                        <input type="checkbox" id="distance-toggle" class="distance-toggle-input">
+                        <span class="toggle-slider"></span>
+                        <span class="toggle-text">
+                            <span class="toggle-miles">miles</span>
+                            <span class="toggle-km">km</span>
+                        </span>
+                    </label>
+                </div>
+
                 <!-- le Carre's Cold War -->
                 <h2 class="category-title">le Carré's Cold War</h2>
                 <div class="quest-grid">
@@ -62,7 +74,7 @@
                                 <span>Leamas</span>
                             </div>
                             <div class="quest-card-details">
-                                <span class="quest-distance">19.5 km</span>
+                                <span class="quest-distance" data-km="19.5">12.1 mi</span>
                                 <span class="quest-region">London, UK</span>
                             </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('lecarre_circus.journey')">
@@ -82,7 +94,7 @@
                                 <span>Smiley</span>
                             </div>
                             <div class="quest-card-details">
-                                <span class="quest-distance">23.1 km</span>
+                                <span class="quest-distance" data-km="23.1">14.4 mi</span>
                                 <span class="quest-region">London, UK</span>
                             </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('smiley_london.journey')">
@@ -106,7 +118,7 @@
                                 <span>Frodo</span>
                             </div>
                             <div class="quest-card-details">
-                                <span class="quest-distance">465.9 km</span>
+                                <span class="quest-distance" data-km="465.9">289.3 mi</span>
                                 <span class="quest-region">New Zealand</span>
                             </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('lotr_shire_to_bree.journey')">
@@ -126,7 +138,7 @@
                                 <span>Aragorn</span>
                             </div>
                             <div class="quest-card-details">
-                                <span class="quest-distance">207.0 km</span>
+                                <span class="quest-distance" data-km="207.0">128.6 mi</span>
                                 <span class="quest-region">New Zealand</span>
                             </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('rivendell.journey')">
@@ -146,7 +158,7 @@
                                 <span>Aragorn</span>
                             </div>
                             <div class="quest-card-details">
-                                <span class="quest-distance">93.0 km</span>
+                                <span class="quest-distance" data-km="93.0">57.8 mi</span>
                                 <span class="quest-region">New Zealand</span>
                             </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('moria.journey')">
@@ -170,7 +182,7 @@
                                 <span>Katniss</span>
                             </div>
                             <div class="quest-card-details">
-                                <span class="quest-distance">81.0 km</span>
+                                <span class="quest-distance" data-km="81.0">50.3 mi</span>
                                 <span class="quest-region">North Carolina, USA</span>
                             </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('hunger_games_74th.journey')">
@@ -190,7 +202,7 @@
                                 <span>Katniss</span>
                             </div>
                             <div class="quest-card-details">
-                                <span class="quest-distance">104.0 km</span>
+                                <span class="quest-distance" data-km="104.0">64.6 mi</span>
                                 <span class="quest-region">North Carolina, USA</span>
                             </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('hunger_games_mockingjay.journey')">
@@ -214,7 +226,7 @@
                                 <span>Bill</span>
                             </div>
                             <div class="quest-card-details">
-                                <span class="quest-distance">47.8 km</span>
+                                <span class="quest-distance" data-km="47.8">29.7 mi</span>
                                 <span class="quest-region">Maine, USA</span>
                             </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('king_it.journey')">
@@ -234,7 +246,7 @@
                                 <span>Garraty</span>
                             </div>
                             <div class="quest-card-details">
-                                <span class="quest-distance">701.0 km</span>
+                                <span class="quest-distance" data-km="701.0">435.6 mi</span>
                                 <span class="quest-region">Maine to Massachusetts, USA</span>
                             </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('king_long_walk.journey')">
@@ -258,7 +270,7 @@
                                 <span>Harry</span>
                             </div>
                             <div class="quest-card-details">
-                                <span class="quest-distance">972.0 km</span>
+                                <span class="quest-distance" data-km="972.0">603.9 mi</span>
                                 <span class="quest-region">England to Scotland, UK</span>
                             </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('potter_hogwarts_express.journey')">
@@ -278,7 +290,7 @@
                                 <span>Harry</span>
                             </div>
                             <div class="quest-card-details">
-                                <span class="quest-distance">31.5 km</span>
+                                <span class="quest-distance" data-km="31.5">19.6 mi</span>
                                 <span class="quest-region">London, UK</span>
                             </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('diagon_alley.journey')">
@@ -298,7 +310,7 @@
                                 <span>Hermione</span>
                             </div>
                             <div class="quest-card-details">
-                                <span class="quest-distance">5.6 km</span>
+                                <span class="quest-distance" data-km="5.6">3.5 mi</span>
                                 <span class="quest-region">Scotland, UK</span>
                             </div>
                             <button class="btn btn-primary quest-card-button" onclick="openQuest('hogsmeade.journey')">

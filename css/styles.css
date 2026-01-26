@@ -572,6 +572,82 @@ a:hover {
     margin: 0;
 }
 
+/* Distance Toggle */
+.distance-toggle-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: var(--space-lg);
+}
+
+.distance-toggle-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    cursor: pointer;
+    user-select: none;
+}
+
+.distance-toggle-input {
+    display: none;
+}
+
+.toggle-slider {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 28px;
+    background-color: var(--color-border);
+    border-radius: 28px;
+    transition: background-color 0.3s;
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    left: 2px;
+    top: 2px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.3s;
+}
+
+.distance-toggle-input:checked + .toggle-slider {
+    background-color: var(--color-primary);
+}
+
+.distance-toggle-input:checked + .toggle-slider::before {
+    transform: translateX(22px);
+}
+
+.toggle-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    min-width: 30px;
+}
+
+.toggle-miles,
+.toggle-km {
+    font-weight: 500;
+}
+
+.distance-toggle-input:checked ~ .toggle-text .toggle-miles {
+    color: var(--color-text-secondary);
+}
+
+.distance-toggle-input:checked ~ .toggle-text .toggle-km {
+    color: var(--color-text);
+}
+
+.distance-toggle-input:not(:checked) ~ .toggle-text .toggle-miles {
+    color: var(--color-text);
+}
+
+.distance-toggle-input:not(:checked) ~ .toggle-text .toggle-km {
+    color: var(--color-text-secondary);
+}
+
 /* Quest Grid */
 .quest-section {
     padding: var(--space-2xl) 0;
