@@ -582,9 +582,13 @@ a:hover {
 .distance-toggle-label {
     display: flex;
     align-items: center;
-    gap: var(--space-sm);
+    gap: var(--space-md);
     cursor: pointer;
     user-select: none;
+    padding: var(--space-sm) var(--space-md);
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
 }
 
 .distance-toggle-input {
@@ -594,58 +598,48 @@ a:hover {
 .toggle-slider {
     position: relative;
     display: inline-block;
-    width: 50px;
-    height: 28px;
-    background-color: var(--color-border);
-    border-radius: 28px;
+    width: 44px;
+    height: 26px;
+    background-color: var(--color-accent);
+    border-radius: 26px;
     transition: background-color 0.3s;
+    flex-shrink: 0;
 }
 
 .toggle-slider::before {
     content: '';
     position: absolute;
-    height: 24px;
-    width: 24px;
+    height: 22px;
+    width: 22px;
     left: 2px;
     top: 2px;
     background-color: white;
     border-radius: 50%;
     transition: transform 0.3s;
-}
-
-.distance-toggle-input:checked + .toggle-slider {
-    background-color: var(--color-primary);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .distance-toggle-input:checked + .toggle-slider::before {
-    transform: translateX(22px);
+    transform: translateX(18px);
 }
 
-.toggle-text {
+.toggle-label {
+    font-family: var(--font-family-sans);
     font-size: var(--font-size-sm);
-    color: var(--color-text-secondary);
-    min-width: 30px;
-}
-
-.toggle-miles,
-.toggle-km {
-    font-weight: 500;
-}
-
-.distance-toggle-input:checked ~ .toggle-text .toggle-miles {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: color 0.2s, opacity 0.2s;
     color: var(--color-text-secondary);
 }
 
-.distance-toggle-input:checked ~ .toggle-text .toggle-km {
+/* Active label styling using :has() */
+.distance-toggle-label:has(.distance-toggle-input:not(:checked)) .toggle-label-miles {
     color: var(--color-text);
 }
 
-.distance-toggle-input:not(:checked) ~ .toggle-text .toggle-miles {
+.distance-toggle-label:has(.distance-toggle-input:checked) .toggle-label-km {
     color: var(--color-text);
-}
-
-.distance-toggle-input:not(:checked) ~ .toggle-text .toggle-km {
-    color: var(--color-text-secondary);
 }
 
 /* Quest Grid */
@@ -704,7 +698,7 @@ a:hover {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-md);
-    margin-bottom: var(--space-lg);
+    margin-bottom: var(--space-sm);
     font-size: var(--font-size-sm);
     color: var(--color-text-secondary);
 }
@@ -722,6 +716,8 @@ a:hover {
     margin-bottom: var(--space-lg);
     font-size: var(--font-size-sm);
     color: var(--color-text-secondary);
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--color-border);
 }
 
 .quest-card-details span {
@@ -731,11 +727,11 @@ a:hover {
 }
 
 .quest-distance::before {
-    content: "📏 ";
+    content: "📍 ";
 }
 
 .quest-region::before {
-    content: "🌍 ";
+    content: "🗺️ ";
 }
 
 .quest-card-button {
