@@ -730,10 +730,6 @@ a:hover {
     gap: var(--space-xs);
 }
 
-.quest-distance::before {
-    content: "📏 ";
-}
-
 .quest-region::before {
     content: "🌍 ";
 }

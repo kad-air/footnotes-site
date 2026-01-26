@@ -181,10 +181,14 @@ function initDistanceToggle() {
     const toggle = document.getElementById('distance-toggle');
     if (!toggle) return;
 
+    // Populate distances on page load first
+    updateAllDistances(false); // Start with miles (unchecked = miles)
+
     // Get saved preference or default to miles (unchecked = miles)
     const savedUnit = localStorage.getItem('distance-unit');
     if (savedUnit === 'km') {
         toggle.checked = true;
+        updateAllDistances(true);
     }
 
     // Update distances on toggle
@@ -192,9 +196,6 @@ function initDistanceToggle() {
         updateAllDistances(toggle.checked);
         localStorage.setItem('distance-unit', toggle.checked ? 'km' : 'miles');
     });
-
-    // Apply initial units
-    updateAllDistances(toggle.checked);
 }
 
 /**
@@ -207,10 +208,10 @@ function updateAllDistances(showKm) {
         const km = parseFloat(element.getAttribute('data-km'));
         if (!isNaN(km)) {
             if (showKm) {
-                element.textContent = km.toFixed(1) + ' km';
+                element.textContent = '📏 ' + km.toFixed(1) + ' km';
             } else {
                 const miles = (km * 0.621371).toFixed(1);
-                element.textContent = miles + ' mi';
+                element.textContent = '📏 ' + miles + ' mi';
             }
         }
     });
