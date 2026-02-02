@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+    <title>Journey Builder - Footnotes</title>
+    <meta name="description" content="Build your own Footnotes journey. Place waypoints on a map, write your story, and import it into the app.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Journey Builder - Footnotes">
+    <meta property="og:description" content="Build your own Footnotes journey. Place waypoints on a map, write your story, and import it into the app.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://footnotes.keithadair.com/build/">
+
+    <!-- iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="../css/styles.css">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin="">
+
+    <style>
+        /* ==========================================================================
+           Journey Builder Styles
+           ========================================================================== */
+
+        .builder-page {
+            display: flex;
+            flex-direction: column;
+            min-height: calc(100vh - 56px);
+            /* Account for sticky header */
+        }
+
+        /* Page header */
+        .builder-header {
+            background: var(--color-surface);
+            padding: var(--space-lg) 0;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .builder-header h1 {
+            margin-bottom: var(--space-xs);
+            font-size: var(--font-size-2xl);
+        }
+
+        .builder-header p {
+            color: var(--color-text-secondary);
+            font-size: var(--font-size-sm);
+        }
+
+        /* Layout: stacked on mobile, side-by-side on tablet+ */
+        .builder-layout {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        /* Map panel */
+        .map-panel {
+            position: relative;
+            height: 45vh;
+            min-height: 280px;
+            flex-shrink: 0;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .map-hint {
+            position: absolute;
+            bottom: var(--space-md);
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(44, 24, 16, 0.85);
+            color: #fff;
+            font-family: var(--font-family-sans);
+            font-size: var(--font-size-sm);
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: 999px;
+            z-index: 500;
+            pointer-events: none;
+            white-space: nowrap;
+            transition: opacity 0.4s;
+        }
+
+        .map-hint.hidden {
+            opacity: 0;
+        }
+
+        /* Editor panel */
+        .editor-panel {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: var(--space-lg) 0;
+            padding-bottom: calc(var(--space-lg) + var(--safe-bottom) + 80px);
+        }
+
+        /* Journey metadata form */
+        .journey-meta {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            margin-bottom: var(--space-lg);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .journey-meta h2 {
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--space-md);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-md);
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            display: block;
+            font-family: var(--font-family-sans);
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: var(--space-xs);
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            padding: 12px var(--space-md);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            background: var(--color-background);
+            color: var(--color-text);
+            font-family: var(--font-family-sans);
+            font-size: 16px; /* Prevents iOS zoom on focus */
+            line-height: 1.4;
+            -webkit-appearance: none;
+            appearance: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(139, 69, 19, 0.15);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .form-select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B5344' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-md);
+        }
+
+        /* Color picker wrapper */
+        .color-picker-wrapper {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .color-picker-input {
+            width: 44px;
+            height: 44px;
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            padding: 2px;
+            background: var(--color-background);
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .color-picker-input::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        .color-picker-input::-webkit-color-swatch {
+            border: none;
+            border-radius: 4px;
+        }
+
+        .color-picker-hex {
+            flex: 1;
+        }
+
+        /* Waypoint list */
+        .waypoints-section h2 {
+            font-size: var(--font-size-lg);
+            margin-bottom: var(--space-md);
+        }
+
+        .waypoints-empty {
+            background: var(--color-surface);
+            border: 2px dashed var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-2xl) var(--space-lg);
+            text-align: center;
+            color: var(--color-text-secondary);
+        }
+
+        .waypoints-empty p {
+            font-size: var(--font-size-sm);
+            font-family: var(--font-family-sans);
+        }
+
+        .waypoint-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+
+        /* Individual waypoint card */
+        .waypoint-card {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            transition: box-shadow 0.2s;
+        }
+
+        .waypoint-card.active {
+            box-shadow: 0 0 0 2px var(--color-primary), var(--shadow-md);
+        }
+
+        .waypoint-card-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-md) var(--space-lg);
+            background: var(--color-background);
+            border-bottom: 1px solid var(--color-border);
+            cursor: grab;
+            -webkit-user-select: none;
+            user-select: none;
+            touch-action: none;
+        }
+
+        .waypoint-card-header:active {
+            cursor: grabbing;
+        }
+
+        .waypoint-drag-handle {
+            color: var(--color-text-secondary);
+            font-size: 18px;
+            line-height: 1;
+            flex-shrink: 0;
+            width: 24px;
+            text-align: center;
+        }
+
+        .waypoint-number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            color: white;
+            font-family: var(--font-family-sans);
+            font-size: var(--font-size-sm);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .waypoint-header-title {
+            flex: 1;
+            font-family: var(--font-family-sans);
+            font-size: var(--font-size-sm);
+            font-weight: 600;
+            color: var(--color-text);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .waypoint-header-coords {
+            font-family: var(--font-family-sans);
+            font-size: 11px;
+            color: var(--color-text-secondary);
+            flex-shrink: 0;
+        }
+
+        .waypoint-delete-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: none;
+            color: #c0392b;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .waypoint-delete-btn:hover {
+            background: rgba(192, 57, 43, 0.1);
+        }
+
+        .waypoint-card-body {
+            padding: var(--space-md) var(--space-lg) var(--space-lg);
+        }
+
+        .waypoint-card-body .form-group {
+            margin-bottom: var(--space-md);
+        }
+
+        .waypoint-card-body .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .waypoint-distance {
+            font-family: var(--font-family-sans);
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            padding: var(--space-xs) 0;
+        }
+
+        /* Sticky bottom bar */
+        .builder-actions {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--color-surface);
+            border-top: 1px solid var(--color-border);
+            padding: var(--space-md);
+            padding-bottom: calc(var(--space-md) + var(--safe-bottom));
+            z-index: 100;
+            display: flex;
+            gap: var(--space-sm);
+        }
+
+        .builder-actions .btn {
+            flex: 1;
+            padding: 14px var(--space-md);
+        }
+
+        .btn-export {
+            background: var(--color-primary);
+            color: white;
+            border: none;
+        }
+
+        .btn-export:hover {
+            background: var(--color-primary-dark);
+        }
+
+        .btn-export:disabled {
+            background: var(--color-border);
+            color: var(--color-text-secondary);
+            cursor: not-allowed;
+        }
+
+        .btn-clear {
+            background: var(--color-background);
+            color: #c0392b;
+            border: 1px solid var(--color-border);
+            flex: 0 0 auto;
+            width: auto;
+            padding: 14px var(--space-lg);
+        }
+
+        .btn-clear:hover {
+            background: rgba(192, 57, 43, 0.08);
+        }
+
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            top: 72px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: rgba(44, 24, 16, 0.9);
+            color: #fff;
+            font-family: var(--font-family-sans);
+            font-size: var(--font-size-sm);
+            padding: var(--space-md) var(--space-xl);
+            border-radius: 999px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            pointer-events: none;
+            text-align: center;
+            max-width: 90vw;
+        }
+
+        .toast.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Waypoint count badge */
+        .waypoint-count {
+            font-family: var(--font-family-sans);
+            font-size: var(--font-size-sm);
+            color: var(--color-text-secondary);
+            font-weight: 400;
+        }
+
+        /* Leaflet marker customization */
+        .waypoint-marker {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: var(--color-primary, #8B4513);
+            color: white;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        /* Override Leaflet touch defaults for better mobile */
+        .leaflet-container {
+            font-family: var(--font-family-sans);
+        }
+
+        .leaflet-control-zoom a {
+            width: 36px !important;
+            height: 36px !important;
+            line-height: 36px !important;
+            font-size: 18px !important;
+        }
+
+        .leaflet-popup-content {
+            font-family: var(--font-family-sans);
+            font-size: 14px;
+            margin: 10px 14px;
+        }
+
+        .leaflet-popup-content .popup-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .leaflet-popup-content .popup-coords {
+            font-size: 12px;
+            color: #666;
+        }
+
+        /* Collapsed waypoint cards */
+        .waypoint-card.collapsed .waypoint-card-body {
+            display: none;
+        }
+
+        .waypoint-toggle-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: none;
+            color: var(--color-text-secondary);
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            -webkit-tap-highlight-color: transparent;
+            transition: transform 0.2s;
+        }
+
+        .waypoint-card.collapsed .waypoint-toggle-btn {
+            transform: rotate(-90deg);
+        }
+
+        /* Nav links */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        /* ==========================================================================
+           Tablet+ Layout (768px+)
+           ========================================================================== */
+        @media (min-width: 768px) {
+            .builder-layout {
+                flex-direction: row;
+                height: calc(100vh - 56px);
+                overflow: hidden;
+            }
+
+            .map-panel {
+                flex: 1;
+                height: 100%;
+                min-height: unset;
+            }
+
+            .editor-panel {
+                width: 400px;
+                flex-shrink: 0;
+                height: 100%;
+                padding: var(--space-lg);
+                border-left: 1px solid var(--color-border);
+            }
+
+            .builder-header {
+                display: none;
+            }
+
+            .builder-actions {
+                position: sticky;
+                left: auto;
+                right: auto;
+                width: 400px;
+                margin-left: auto;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .editor-panel {
+                width: 440px;
+            }
+
+            .builder-actions {
+                width: 440px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="nav-logo"><img src="/assets/app-icon.png" alt="" width="24" height="24">Footnotes</a>
+            <div class="nav-links">
+                <a href="/quests/" class="nav-link">Bonus Quests</a>
+                <a href="/build/" class="nav-link" style="background-color: var(--color-background);">Build</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="builder-page">
+        <!-- Mobile-only header -->
+        <section class="builder-header">
+            <div class="container">
+                <h1>Journey Builder</h1>
+                <p>Tap the map to place waypoints, then name and describe each one.</p>
+            </div>
+        </section>
+
+        <div class="builder-layout">
+            <!-- Map -->
+            <div class="map-panel">
+                <div id="map"></div>
+                <div class="map-hint" id="map-hint">Tap to place a waypoint</div>
+            </div>
+
+            <!-- Editor sidebar / bottom panel -->
+            <div class="editor-panel">
+                <div class="container" style="padding-left: 0; padding-right: 0;">
+                    <!-- Journey details -->
+                    <div class="journey-meta">
+                        <h2>Journey Details</h2>
+                        <div class="form-group">
+                            <label class="form-label" for="journey-title">Title</label>
+                            <input class="form-input" type="text" id="journey-title" placeholder="e.g. The Shire to Bree" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="journey-description">Description</label>
+                            <input class="form-input" type="text" id="journey-description" placeholder="A short summary of the journey" autocomplete="off">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label" for="journey-character">Character</label>
+                                <input class="form-input" type="text" id="journey-character" placeholder="e.g. Frodo" autocomplete="off">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="journey-category">Category</label>
+                                <input class="form-input" type="text" id="journey-category" placeholder="e.g. Middle-earth" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="journey-color">Color</label>
+                            <div class="color-picker-wrapper">
+                                <input class="color-picker-input" type="color" id="journey-color" value="#8B4513">
+                                <input class="form-input color-picker-hex" type="text" id="journey-color-hex" value="#8B4513" maxlength="7" autocomplete="off">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Waypoints -->
+                    <div class="waypoints-section">
+                        <h2>Waypoints <span class="waypoint-count" id="waypoint-count"></span></h2>
+
+                        <div class="waypoints-empty" id="waypoints-empty">
+                            <p>No waypoints yet.<br>Tap the map to start placing them.</p>
+                        </div>
+
+                        <div class="waypoint-list" id="waypoint-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bottom action bar -->
+    <div class="builder-actions">
+        <button class="btn btn-clear" id="btn-clear" onclick="clearAll()">Clear</button>
+        <button class="btn btn-export" id="btn-export" onclick="exportJourney()" disabled>Download .journey</button>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <footer class="footer" style="padding-bottom: calc(var(--space-xl) + 80px);">
+        <div class="container">
+            <p>&copy; 2025 Footnotes. Available on iOS. A project by <a href="https://keithadair.com">Keith Adair</a>.</p>
+        </div>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+
+    <script>
+    /**
+     * Footnotes Journey Builder
+     * Interactive map-based journey creation tool
+     */
+
+    // =========================================================================
+    //  State
+    // =========================================================================
+
+    let waypoints = [];         // { id, lat, lng, name, blurb, marker }
+    let nextId = 1;
+    let map;
+    let polyline;
+    let dragSrcIndex = null;    // For reorder via drag
+
+    // =========================================================================
+    //  Map Initialization
+    // =========================================================================
+
+    function initMap() {
+        map = L.map('map', {
+            center: [40, -30],
+            zoom: 3,
+            zoomControl: true,
+            tap: true,
+            // Better touch defaults
+            touchZoom: true,
+            dragging: true,
+            bounceAtZoomLimits: false
+        });
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            maxZoom: 19
+        }).addTo(map);
+
+        // Polyline connecting waypoints
+        polyline = L.polyline([], {
+            color: '#8B4513',
+            weight: 3,
+            opacity: 0.6,
+            dashArray: '8, 8'
+        }).addTo(map);
+
+        // Click handler
+        map.on('click', onMapClick);
+
+        // Try geolocation for initial view
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (pos) => {
+                    if (waypoints.length === 0) {
+                        map.setView([pos.coords.latitude, pos.coords.longitude], 13);
+                    }
+                },
+                () => {},
+                { timeout: 5000, enableHighAccuracy: false }
+            );
+        }
+    }
+
+    // =========================================================================
+    //  Map Interaction
+    // =========================================================================
+
+    function onMapClick(e) {
+        addWaypoint(e.latlng.lat, e.latlng.lng);
+    }
+
+    function createMarkerIcon(number) {
+        return L.divIcon({
+            className: '',
+            html: '<div class="waypoint-marker">' + number + '</div>',
+            iconSize: [32, 32],
+            iconAnchor: [16, 16],
+            popupAnchor: [0, -20]
+        });
+    }
+
+    function addWaypoint(lat, lng) {
+        const id = nextId++;
+        const index = waypoints.length;
+        const name = 'Waypoint ' + (index + 1);
+
+        const marker = L.marker([lat, lng], {
+            icon: createMarkerIcon(index + 1),
+            draggable: true
+        }).addTo(map);
+
+        const wp = { id, lat, lng, name, blurb: '', marker };
+        waypoints.push(wp);
+
+        // Marker drag updates coords
+        marker.on('dragend', function () {
+            const pos = marker.getLatLng();
+            wp.lat = pos.lat;
+            wp.lng = pos.lng;
+            updatePolyline();
+            renderWaypointList();
+        });
+
+        // Marker popup
+        updateMarkerPopup(wp);
+
+        updatePolyline();
+        renderWaypointList();
+        updateExportButton();
+        hideMapHint();
+
+        // Scroll the new card into view on mobile
+        requestAnimationFrame(() => {
+            const card = document.getElementById('wp-' + id);
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+    }
+
+    function updateMarkerPopup(wp) {
+        wp.marker.unbindPopup();
+        wp.marker.bindPopup(
+            '<div class="popup-title">' + escapeHtml(wp.name) + '</div>' +
+            '<div class="popup-coords">' + wp.lat.toFixed(4) + ', ' + wp.lng.toFixed(4) + '</div>'
+        );
+    }
+
+    function updatePolyline() {
+        polyline.setLatLngs(waypoints.map(wp => [wp.lat, wp.lng]));
+        // Update polyline color to match chosen journey color
+        const hex = document.getElementById('journey-color').value;
+        polyline.setStyle({ color: hex });
+    }
+
+    function removeWaypoint(id) {
+        const idx = waypoints.findIndex(wp => wp.id === id);
+        if (idx === -1) return;
+
+        map.removeLayer(waypoints[idx].marker);
+        waypoints.splice(idx, 1);
+
+        // Renumber markers
+        waypoints.forEach((wp, i) => {
+            wp.marker.setIcon(createMarkerIcon(i + 1));
+            updateMarkerPopup(wp);
+        });
+
+        updatePolyline();
+        renderWaypointList();
+        updateExportButton();
+    }
+
+    // =========================================================================
+    //  Waypoint List Rendering
+    // =========================================================================
+
+    function renderWaypointList() {
+        const list = document.getElementById('waypoint-list');
+        const empty = document.getElementById('waypoints-empty');
+        const countEl = document.getElementById('waypoint-count');
+
+        countEl.textContent = waypoints.length > 0 ? '(' + waypoints.length + ')' : '';
+
+        if (waypoints.length === 0) {
+            empty.style.display = '';
+            list.innerHTML = '';
+            return;
+        }
+        empty.style.display = 'none';
+
+        // Build HTML
+        let html = '';
+        waypoints.forEach((wp, i) => {
+            const dist = i < waypoints.length - 1 ? haversineMeters(wp, waypoints[i + 1]) : null;
+            html += buildWaypointCard(wp, i, dist);
+        });
+        list.innerHTML = html;
+
+        // Attach drag listeners for reorder
+        attachDragListeners();
+    }
+
+    function buildWaypointCard(wp, index, distToNext) {
+        const distLabel = distToNext !== null
+            ? '<div class="waypoint-distance">' + formatDistance(distToNext) + ' to next waypoint</div>'
+            : '';
+
+        return '<div class="waypoint-card" id="wp-' + wp.id + '" data-wp-id="' + wp.id + '">' +
+            '<div class="waypoint-card-header" draggable="true" data-index="' + index + '">' +
+                '<span class="waypoint-drag-handle">&#x2630;</span>' +
+                '<span class="waypoint-number">' + (index + 1) + '</span>' +
+                '<span class="waypoint-header-title">' + escapeHtml(wp.name) + '</span>' +
+                '<span class="waypoint-header-coords">' + wp.lat.toFixed(3) + ', ' + wp.lng.toFixed(3) + '</span>' +
+                '<button class="waypoint-toggle-btn" onclick="toggleWaypointCard(' + wp.id + ')" aria-label="Toggle details">&#x25BE;</button>' +
+                '<button class="waypoint-delete-btn" onclick="removeWaypoint(' + wp.id + ')" aria-label="Delete waypoint">&times;</button>' +
+            '</div>' +
+            '<div class="waypoint-card-body">' +
+                '<div class="form-group">' +
+                    '<label class="form-label">Name</label>' +
+                    '<input class="form-input" type="text" value="' + escapeAttr(wp.name) + '" ' +
+                        'oninput="updateWaypointField(' + wp.id + ', \'name\', this.value)" ' +
+                        'placeholder="Waypoint name" autocomplete="off">' +
+                '</div>' +
+                '<div class="form-group">' +
+                    '<label class="form-label">Story Text</label>' +
+                    '<textarea class="form-textarea" rows="3" ' +
+                        'oninput="updateWaypointField(' + wp.id + ', \'blurb\', this.value)" ' +
+                        'placeholder="What happens at this location?">' + escapeHtml(wp.blurb) + '</textarea>' +
+                '</div>' +
+                distLabel +
+            '</div>' +
+        '</div>';
+    }
+
+    function toggleWaypointCard(id) {
+        const card = document.getElementById('wp-' + id);
+        if (card) card.classList.toggle('collapsed');
+    }
+
+    function updateWaypointField(id, field, value) {
+        const wp = waypoints.find(w => w.id === id);
+        if (!wp) return;
+        wp[field] = value;
+        if (field === 'name') {
+            // Update header title live
+            const card = document.getElementById('wp-' + id);
+            if (card) {
+                card.querySelector('.waypoint-header-title').textContent = value || 'Unnamed';
+            }
+            updateMarkerPopup(wp);
+        }
+    }
+
+    // =========================================================================
+    //  Drag-to-Reorder
+    // =========================================================================
+
+    function attachDragListeners() {
+        const headers = document.querySelectorAll('.waypoint-card-header[draggable]');
+        headers.forEach(header => {
+            header.addEventListener('dragstart', onDragStart);
+            header.addEventListener('dragover', onDragOver);
+            header.addEventListener('drop', onDrop);
+            header.addEventListener('dragend', onDragEnd);
+
+            // Touch-based reorder
+            header.addEventListener('touchstart', onTouchDragStart, { passive: true });
+            header.addEventListener('touchmove', onTouchDragMove, { passive: false });
+            header.addEventListener('touchend', onTouchDragEnd);
+        });
+    }
+
+    function onDragStart(e) {
+        dragSrcIndex = parseInt(e.currentTarget.getAttribute('data-index'));
+        e.dataTransfer.effectAllowed = 'move';
+        e.currentTarget.closest('.waypoint-card').style.opacity = '0.5';
+    }
+
+    function onDragOver(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+    }
+
+    function onDrop(e) {
+        e.preventDefault();
+        const dropIndex = parseInt(e.currentTarget.getAttribute('data-index'));
+        if (dragSrcIndex !== null && dragSrcIndex !== dropIndex) {
+            reorderWaypoints(dragSrcIndex, dropIndex);
+        }
+    }
+
+    function onDragEnd(e) {
+        e.currentTarget.closest('.waypoint-card').style.opacity = '1';
+        dragSrcIndex = null;
+    }
+
+    // Touch-based drag support
+    let touchDragIndex = null;
+    let touchStartY = 0;
+
+    function onTouchDragStart(e) {
+        const handle = e.currentTarget.querySelector('.waypoint-drag-handle');
+        // Only start drag if the touch began on the drag handle
+        if (!handle || !handle.contains(e.target)) return;
+        touchDragIndex = parseInt(e.currentTarget.getAttribute('data-index'));
+        touchStartY = e.touches[0].clientY;
+        e.currentTarget.closest('.waypoint-card').style.opacity = '0.5';
+    }
+
+    function onTouchDragMove(e) {
+        if (touchDragIndex === null) return;
+        e.preventDefault();
+    }
+
+    function onTouchDragEnd(e) {
+        if (touchDragIndex === null) return;
+        const endY = e.changedTouches[0].clientY;
+        const deltaY = endY - touchStartY;
+        // Simple: if dragged far enough, move up or down one slot
+        if (Math.abs(deltaY) > 40) {
+            const dir = deltaY > 0 ? 1 : -1;
+            const newIndex = touchDragIndex + dir;
+            if (newIndex >= 0 && newIndex < waypoints.length) {
+                reorderWaypoints(touchDragIndex, newIndex);
+            }
+        }
+        // Reset opacity
+        document.querySelectorAll('.waypoint-card').forEach(c => c.style.opacity = '1');
+        touchDragIndex = null;
+    }
+
+    function reorderWaypoints(fromIndex, toIndex) {
+        const [moved] = waypoints.splice(fromIndex, 1);
+        waypoints.splice(toIndex, 0, moved);
+
+        // Renumber markers
+        waypoints.forEach((wp, i) => {
+            wp.marker.setIcon(createMarkerIcon(i + 1));
+            updateMarkerPopup(wp);
+        });
+
+        updatePolyline();
+        renderWaypointList();
+    }
+
+    // =========================================================================
+    //  Export
+    // =========================================================================
+
+    function exportJourney() {
+        const title = document.getElementById('journey-title').value.trim();
+        const description = document.getElementById('journey-description').value.trim();
+        const character = document.getElementById('journey-character').value.trim();
+        const category = document.getElementById('journey-category').value.trim();
+        const color = document.getElementById('journey-color').value.trim();
+
+        if (!title) {
+            showToast('Please enter a journey title');
+            document.getElementById('journey-title').focus();
+            return;
+        }
+
+        if (waypoints.length < 2) {
+            showToast('Add at least 2 waypoints');
+            return;
+        }
+
+        // Check all waypoints have names
+        const unnamed = waypoints.find(wp => !wp.name.trim());
+        if (unnamed) {
+            showToast('All waypoints need a name');
+            const card = document.getElementById('wp-' + unnamed.id);
+            if (card) {
+                card.classList.remove('collapsed');
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            return;
+        }
+
+        // Build .journey file content
+        const id = title.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
+        let content = '# ' + title + '\n\n';
+        content += '**Description:** ' + (description || title) + '\n';
+        content += '**Category:** ' + (category || 'Custom') + '\n';
+        content += '**Color:** ' + color.toUpperCase() + '\n';
+        content += '**Character:** ' + (character || 'You') + '\n';
+        content += '**ID:** ' + id + '\n\n';
+        content += '---\n\n';
+        content += '## Waypoints\n';
+
+        waypoints.forEach((wp, i) => {
+            content += '\n### ' + wp.name.trim() + '\n';
+            content += '\u{1F4CD} ' + wp.lat.toFixed(4) + ', ' + wp.lng.toFixed(4) + '\n';
+
+            // Distance to next (except for last waypoint)
+            if (i < waypoints.length - 1) {
+                const dist = Math.round(haversineMeters(wp, waypoints[i + 1]));
+                content += '\u{1F4CF} ' + dist + 'm\n';
+            }
+
+            content += '\n' + (wp.blurb.trim() || 'A stop along the journey.') + '\n';
+            content += '\n---\n';
+        });
+
+        // Download
+        const blob = new Blob([content], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = id + '.journey';
+
+        // iOS Safari needs the link in the DOM
+        document.body.appendChild(a);
+        a.click();
+
+        setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }, 100);
+
+        showToast('Journey downloaded! Open it in Footnotes.');
+    }
+
+    function clearAll() {
+        if (waypoints.length === 0 && !document.getElementById('journey-title').value.trim()) return;
+        if (!confirm('Clear all waypoints and start over?')) return;
+
+        waypoints.forEach(wp => map.removeLayer(wp.marker));
+        waypoints = [];
+        nextId = 1;
+
+        document.getElementById('journey-title').value = '';
+        document.getElementById('journey-description').value = '';
+        document.getElementById('journey-character').value = '';
+        document.getElementById('journey-category').value = '';
+        document.getElementById('journey-color').value = '#8B4513';
+        document.getElementById('journey-color-hex').value = '#8B4513';
+
+        updatePolyline();
+        renderWaypointList();
+        updateExportButton();
+        showMapHint();
+    }
+
+    function updateExportButton() {
+        const btn = document.getElementById('btn-export');
+        btn.disabled = waypoints.length < 2;
+    }
+
+    // =========================================================================
+    //  Color Picker Sync
+    // =========================================================================
+
+    function initColorSync() {
+        const picker = document.getElementById('journey-color');
+        const hex = document.getElementById('journey-color-hex');
+
+        picker.addEventListener('input', () => {
+            hex.value = picker.value.toUpperCase();
+            updatePolyline();
+            updateMarkerColors();
+        });
+
+        hex.addEventListener('input', () => {
+            let val = hex.value;
+            if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+                picker.value = val;
+                updatePolyline();
+                updateMarkerColors();
+            }
+        });
+    }
+
+    function updateMarkerColors() {
+        const hex = document.getElementById('journey-color').value;
+        document.querySelectorAll('.waypoint-marker').forEach(el => {
+            el.style.background = hex;
+        });
+    }
+
+    // =========================================================================
+    //  Utility Functions
+    // =========================================================================
+
+    function haversineMeters(a, b) {
+        const R = 6371000;
+        const toRad = deg => deg * Math.PI / 180;
+        const dLat = toRad(b.lat - a.lat);
+        const dLng = toRad(b.lng - a.lng);
+        const sinLat = Math.sin(dLat / 2);
+        const sinLng = Math.sin(dLng / 2);
+        const h = sinLat * sinLat + Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * sinLng * sinLng;
+        return R * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+    }
+
+    function formatDistance(meters) {
+        if (meters < 1000) return Math.round(meters) + ' m';
+        return (meters / 1000).toFixed(1) + ' km';
+    }
+
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    function escapeAttr(str) {
+        return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function hideMapHint() {
+        const hint = document.getElementById('map-hint');
+        if (hint) hint.classList.add('hidden');
+    }
+
+    function showMapHint() {
+        const hint = document.getElementById('map-hint');
+        if (hint) hint.classList.remove('hidden');
+    }
+
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.classList.add('visible');
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(() => {
+            toast.classList.remove('visible');
+        }, 3000);
+    }
+
+    // =========================================================================
+    //  Save / Restore (sessionStorage for accidental refresh protection)
+    // =========================================================================
+
+    function saveState() {
+        const state = {
+            title: document.getElementById('journey-title').value,
+            description: document.getElementById('journey-description').value,
+            character: document.getElementById('journey-character').value,
+            category: document.getElementById('journey-category').value,
+            color: document.getElementById('journey-color').value,
+            waypoints: waypoints.map(wp => ({
+                lat: wp.lat, lng: wp.lng, name: wp.name, blurb: wp.blurb
+            }))
+        };
+        try {
+            sessionStorage.setItem('journey-builder-state', JSON.stringify(state));
+        } catch (e) { /* quota exceeded, ignore */ }
+    }
+
+    function restoreState() {
+        try {
+            const raw = sessionStorage.getItem('journey-builder-state');
+            if (!raw) return;
+            const state = JSON.parse(raw);
+            if (!state.waypoints || state.waypoints.length === 0) return;
+
+            document.getElementById('journey-title').value = state.title || '';
+            document.getElementById('journey-description').value = state.description || '';
+            document.getElementById('journey-character').value = state.character || '';
+            document.getElementById('journey-category').value = state.category || '';
+            document.getElementById('journey-color').value = state.color || '#8B4513';
+            document.getElementById('journey-color-hex').value = (state.color || '#8B4513').toUpperCase();
+
+            state.waypoints.forEach(wp => {
+                addWaypoint(wp.lat, wp.lng);
+                const last = waypoints[waypoints.length - 1];
+                last.name = wp.name;
+                last.blurb = wp.blurb;
+                updateMarkerPopup(last);
+            });
+
+            renderWaypointList();
+
+            // Fit map to waypoints
+            if (waypoints.length > 1) {
+                const group = L.featureGroup(waypoints.map(wp => wp.marker));
+                map.fitBounds(group.getBounds().pad(0.15));
+            } else if (waypoints.length === 1) {
+                map.setView([waypoints[0].lat, waypoints[0].lng], 13);
+            }
+        } catch (e) {
+            // Corrupted state, just ignore
+        }
+    }
+
+    // Periodically save
+    setInterval(saveState, 3000);
+
+    // =========================================================================
+    //  Init
+    // =========================================================================
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initMap();
+        initColorSync();
+        restoreState();
+    });
+    </script>
+</body>
+</html>

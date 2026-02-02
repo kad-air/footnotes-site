@@ -159,6 +159,12 @@ a:hover {
     transition: background-color 0.2s;
 }
 
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
 .nav-link:hover {
     background-color: var(--color-background);
     text-decoration: none;
