@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Debug - Footnotes</title>
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="/" class="nav-logo"><img src="/assets/app-icon.png" alt="" width="24" height="24">Footnotes</a>
+            <div class="nav-links">
+                <a href="/quests/" class="nav-link">Bonus Quests</a>
+                <a href="/build/" class="nav-link">Build</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <h1>Debug</h1>
+                <p>A quick test journey for verifying notifications and quest flow. 1 mile total with waypoints every quarter mile.</p>
+            </div>
+        </section>
+
+        <!-- Quest Cards -->
+        <section class="quest-section">
+            <div class="container">
+                <!-- iOS Notice Banner (hidden on iOS) -->
+                <div class="ios-notice" id="ios-notice">
+                    <p>Footnotes is currently available for iPhone only. These quests can be opened in the Footnotes iOS app.</p>
+                </div>
+
+                <!-- Distance Toggle -->
+                <div class="distance-toggle-container">
+                    <label class="distance-toggle-label">
+                        <span class="toggle-label toggle-label-miles">mi</span>
+                        <input type="checkbox" id="distance-toggle" class="distance-toggle-input">
+                        <span class="toggle-slider"></span>
+                        <span class="toggle-label toggle-label-km">km</span>
+                    </label>
+                </div>
+
+                <div class="quest-grid">
+                    <article class="quest-card">
+                        <div class="quest-card-accent" style="background-color: #FF6B35;"></div>
+                        <div class="quest-card-content">
+                            <h3 class="quest-card-title">Debug Test Journey</h3>
+                            <p class="quest-card-description">A short 1-mile test journey for verifying notifications and quest flow.</p>
+                            <div class="quest-card-meta">
+                                <span>5 waypoints</span>
+                                <span>Tester</span>
+                            </div>
+                            <div class="quest-card-details">
+                                <span class="quest-distance" data-km="1.6">1.0 mi</span>
+                                <span class="quest-region">San Francisco, USA</span>
+                            </div>
+                            <button class="btn btn-primary quest-card-button" onclick="openQuest('debug_test.journey')">
+                                Open in Footnotes
+                            </button>
+                        </div>
+                    </article>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- App Store Modal -->
+    <div class="modal-overlay" id="app-store-modal">
+        <div class="modal">
+            <h3>Get Footnotes</h3>
+            <p>Download the Footnotes app to open this quest and start your journey.</p>
+            <div class="modal-buttons">
+                <a href="https://apps.apple.com/us/app/footnotes-character-journeys/id6757349875" class="btn btn-primary">Download App</a>
+                <button class="btn btn-secondary" onclick="hideAppStoreModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Footnotes. Available on iOS. A project by <a href="https://keithadair.com">Keith Adair</a>.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>
