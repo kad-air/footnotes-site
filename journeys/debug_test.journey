@@ -36,7 +36,15 @@ Halfway there. The half-mile waypoint notification should be confirmed working.
 
 ### Three Quarter Mile
 📍 37.7857, -122.4194
+📏 402m
 
-Three-quarter mile mark. This is the last waypoint. The quest completion flow should trigger now.
+Three-quarter mile mark. Almost there — one more waypoint to go.
+
+---
+
+### Finish Line
+📍 37.7893, -122.4194
+
+You've crossed the finish line! The quest completion flow should trigger now.
 
 ---
