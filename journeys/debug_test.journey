@@ -10,19 +10,11 @@
 
 ## Waypoints
 
-### Start Line
-📍 37.7749, -122.4194
-📏 402m
-
-Your debug journey begins here. This is the starting waypoint. If you're seeing this, the quest imported successfully.
-
----
-
 ### Quarter Mile
 📍 37.7785, -122.4194
 📏 402m
 
-You've reached the quarter-mile mark. The first distance notification should have fired. One down, three to go.
+You've reached the quarter-mile mark. The first waypoint notification should have fired.
 
 ---
 
@@ -30,21 +22,13 @@ You've reached the quarter-mile mark. The first distance notification should hav
 📍 37.7821, -122.4194
 📏 402m
 
-Halfway there. The half-mile waypoint notification should be confirmed working at this point.
+Halfway there. The half-mile waypoint notification should be confirmed working.
 
 ---
 
-### Three Quarters
+### Three Quarter Mile
 📍 37.7857, -122.4194
-📏 402m
 
-Three-quarter mile mark. Almost done. Just one more waypoint to go.
-
----
-
-### Finish Line
-📍 37.7893, -122.4194
-
-You've completed the debug journey. All waypoint notifications should have fired. The quest completion flow should trigger now.
+Three-quarter mile mark. This is the last waypoint. The quest completion flow should trigger now.
 
 ---
