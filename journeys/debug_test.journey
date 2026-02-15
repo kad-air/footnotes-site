@@ -1,0 +1,34 @@
+# Debug Test Journey
+
+**Description:** A short 1-mile test journey for verifying notifications and quest flow.
+**Category:** Debug
+**Color:** #FF6B35
+**Character:** Tester
+**ID:** debug_test
+
+---
+
+## Waypoints
+
+### Quarter Mile
+📍 37.7785, -122.4194
+📏 402m
+
+You've reached the quarter-mile mark. The first waypoint notification should have fired.
+
+---
+
+### Half Mile
+📍 37.7821, -122.4194
+📏 402m
+
+Halfway there. The half-mile waypoint notification should be confirmed working.
+
+---
+
+### Three Quarter Mile
+📍 37.7857, -122.4194
+
+Three-quarter mile mark. This is the last waypoint. The quest completion flow should trigger now.
+
+---
