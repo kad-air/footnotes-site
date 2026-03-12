@@ -178,6 +178,14 @@
             padding-right: 36px;
         }
 
+        .theme-hint {
+            font-family: var(--font-family-sans);
+            font-size: 0.8125rem;
+            color: var(--color-text-secondary, #8B7355);
+            margin-top: 4px;
+            display: block;
+        }
+
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -620,6 +628,21 @@
                                 <input class="form-input color-picker-hex" type="text" id="journey-color-hex" value="#8B4513" maxlength="7" autocomplete="off">
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="form-label" for="journey-theme">Theme</label>
+                            <select class="form-select" id="journey-theme" onchange="onThemeChange()">
+                                <option value="auto">Auto (from category)</option>
+                                <option value="gothic">Gothic</option>
+                                <option value="adventure">Adventure</option>
+                                <option value="epic">Epic</option>
+                                <option value="pastoral">Pastoral</option>
+                                <option value="sacred">Sacred</option>
+                                <option value="dramatic">Dramatic</option>
+                                <option value="mystical">Mystical</option>
+                                <option value="survival">Survival</option>
+                            </select>
+                            <span class="theme-hint" id="theme-hint"></span>
+                        </div>
                     </div>
 
                     <!-- Waypoints -->
@@ -671,7 +694,129 @@
     let nextId = 1;
     let map;
     let polyline;
+    let glowPolyline = null;
+    let lightTileLayer, darkTileLayer, currentTileLayer;
+    let tintOverlay;
     let dragSrcIndex = null;    // For reorder via drag
+
+    // =========================================================================
+    //  Theme Data (mirrors StoryTheme in Story.swift)
+    // =========================================================================
+
+    const THEMES = {
+        gothic:    { label: 'Gothic',    prefersDarkMap: true,  walkedLineWidth: 4,   walkedOpacity: 0.9,  unwalkedOpacity: 0.2,  glowWidth: 10, glowOpacity: 0.15, unwalkedDashArray: '6, 4',         mapTintOpacity: 0.18, tintRGB: [20, 0, 40],    icons: { start: '\u{1F319}', finish: '\u{1F525}', middle: null } },
+        adventure: { label: 'Adventure', prefersDarkMap: false, walkedLineWidth: 3,   walkedOpacity: 0.9,  unwalkedOpacity: 0.3,  glowWidth: null, glowOpacity: 0,  unwalkedDashArray: '6, 4',         mapTintOpacity: 0.08, tintRGB: [80, 60, 20],   icons: { start: '\u{1F6A9}', finish: '\u{1F3C1}', middle: null } },
+        epic:      { label: 'Epic',      prefersDarkMap: false, walkedLineWidth: 5,   walkedOpacity: 0.9,  unwalkedOpacity: 0.3,  glowWidth: null, glowOpacity: 0,  unwalkedDashArray: '4, 3',         mapTintOpacity: 0.12, tintRGB: [60, 30, 0],    icons: { start: '\u{1F6E1}', finish: '\u{1F451}', middle: null } },
+        pastoral:  { label: 'Pastoral',  prefersDarkMap: false, walkedLineWidth: 2.5, walkedOpacity: 0.8,  unwalkedOpacity: 0.25, glowWidth: null, glowOpacity: 0,  unwalkedDashArray: '2, 3',         mapTintOpacity: 0.10, tintRGB: [40, 80, 20],   icons: { start: '\u{1F343}', finish: '\u{1F3E0}', middle: null } },
+        sacred:    { label: 'Sacred',    prefersDarkMap: false, walkedLineWidth: 3,   walkedOpacity: 0.9,  unwalkedOpacity: 0.3,  glowWidth: 8,  glowOpacity: 0.2,  unwalkedDashArray: '10, 5',        mapTintOpacity: 0.12, tintRGB: [120, 80, 0],   icons: { start: '\u{2721}',  finish: '\u{2600}',  middle: null } },
+        dramatic:  { label: 'Dramatic',  prefersDarkMap: true,  walkedLineWidth: 4,   walkedOpacity: 0.95, unwalkedOpacity: 0.25, glowWidth: null, glowOpacity: 0,  unwalkedDashArray: '8, 4, 2, 4',   mapTintOpacity: 0.16, tintRGB: [40, 0, 0],     icons: { start: '\u{1F3AD}', finish: '\u{1F451}', middle: null } },
+        mystical:  { label: 'Mystical',  prefersDarkMap: false, walkedLineWidth: 3.5, walkedOpacity: 0.9,  unwalkedOpacity: 0.3,  glowWidth: 9,  glowOpacity: 0.18, unwalkedDashArray: '3, 5',         mapTintOpacity: 0.14, tintRGB: [40, 0, 80],    icons: { start: '\u{1FA84}', finish: '\u{1F3DB}', middle: null } },
+        survival:  { label: 'Survival',  prefersDarkMap: true,  walkedLineWidth: 3,   walkedOpacity: 0.95, unwalkedOpacity: 0.25, glowWidth: null, glowOpacity: 0,  unwalkedDashArray: '2, 2',         mapTintOpacity: 0.15, tintRGB: [40, 40, 20],   icons: { start: '\u{1F52D}', finish: '\u{1F3AF}', middle: null } },
+    };
+
+    const CATEGORY_THEME_MAP = {
+        'Edgar Allan Poe': 'gothic',
+        'Mark Twain': 'adventure',
+        'Beowulf': 'epic',
+        'The Odyssey': 'epic',
+        'Jane Austen': 'pastoral',
+        'The Bible': 'sacred',
+        'Shakespeare': 'dramatic',
+    };
+
+    function getEffectiveTheme() {
+        const selected = document.getElementById('journey-theme').value;
+        if (selected !== 'auto') return selected;
+        const category = document.getElementById('journey-category').value.trim();
+        return CATEGORY_THEME_MAP[category] || 'adventure';
+    }
+
+    function updateThemeHint() {
+        const hint = document.getElementById('theme-hint');
+        const selected = document.getElementById('journey-theme').value;
+        if (selected === 'auto') {
+            const resolved = getEffectiveTheme();
+            hint.textContent = 'Resolved: ' + THEMES[resolved].label;
+        } else {
+            hint.textContent = '';
+        }
+    }
+
+    function onThemeChange() {
+        applyTheme();
+    }
+
+    // =========================================================================
+    //  Theme Application
+    // =========================================================================
+
+    function setMapDarkMode(dark) {
+        if (dark && currentTileLayer !== darkTileLayer) {
+            map.removeLayer(currentTileLayer);
+            darkTileLayer.addTo(map);
+            currentTileLayer = darkTileLayer;
+        } else if (!dark && currentTileLayer !== lightTileLayer) {
+            map.removeLayer(currentTileLayer);
+            lightTileLayer.addTo(map);
+            currentTileLayer = lightTileLayer;
+        }
+    }
+
+    function applyThemeToPolyline() {
+        const themeName = getEffectiveTheme();
+        const t = THEMES[themeName];
+        const color = document.getElementById('journey-color').value;
+
+        polyline.setStyle({
+            color: color,
+            weight: t.walkedLineWidth,
+            opacity: t.unwalkedOpacity,
+            dashArray: t.unwalkedDashArray
+        });
+
+        // Glow polyline (wider translucent under-line)
+        if (t.glowWidth && t.glowOpacity > 0) {
+            if (!glowPolyline) {
+                glowPolyline = L.polyline([], {}).addTo(map);
+                glowPolyline.bringToBack();
+            }
+            glowPolyline.setLatLngs(polyline.getLatLngs());
+            glowPolyline.setStyle({
+                color: color,
+                weight: t.glowWidth,
+                opacity: t.glowOpacity,
+                dashArray: null
+            });
+        } else if (glowPolyline) {
+            glowPolyline.setLatLngs([]);
+        }
+    }
+
+    function applyTheme() {
+        const themeName = getEffectiveTheme();
+        const t = THEMES[themeName];
+
+        // Tile layer
+        setMapDarkMode(t.prefersDarkMap);
+
+        // Tint overlay
+        tintOverlay.setStyle({
+            fillColor: 'rgb(' + t.tintRGB.join(',') + ')',
+            fillOpacity: t.mapTintOpacity
+        });
+
+        // Polyline
+        applyThemeToPolyline();
+
+        // Re-create marker icons with theme
+        waypoints.forEach(function(wp, i) {
+            var type = (i === 0) ? 'start' : (i === waypoints.length - 1 && waypoints.length > 1) ? 'finish' : 'middle';
+            wp.marker.setIcon(createMarkerIcon(i + 1, type));
+        });
+
+        // Theme hint
+        updateThemeHint();
+    }
 
     // =========================================================================
     //  Map Initialization
@@ -689,17 +834,33 @@
             bounceAtZoomLimits: false
         });
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        lightTileLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
             maxZoom: 19
+        });
+
+        darkTileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+            maxZoom: 19
+        });
+
+        lightTileLayer.addTo(map);
+        currentTileLayer = lightTileLayer;
+
+        // Tint overlay for theme mood coloring
+        tintOverlay = L.rectangle([[-90, -180], [90, 180]], {
+            stroke: false,
+            fillColor: '#000',
+            fillOpacity: 0,
+            interactive: false
         }).addTo(map);
 
         // Polyline connecting waypoints
         polyline = L.polyline([], {
             color: '#8B4513',
             weight: 3,
-            opacity: 0.6,
-            dashArray: '8, 8'
+            opacity: 0.3,
+            dashArray: '6, 4'
         }).addTo(map);
 
         // Click handler
@@ -727,10 +888,15 @@
         addWaypoint(e.latlng.lat, e.latlng.lng);
     }
 
-    function createMarkerIcon(number) {
+    function createMarkerIcon(number, type) {
+        var themeName = getEffectiveTheme();
+        var t = THEMES[themeName];
+        var display = number;
+        if (type === 'start' && t.icons.start) display = t.icons.start;
+        else if (type === 'finish' && t.icons.finish) display = t.icons.finish;
         return L.divIcon({
             className: '',
-            html: '<div class="waypoint-marker">' + number + '</div>',
+            html: '<div class="waypoint-marker">' + display + '</div>',
             iconSize: [32, 32],
             iconAnchor: [16, 16],
             popupAnchor: [0, -20]
@@ -742,8 +908,15 @@
         const index = waypoints.length;
         const name = 'Waypoint ' + (index + 1);
 
+        // Update previous last marker from 'finish' to 'middle' if needed
+        if (waypoints.length > 1) {
+            var prevLast = waypoints[waypoints.length - 1];
+            prevLast.marker.setIcon(createMarkerIcon(waypoints.length, 'middle'));
+        }
+
+        const type = index === 0 ? 'start' : 'finish';
         const marker = L.marker([lat, lng], {
-            icon: createMarkerIcon(index + 1),
+            icon: createMarkerIcon(index + 1, type),
             draggable: true
         }).addTo(map);
 
@@ -786,9 +959,7 @@
 
     function updatePolyline() {
         polyline.setLatLngs(waypoints.map(wp => [wp.lat, wp.lng]));
-        // Update polyline color to match chosen journey color
-        const hex = document.getElementById('journey-color').value;
-        polyline.setStyle({ color: hex });
+        applyThemeToPolyline();
     }
 
     function removeWaypoint(id) {
@@ -798,9 +969,10 @@
         map.removeLayer(waypoints[idx].marker);
         waypoints.splice(idx, 1);
 
-        // Renumber markers
+        // Renumber markers with themed icons
         waypoints.forEach((wp, i) => {
-            wp.marker.setIcon(createMarkerIcon(i + 1));
+            var type = (i === 0) ? 'start' : (i === waypoints.length - 1 && waypoints.length > 1) ? 'finish' : 'middle';
+            wp.marker.setIcon(createMarkerIcon(i + 1, type));
             updateMarkerPopup(wp);
         });
 
@@ -972,9 +1144,10 @@
         const [moved] = waypoints.splice(fromIndex, 1);
         waypoints.splice(toIndex, 0, moved);
 
-        // Renumber markers
+        // Renumber markers with themed icons
         waypoints.forEach((wp, i) => {
-            wp.marker.setIcon(createMarkerIcon(i + 1));
+            var type = (i === 0) ? 'start' : (i === waypoints.length - 1 && waypoints.length > 1) ? 'finish' : 'middle';
+            wp.marker.setIcon(createMarkerIcon(i + 1, type));
             updateMarkerPopup(wp);
         });
 
@@ -1023,8 +1196,12 @@
         content += '**Category:** ' + (category || 'Custom') + '\n';
         content += '**Color:** ' + color.toUpperCase() + '\n';
         content += '**Character:** ' + (character || 'You') + '\n';
-        content += '**ID:** ' + id + '\n\n';
-        content += '---\n\n';
+        content += '**ID:** ' + id + '\n';
+        const themeValue = document.getElementById('journey-theme').value;
+        if (themeValue !== 'auto') {
+            content += '**Theme:** ' + themeValue + '\n';
+        }
+        content += '\n---\n\n';
         content += '## Waypoints\n';
 
         waypoints.forEach((wp, i) => {
@@ -1074,9 +1251,11 @@
         document.getElementById('journey-category').value = '';
         document.getElementById('journey-color').value = '#8B4513';
         document.getElementById('journey-color-hex').value = '#8B4513';
+        document.getElementById('journey-theme').value = 'auto';
 
         updatePolyline();
         renderWaypointList();
+        applyTheme();
         updateExportButton();
         showMapHint();
     }
@@ -1178,6 +1357,7 @@
             character: document.getElementById('journey-character').value,
             category: document.getElementById('journey-category').value,
             color: document.getElementById('journey-color').value,
+            theme: document.getElementById('journey-theme').value,
             waypoints: waypoints.map(wp => ({
                 lat: wp.lat, lng: wp.lng, name: wp.name, blurb: wp.blurb
             }))
@@ -1200,6 +1380,9 @@
             document.getElementById('journey-category').value = state.category || '';
             document.getElementById('journey-color').value = state.color || '#8B4513';
             document.getElementById('journey-color-hex').value = (state.color || '#8B4513').toUpperCase();
+            if (state.theme) {
+                document.getElementById('journey-theme').value = state.theme;
+            }
 
             state.waypoints.forEach(wp => {
                 addWaypoint(wp.lat, wp.lng);
@@ -1210,6 +1393,7 @@
             });
 
             renderWaypointList();
+            applyTheme();
 
             // Fit map to waypoints
             if (waypoints.length > 1) {
@@ -1234,6 +1418,14 @@
         initMap();
         initColorSync();
         restoreState();
+        applyTheme();
+
+        // Re-derive theme when category changes (for auto mode)
+        document.getElementById('journey-category').addEventListener('input', () => {
+            if (document.getElementById('journey-theme').value === 'auto') {
+                applyTheme();
+            }
+        });
     });
     </script>
 </body>
