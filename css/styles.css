@@ -460,9 +460,9 @@ a:hover {
 }
 
 .journey-category li::before {
-    content: "—";
+    content: "👣";
     margin-right: var(--space-sm);
-    color: var(--color-border);
+    font-size: 0.7em;
 }
 
 /* ==========================================================================
