@@ -22,6 +22,11 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
     <link rel="stylesheet" href="../css/styles.css">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin="">
 </head>
 <body>
     <header class="header">
@@ -78,9 +83,10 @@
                                 <span class="quest-distance" data-km="19.5">12.1 mi</span>
                                 <span class="quest-region">London, UK</span>
                             </div>
-                            <button class="btn btn-primary quest-card-button" onclick="openQuest('lecarre_circus.journey')">
-                                Open in Footnotes
-                            </button>
+                            <div class="quest-card-buttons">
+                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('lecarre_circus.journey')">Preview</button>
+                                <button class="btn btn-primary quest-card-button" onclick="openQuest('lecarre_circus.journey')">Open in Footnotes</button>
+                            </div>
                         </div>
                     </article>
 
@@ -98,9 +104,10 @@
                                 <span class="quest-distance" data-km="23.1">14.4 mi</span>
                                 <span class="quest-region">London, UK</span>
                             </div>
-                            <button class="btn btn-primary quest-card-button" onclick="openQuest('smiley_london.journey')">
-                                Open in Footnotes
-                            </button>
+                            <div class="quest-card-buttons">
+                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('smiley_london.journey')">Preview</button>
+                                <button class="btn btn-primary quest-card-button" onclick="openQuest('smiley_london.journey')">Open in Footnotes</button>
+                            </div>
                         </div>
                     </article>
                 </div>
@@ -122,9 +129,10 @@
                                 <span class="quest-distance" data-km="112.5">69.9 mi</span>
                                 <span class="quest-region">New Zealand</span>
                             </div>
-                            <button class="btn btn-primary quest-card-button" onclick="openQuest('lotr_shire_to_bree.journey')">
-                                Open in Footnotes
-                            </button>
+                            <div class="quest-card-buttons">
+                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('lotr_shire_to_bree.journey')">Preview</button>
+                                <button class="btn btn-primary quest-card-button" onclick="openQuest('lotr_shire_to_bree.journey')">Open in Footnotes</button>
+                            </div>
                         </div>
                     </article>
 
@@ -142,9 +150,10 @@
                                 <span class="quest-distance" data-km="207.0">128.6 mi</span>
                                 <span class="quest-region">New Zealand</span>
                             </div>
-                            <button class="btn btn-primary quest-card-button" onclick="openQuest('rivendell.journey')">
-                                Open in Footnotes
-                            </button>
+                            <div class="quest-card-buttons">
+                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('rivendell.journey')">Preview</button>
+                                <button class="btn btn-primary quest-card-button" onclick="openQuest('rivendell.journey')">Open in Footnotes</button>
+                            </div>
                         </div>
                     </article>
 
@@ -162,9 +171,10 @@
                                 <span class="quest-distance" data-km="93.0">57.8 mi</span>
                                 <span class="quest-region">New Zealand</span>
                             </div>
-                            <button class="btn btn-primary quest-card-button" onclick="openQuest('moria.journey')">
-                                Open in Footnotes
-                            </button>
+                            <div class="quest-card-buttons">
+                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('moria.journey')">Preview</button>
+                                <button class="btn btn-primary quest-card-button" onclick="openQuest('moria.journey')">Open in Footnotes</button>
+                            </div>
                         </div>
                     </article>
                 </div>
@@ -186,9 +196,10 @@
                                 <span class="quest-distance" data-km="81.0">50.3 mi</span>
                                 <span class="quest-region">North Carolina, USA</span>
                             </div>
-                            <button class="btn btn-primary quest-card-button" onclick="openQuest('hunger_games_74th.journey')">
-                                Open in Footnotes
-                            </button>
+                            <div class="quest-card-buttons">
+                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('hunger_games_74th.journey')">Preview</button>
+                                <button class="btn btn-primary quest-card-button" onclick="openQuest('hunger_games_74th.journey')">Open in Footnotes</button>
+                            </div>
                         </div>
                     </article>
 
@@ -206,9 +217,10 @@
                                 <span class="quest-distance" data-km="104.0">64.6 mi</span>
                                 <span class="quest-region">North Carolina, USA</span>
                             </div>
-                            <button class="btn btn-primary quest-card-button" onclick="openQuest('hunger_games_mockingjay.journey')">
-                                Open in Footnotes
-                            </button>
+                            <div class="quest-card-buttons">
+                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('hunger_games_mockingjay.journey')">Preview</button>
+                                <button class="btn btn-primary quest-card-button" onclick="openQuest('hunger_games_mockingjay.journey')">Open in Footnotes</button>
+                            </div>
                         </div>
                     </article>
                 </div>
@@ -230,9 +242,10 @@
                                 <span class="quest-distance" data-km="47.8">29.7 mi</span>
                                 <span class="quest-region">Maine, USA</span>
                             </div>
-                            <button class="btn btn-primary quest-card-button" onclick="openQuest('king_it.journey')">
-                                Open in Footnotes
-                            </button>
+                            <div class="quest-card-buttons">
+                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('king_it.journey')">Preview</button>
+                                <button class="btn btn-primary quest-card-button" onclick="openQuest('king_it.journey')">Open in Footnotes</button>
+                            </div>
                         </div>
                     </article>
 
@@ -250,9 +263,10 @@
                                 <span class="quest-distance" data-km="701.0">435.6 mi</span>
                                 <span class="quest-region">Maine to Massachusetts, USA</span>
                             </div>
-                            <button class="btn btn-primary quest-card-button" onclick="openQuest('king_long_walk.journey')">
-                                Open in Footnotes
-                            </button>
+                            <div class="quest-card-buttons">
+                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('king_long_walk.journey')">Preview</button>
+                                <button class="btn btn-primary quest-card-button" onclick="openQuest('king_long_walk.journey')">Open in Footnotes</button>
+                            </div>
                         </div>
                     </article>
                 </div>
@@ -274,9 +288,10 @@
                                 <span class="quest-distance" data-km="972.0">604.0 mi</span>
                                 <span class="quest-region">England to Scotland, UK</span>
                             </div>
-                            <button class="btn btn-primary quest-card-button" onclick="openQuest('potter_hogwarts_express.journey')">
-                                Open in Footnotes
-                            </button>
+                            <div class="quest-card-buttons">
+                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('potter_hogwarts_express.journey')">Preview</button>
+                                <button class="btn btn-primary quest-card-button" onclick="openQuest('potter_hogwarts_express.journey')">Open in Footnotes</button>
+                            </div>
                         </div>
                     </article>
 
@@ -294,9 +309,10 @@
                                 <span class="quest-distance" data-km="31.5">19.6 mi</span>
                                 <span class="quest-region">London, UK</span>
                             </div>
-                            <button class="btn btn-primary quest-card-button" onclick="openQuest('diagon_alley.journey')">
-                                Open in Footnotes
-                            </button>
+                            <div class="quest-card-buttons">
+                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('diagon_alley.journey')">Preview</button>
+                                <button class="btn btn-primary quest-card-button" onclick="openQuest('diagon_alley.journey')">Open in Footnotes</button>
+                            </div>
                         </div>
                     </article>
 
@@ -314,9 +330,10 @@
                                 <span class="quest-distance" data-km="5.6">3.5 mi</span>
                                 <span class="quest-region">Scotland, UK</span>
                             </div>
-                            <button class="btn btn-primary quest-card-button" onclick="openQuest('hogsmeade.journey')">
-                                Open in Footnotes
-                            </button>
+                            <div class="quest-card-buttons">
+                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('hogsmeade.journey')">Preview</button>
+                                <button class="btn btn-primary quest-card-button" onclick="openQuest('hogsmeade.journey')">Open in Footnotes</button>
+                            </div>
                         </div>
                     </article>
                 </div>
@@ -333,6 +350,27 @@
             </div>
         </section>
     </main>
+
+    <!-- Quest Preview Modal -->
+    <div class="modal-overlay" id="preview-modal">
+        <div class="preview-modal">
+            <div class="preview-modal-header" id="preview-modal-header">
+                <div class="preview-modal-header-content">
+                    <h3 id="preview-modal-title"></h3>
+                    <p class="preview-modal-meta" id="preview-modal-meta"></p>
+                </div>
+                <button class="preview-modal-close" onclick="hidePreviewModal()" aria-label="Close">&times;</button>
+            </div>
+            <div class="preview-modal-tabs">
+                <button class="preview-tab active" data-tab="waypoints" onclick="switchPreviewTab('waypoints')">Waypoints</button>
+                <button class="preview-tab" data-tab="map" onclick="switchPreviewTab('map')">Map</button>
+            </div>
+            <div class="preview-modal-body" id="preview-modal-body">
+            </div>
+            <div class="preview-modal-map" id="preview-modal-map">
+            </div>
+        </div>
+    </div>
 
     <!-- App Store Modal -->
     <div class="modal-overlay" id="app-store-modal">
@@ -352,6 +390,9 @@
         </div>
     </footer>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
     <script src="../js/main.js"></script>
 </body>
 </html>
