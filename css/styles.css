@@ -4,6 +4,8 @@
 
 /* CSS Variables */
 :root {
+    color-scheme: light dark;
+
     /* Colors - Warm, literary paper palette */
     --color-primary: #8B4513;          /* Saddle brown - like aged leather */
     --color-primary-dark: #5D2E0C;
@@ -13,6 +15,14 @@
     --color-text-secondary: #6B5344;   /* Faded ink */
     --color-border: #E8DED4;           /* Paper edge */
     --color-accent: #C9A66B;           /* Gold foil accent */
+
+    /* Notice Banner */
+    --color-notice-bg: #FFF3CD;
+    --color-notice-border: #FFECB5;
+    --color-notice-text: #856404;
+
+    /* Feature Icon */
+    --color-icon: #007AFF;
 
     /* Category Colors */
     --color-middle-earth: #2E6B4F;
@@ -565,8 +575,8 @@ a:hover {
 
 /* iOS Notice Banner */
 .ios-notice {
-    background: #FFF3CD;
-    border: 1px solid #FFECB5;
+    background: var(--color-notice-bg);
+    border: 1px solid var(--color-notice-border);
     border-radius: var(--radius-md);
     padding: var(--space-md);
     margin-bottom: var(--space-xl);
@@ -574,7 +584,7 @@ a:hover {
 }
 
 .ios-notice p {
-    color: #856404;
+    color: var(--color-notice-text);
     margin: 0;
 }
 
@@ -1181,6 +1191,56 @@ a:hover {
 
     .journey-list {
         grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* ==========================================================================
+   Dark Mode
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-primary: #C9865A;
+        --color-primary-dark: #A86E45;
+        --color-background: #1A1210;
+        --color-surface: #241E1A;
+        --color-text: #E8DED4;
+        --color-text-secondary: #A89888;
+        --color-border: #3D332B;
+        --color-accent: #C9A66B;
+
+        --color-notice-bg: #332B1A;
+        --color-notice-border: #4D4020;
+        --color-notice-text: #D4B85C;
+
+        --color-icon: #4A9EFF;
+
+        --color-middle-earth: #4AAF7F;
+        --color-wizarding: #B84AB8;
+        --color-panem: #EF5A6B;
+        --color-lecarre: #6B8FEF;
+        --color-king: #CF4040;
+
+        --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+        --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+        --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-icon img {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .toggle-slider::before {
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+
+    .waypoint-marker {
+        border-color: var(--color-surface);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .app-store-badge img {
+        filter: brightness(0.85);
     }
 }
 
