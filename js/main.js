@@ -528,8 +528,22 @@ function initPreviewModal() {
     });
 }
 
+/**
+ * Apply dark mode class as fallback for environments where
+ * CSS prefers-color-scheme media query doesn't trigger
+ */
+function initDarkMode() {
+    const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    function applyTheme(isDark) {
+        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    }
+    applyTheme(darkQuery.matches);
+    darkQuery.addEventListener('change', (e) => applyTheme(e.matches));
+}
+
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
+    initDarkMode();
     initPlatformUI();
     initModalBehavior();
     initScreenshotCarousel();
