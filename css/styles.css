@@ -1244,6 +1244,51 @@ a:hover {
     }
 }
 
+/* JS-based dark mode fallback (for environments where media query doesn't trigger) */
+html[data-theme="dark"] {
+    --color-primary: #C9865A;
+    --color-primary-dark: #A86E45;
+    --color-background: #1A1210;
+    --color-surface: #241E1A;
+    --color-text: #E8DED4;
+    --color-text-secondary: #A89888;
+    --color-border: #3D332B;
+    --color-accent: #C9A66B;
+
+    --color-notice-bg: #332B1A;
+    --color-notice-border: #4D4020;
+    --color-notice-text: #D4B85C;
+
+    --color-icon: #4A9EFF;
+
+    --color-middle-earth: #4AAF7F;
+    --color-wizarding: #B84AB8;
+    --color-panem: #EF5A6B;
+    --color-lecarre: #6B8FEF;
+    --color-king: #CF4040;
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+html[data-theme="dark"] .hero-icon img {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+html[data-theme="dark"] .toggle-slider::before {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+html[data-theme="dark"] .waypoint-marker {
+    border-color: var(--color-surface);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+html[data-theme="dark"] .app-store-badge img {
+    filter: brightness(0.85);
+}
+
 /* ==========================================================================
    Utility Classes
    ========================================================================== */
