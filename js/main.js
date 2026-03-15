@@ -526,6 +526,17 @@ function initPreviewModal() {
             hidePreviewModal();
         }
     });
+
+    // Tap-to-expand waypoints on mobile
+    const body = document.getElementById('preview-modal-body');
+    if (body) {
+        body.addEventListener('click', (e) => {
+            const waypoint = e.target.closest('.preview-waypoint');
+            if (waypoint) {
+                waypoint.classList.toggle('expanded');
+            }
+        });
+    }
 }
 
 // Initialize when DOM is ready

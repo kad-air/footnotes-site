@@ -1091,15 +1091,54 @@ a:hover {
     }
 
     .preview-modal-header {
-        padding: var(--space-md) var(--space-lg);
+        padding: var(--space-sm) var(--space-md);
+    }
+
+    .preview-modal-header h3 {
+        font-size: var(--font-size-base);
     }
 
     .preview-modal-body {
-        padding: var(--space-md) var(--space-lg);
+        padding: var(--space-sm) var(--space-md);
     }
 
     .preview-modal-tabs {
-        padding: 0 var(--space-lg);
+        padding: 0 var(--space-md);
+    }
+
+    .preview-waypoint {
+        padding-bottom: var(--space-sm);
+        padding-left: var(--space-lg);
+        cursor: pointer;
+    }
+
+    .preview-waypoint-name {
+        font-size: var(--font-size-sm);
+    }
+
+    .preview-waypoint-distance {
+        font-size: 0.75rem;
+        margin-bottom: 0;
+    }
+
+    .preview-waypoint-excerpt {
+        display: none;
+    }
+
+    .preview-waypoint.expanded .preview-waypoint-excerpt {
+        display: -webkit-box;
+        margin-top: var(--space-xs);
+    }
+
+    .preview-waypoint::after {
+        width: 10px;
+        height: 10px;
+        top: 5px;
+    }
+
+    .preview-waypoint::before {
+        top: 10px;
+        left: 4px;
     }
 
     .preview-modal-map.active {
