@@ -925,6 +925,14 @@ a:hover {
     border-bottom-color: var(--color-primary);
 }
 
+.preview-modal-content {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
 .preview-modal-body {
     flex: 1;
     min-height: 0;
@@ -936,8 +944,6 @@ a:hover {
 /* Map panel */
 .preview-modal-map {
     display: none;
-    flex: 1;
-    min-height: 0;
 }
 
 .preview-modal-map.active {
@@ -950,7 +956,7 @@ a:hover {
 .preview-map-container {
     width: 100%;
     flex: 1;
-    min-height: 350px;
+    min-height: 0;
 }
 
 .preview-map-container .waypoint-marker {
@@ -1100,15 +1106,6 @@ a:hover {
 
     .preview-modal-tabs {
         padding: 0 var(--space-lg);
-    }
-
-    .preview-modal-map.active {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .preview-map-container {
-        flex: 1;
     }
 
     .quest-card-buttons {
