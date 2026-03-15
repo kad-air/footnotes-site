@@ -22,6 +22,11 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
     <link rel="stylesheet" href="../css/styles.css">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin="">
 </head>
 <body>
     <header class="header">
@@ -356,7 +361,13 @@
                 </div>
                 <button class="preview-modal-close" onclick="hidePreviewModal()" aria-label="Close">&times;</button>
             </div>
+            <div class="preview-modal-tabs">
+                <button class="preview-tab active" data-tab="waypoints" onclick="switchPreviewTab('waypoints')">Waypoints</button>
+                <button class="preview-tab" data-tab="map" onclick="switchPreviewTab('map')">Map</button>
+            </div>
             <div class="preview-modal-body" id="preview-modal-body">
+            </div>
+            <div class="preview-modal-map" id="preview-modal-map">
             </div>
         </div>
     </div>
@@ -379,6 +390,9 @@
         </div>
     </footer>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
     <script src="../js/main.js"></script>
 </body>
 </html>

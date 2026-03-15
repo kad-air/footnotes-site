@@ -245,6 +245,10 @@ function parseJourney(text) {
             meta.character = trimmed.replace('**Character:**', '').trim();
             continue;
         }
+        if (trimmed.startsWith('**Color:**')) {
+            meta.color = trimmed.replace('**Color:**', '').trim();
+            continue;
+        }
         if (trimmed.startsWith('**Theme:**')) {
             meta.theme = trimmed.replace('**Theme:**', '').trim();
             continue;
@@ -271,7 +275,16 @@ function parseJourney(text) {
             continue;
         }
 
-        if (trimmed.startsWith('📍') || trimmed === '---' || trimmed === '') continue;
+        if (trimmed.startsWith('📍')) {
+            const coords = trimmed.replace('📍', '').trim().split(',').map(s => parseFloat(s.trim()));
+            if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
+                current.lat = coords[0];
+                current.lng = coords[1];
+            }
+            continue;
+        }
+
+        if (trimmed === '---' || trimmed === '') continue;
 
         current.text += (current.text ? ' ' : '') + trimmed;
     }
@@ -294,6 +307,21 @@ function formatDistance(meters) {
 }
 
 /**
+ * Theme data for map rendering (mirrors build page / StoryTheme in iOS app)
+ */
+const PREVIEW_THEMES = {
+    gothic:    { prefersDarkMap: true,  lineWidth: 4,   opacity: 0.9,  dashArray: '6, 4',       glowWidth: 10, glowOpacity: 0.15, tintOpacity: 0,    tintRGB: [20, 0, 40],  icons: { start: '\u{1F319}', finish: '\u{1F525}' } },
+    adventure: { prefersDarkMap: false, lineWidth: 3,   opacity: 0.9,  dashArray: '6, 4',       glowWidth: 0,  glowOpacity: 0,    tintOpacity: 0.08, tintRGB: [80, 60, 20], icons: { start: '\u{1F6A9}', finish: '\u{1F3C1}' } },
+    epic:      { prefersDarkMap: false, lineWidth: 5,   opacity: 0.9,  dashArray: '4, 3',       glowWidth: 0,  glowOpacity: 0,    tintOpacity: 0.12, tintRGB: [60, 30, 0],  icons: { start: '\u{1F6E1}', finish: '\u{1F451}' } },
+    dramatic:  { prefersDarkMap: true,  lineWidth: 4,   opacity: 0.95, dashArray: '8, 4, 2, 4', glowWidth: 0,  glowOpacity: 0,    tintOpacity: 0,    tintRGB: [40, 0, 0],   icons: { start: '\u{1F3AD}', finish: '\u{1F451}' } },
+    mystical:  { prefersDarkMap: false, lineWidth: 3.5, opacity: 0.9,  dashArray: '3, 5',       glowWidth: 9,  glowOpacity: 0.18, tintOpacity: 0.14, tintRGB: [40, 0, 80],  icons: { start: '\u{1FA84}', finish: '\u{1F3DB}' } },
+    survival:  { prefersDarkMap: true,  lineWidth: 3,   opacity: 0.95, dashArray: '2, 2',       glowWidth: 0,  glowOpacity: 0,    tintOpacity: 0,    tintRGB: [40, 40, 20], icons: { start: '\u{1F52D}', finish: '\u{1F3AF}' } },
+};
+
+let previewMap = null;
+let previewJourneyData = null;
+
+/**
  * Fetch and preview a quest journey file in a modal
  */
 async function previewQuest(filename) {
@@ -302,11 +330,17 @@ async function previewQuest(filename) {
     const title = document.getElementById('preview-modal-title');
     const metaEl = document.getElementById('preview-modal-meta');
     const body = document.getElementById('preview-modal-body');
+    const mapPanel = document.getElementById('preview-modal-map');
+
+    // Reset to waypoints tab
+    switchPreviewTab('waypoints');
 
     body.innerHTML = '<p class="preview-loading">Loading journey...</p>';
     title.textContent = '';
     metaEl.textContent = '';
     modal.className = 'preview-modal';
+    previewJourneyData = null;
+    destroyPreviewMap();
     overlay.classList.add('active');
 
     try {
@@ -314,6 +348,7 @@ async function previewQuest(filename) {
         const response = await fetch(`${baseUrl}/journeys/${filename}`);
         const text = await response.text();
         const journey = parseJourney(text);
+        previewJourneyData = journey;
 
         title.textContent = journey.meta.title || filename;
         metaEl.textContent = [journey.meta.character, journey.meta.category].filter(Boolean).join(' \u2022 ');
@@ -339,11 +374,140 @@ async function previewQuest(filename) {
 }
 
 /**
+ * Switch between waypoints and map tabs
+ */
+function switchPreviewTab(tab) {
+    const body = document.getElementById('preview-modal-body');
+    const mapPanel = document.getElementById('preview-modal-map');
+    const tabs = document.querySelectorAll('.preview-tab');
+
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+
+    if (tab === 'waypoints') {
+        body.style.display = '';
+        mapPanel.classList.remove('active');
+    } else {
+        body.style.display = 'none';
+        mapPanel.classList.add('active');
+        // Initialize map on first switch
+        if (!previewMap && previewJourneyData) {
+            setTimeout(() => initPreviewMap(previewJourneyData), 50);
+        } else if (previewMap) {
+            setTimeout(() => previewMap.invalidateSize(), 50);
+        }
+    }
+}
+
+/**
+ * Initialize the Leaflet map for previewing a journey
+ */
+function initPreviewMap(journey) {
+    if (typeof L === 'undefined') return;
+
+    const mapContainer = document.getElementById('preview-modal-map');
+    mapContainer.innerHTML = '<div id="preview-leaflet-map" class="preview-map-container"></div>';
+
+    const coords = journey.waypoints
+        .filter(wp => wp.lat != null && wp.lng != null)
+        .map(wp => [wp.lat, wp.lng]);
+
+    if (coords.length === 0) {
+        mapContainer.innerHTML = '<p class="preview-loading">No coordinates available for this journey.</p>';
+        return;
+    }
+
+    const themeName = journey.meta.theme || 'adventure';
+    const theme = PREVIEW_THEMES[themeName] || PREVIEW_THEMES.adventure;
+    const color = journey.meta.color || '#8B4513';
+
+    previewMap = L.map('preview-leaflet-map', {
+        zoomControl: true,
+        attributionControl: true
+    });
+
+    // Tile layer based on theme
+    const tileUrl = theme.prefersDarkMap
+        ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+        : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    const tileAttr = theme.prefersDarkMap
+        ? '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
+        : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+
+    L.tileLayer(tileUrl, { attribution: tileAttr, maxZoom: 19 }).addTo(previewMap);
+
+    // Tint overlay
+    if (theme.tintOpacity > 0) {
+        L.rectangle([[-90, -180], [90, 180]], {
+            stroke: false,
+            fillColor: 'rgb(' + theme.tintRGB.join(',') + ')',
+            fillOpacity: theme.tintOpacity,
+            interactive: false
+        }).addTo(previewMap);
+    }
+
+    // Glow polyline
+    if (theme.glowWidth > 0 && theme.glowOpacity > 0) {
+        L.polyline(coords, {
+            color: color,
+            weight: theme.glowWidth,
+            opacity: theme.glowOpacity,
+            dashArray: null
+        }).addTo(previewMap);
+    }
+
+    // Route polyline
+    L.polyline(coords, {
+        color: color,
+        weight: theme.lineWidth,
+        opacity: theme.opacity,
+        dashArray: theme.dashArray
+    }).addTo(previewMap);
+
+    // Markers
+    const waypointsWithCoords = journey.waypoints.filter(wp => wp.lat != null && wp.lng != null);
+    waypointsWithCoords.forEach((wp, i) => {
+        const isStart = i === 0;
+        const isFinish = i === waypointsWithCoords.length - 1 && waypointsWithCoords.length > 1;
+        let display = i + 1;
+        if (isStart && theme.icons.start) display = theme.icons.start;
+        else if (isFinish && theme.icons.finish) display = theme.icons.finish;
+
+        const marker = L.marker([wp.lat, wp.lng], {
+            icon: L.divIcon({
+                className: '',
+                html: '<div class="waypoint-marker" style="background:' + color + '">' + display + '</div>',
+                iconSize: [32, 32],
+                iconAnchor: [16, 16]
+            })
+        }).addTo(previewMap);
+
+        marker.bindPopup('<strong>' + wp.name.replace(/</g, '&lt;') + '</strong>');
+    });
+
+    // Fit bounds
+    previewMap.fitBounds(L.latLngBounds(coords).pad(0.1));
+}
+
+/**
+ * Destroy the preview map instance
+ */
+function destroyPreviewMap() {
+    if (previewMap) {
+        previewMap.remove();
+        previewMap = null;
+    }
+    const mapPanel = document.getElementById('preview-modal-map');
+    if (mapPanel) mapPanel.innerHTML = '';
+}
+
+/**
  * Hide the preview modal
  */
 function hidePreviewModal() {
     const overlay = document.getElementById('preview-modal');
     if (overlay) overlay.classList.remove('active');
+    destroyPreviewMap();
+    previewJourneyData = null;
 }
 
 /**
