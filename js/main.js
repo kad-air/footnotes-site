@@ -216,10 +216,159 @@ function updateAllDistances(showKm) {
     });
 }
 
+/**
+ * Parse a .journey file into structured data
+ */
+function parseJourney(text) {
+    const lines = text.split('\n');
+    const meta = {};
+    const waypoints = [];
+    let current = null;
+    let inWaypoints = false;
+
+    for (const line of lines) {
+        const trimmed = line.trim();
+
+        if (trimmed.startsWith('# ') && !meta.title) {
+            meta.title = trimmed.slice(2);
+            continue;
+        }
+        if (trimmed.startsWith('**Description:**')) {
+            meta.description = trimmed.replace('**Description:**', '').trim();
+            continue;
+        }
+        if (trimmed.startsWith('**Category:**')) {
+            meta.category = trimmed.replace('**Category:**', '').trim();
+            continue;
+        }
+        if (trimmed.startsWith('**Character:**')) {
+            meta.character = trimmed.replace('**Character:**', '').trim();
+            continue;
+        }
+        if (trimmed.startsWith('**Theme:**')) {
+            meta.theme = trimmed.replace('**Theme:**', '').trim();
+            continue;
+        }
+
+        if (trimmed === '## Waypoints') {
+            inWaypoints = true;
+            continue;
+        }
+
+        if (!inWaypoints) continue;
+
+        if (trimmed.startsWith('### ')) {
+            if (current) waypoints.push(current);
+            current = { name: trimmed.slice(4), text: '' };
+            continue;
+        }
+
+        if (!current) continue;
+
+        if (trimmed.startsWith('📏')) {
+            const match = trimmed.match(/(\d+)m/);
+            if (match) current.distanceMeters = parseInt(match[1]);
+            continue;
+        }
+
+        if (trimmed.startsWith('📍') || trimmed === '---' || trimmed === '') continue;
+
+        current.text += (current.text ? ' ' : '') + trimmed;
+    }
+    if (current) waypoints.push(current);
+
+    return { meta, waypoints };
+}
+
+/**
+ * Format distance for display based on current toggle
+ */
+function formatDistance(meters) {
+    const toggle = document.getElementById('distance-toggle');
+    const showKm = toggle && toggle.checked;
+    const km = meters / 1000;
+    if (showKm) {
+        return km.toFixed(1) + ' km';
+    }
+    return (km * 0.621371).toFixed(1) + ' mi';
+}
+
+/**
+ * Fetch and preview a quest journey file in a modal
+ */
+async function previewQuest(filename) {
+    const overlay = document.getElementById('preview-modal');
+    const modal = overlay.querySelector('.preview-modal');
+    const title = document.getElementById('preview-modal-title');
+    const metaEl = document.getElementById('preview-modal-meta');
+    const body = document.getElementById('preview-modal-body');
+
+    body.innerHTML = '<p class="preview-loading">Loading journey...</p>';
+    title.textContent = '';
+    metaEl.textContent = '';
+    modal.className = 'preview-modal';
+    overlay.classList.add('active');
+
+    try {
+        const baseUrl = window.location.origin || 'https://footnotes.keithadair.com';
+        const response = await fetch(`${baseUrl}/journeys/${filename}`);
+        const text = await response.text();
+        const journey = parseJourney(text);
+
+        title.textContent = journey.meta.title || filename;
+        metaEl.textContent = [journey.meta.character, journey.meta.category].filter(Boolean).join(' \u2022 ');
+
+        if (journey.meta.theme) {
+            modal.classList.add('theme-' + journey.meta.theme);
+        }
+
+        body.innerHTML = journey.waypoints.map(wp => {
+            const escapedName = wp.name.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            const escapedText = wp.text.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            return `
+                <div class="preview-waypoint">
+                    <div class="preview-waypoint-name">${escapedName}</div>
+                    ${wp.distanceMeters ? `<div class="preview-waypoint-distance">${formatDistance(wp.distanceMeters)} to next waypoint</div>` : ''}
+                    <p class="preview-waypoint-excerpt">${escapedText}</p>
+                </div>
+            `;
+        }).join('');
+    } catch (e) {
+        body.innerHTML = '<p class="preview-loading">Failed to load journey.</p>';
+    }
+}
+
+/**
+ * Hide the preview modal
+ */
+function hidePreviewModal() {
+    const overlay = document.getElementById('preview-modal');
+    if (overlay) overlay.classList.remove('active');
+}
+
+/**
+ * Initialize preview modal behavior (click outside, Escape)
+ */
+function initPreviewModal() {
+    const overlay = document.getElementById('preview-modal');
+    if (!overlay) return;
+
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) hidePreviewModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('active')) {
+            hidePreviewModal();
+        }
+    });
+}
+
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     initPlatformUI();
     initModalBehavior();
     initScreenshotCarousel();
     initDistanceToggle();
+    initPreviewModal();
 });
