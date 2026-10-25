@@ -3,357 +3,421 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Bonus Quests - Footnotes</title>
-    <meta name="description" content="Add bonus quests to your Footnotes library. Journey through Middle-earth, Hogwarts, Panem, Cold War London, and Stephen King's Maine.">
+    <title>Bonus Quests — Footnotes</title>
+    <meta name="description" content="Twelve bonus quests for the Footnotes iPhone app: walk Middle-earth, the Wizarding World, Panem, le Carré's Cold War London and Stephen King's Maine. Preview any route, then tap to add it to your library.">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Bonus Quests - Footnotes">
+    <meta property="og:title" content="Bonus Quests — Footnotes">
     <meta property="og:description" content="Add bonus quests to your Footnotes library. Journey through Middle-earth, Hogwarts, Panem, Cold War London, and Stephen King's Maine.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://footnotes.keithadair.com/quests/">
+    <meta property="og:image" content="https://footnotes.keithadair.com/assets/app-icon.png">
 
     <!-- iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#F3EBDD" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#15100E" media="(prefers-color-scheme: dark)">
 
     <!-- Favicons -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap">
+
+    <link rel="stylesheet" href="../css/site.css">
 
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossorigin="">
+    <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
-    <header class="header">
-        <nav class="nav container">
-            <a href="/" class="nav-logo"><img src="/assets/app-icon.png" alt="" width="24" height="24">Footnotes</a>
+    <header class="site-header" id="site-header">
+        <nav class="site-nav container" aria-label="Primary">
+            <a href="/" class="brand"><img src="/assets/app-icon.png" alt="" width="34" height="34"><span>Footnotes</span></a>
             <div class="nav-links">
-                <a href="/quests/" class="nav-link">Bonus Quests</a>
-                <a href="/build/" class="nav-link">Build</a>
+                <a href="/quests/" class="nav-link" aria-current="page">Bonus Quests</a>
+                <a href="/build/" class="nav-link nav-link-hide-sm">Journey Builder</a>
+                <a href="https://apps.apple.com/us/app/footnotes-character-journeys/id6757349875" class="btn btn-primary nav-cta">Get the app</a>
             </div>
         </nav>
     </header>
 
-    <main>
-        <!-- Page Header -->
-        <section class="page-header">
+    <main id="main">
+        <!-- ============================================================ Page hero -->
+        <section class="page-hero" aria-labelledby="page-title">
             <div class="container">
-                <h1>Bonus Quests</h1>
-                <p>Footnotes comes with many built-in quests. These are additional adventures you can add to your library. Tap a quest to import it into the app.</p>
+                <p class="eyebrow">Bonus quests &middot; tap to import</p>
+                <h1 id="page-title">Roads <em>beyond</em> the classics.</h1>
+                <p class="lede">The app ships with twelve public-domain journeys. These are the extras: fan-made walks through Middle-earth, the Wizarding World, Panem, Cold War London and Stephen King's Maine. Preview any route here, then open it in Footnotes to add it to your Storybook.</p>
+
+                <dl class="stat-row" id="quest-stats">
+                    <div><dt>Quests</dt><dd data-stat="quests">&nbsp;</dd></div>
+                    <div><dt>Worlds</dt><dd data-stat="worlds">&nbsp;</dd></div>
+                    <div><dt>Waypoints</dt><dd data-stat="waypoints">&nbsp;</dd></div>
+                    <div><dt>Distance</dt><dd class="quest-distance" data-stat="distance" data-km="0">&nbsp;</dd></div>
+                </dl>
             </div>
         </section>
 
-        <!-- Quest Cards -->
-        <section class="quest-section">
+        <!-- ============================================================ Gallery -->
+        <section class="quest-section" aria-label="Quest gallery">
             <div class="container">
-                <!-- iOS Notice Banner (hidden on iOS) -->
-                <div class="ios-notice" id="ios-notice">
-                    <p>Footnotes is currently available for iPhone only. These quests can be opened in the Footnotes iOS app.</p>
+                <!-- iOS Notice Banner (hidden on iOS by main.js) -->
+                <div class="ios-notice" id="ios-notice" role="note">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg>
+                    <p>Footnotes is an iPhone app. You can preview every route from here; to add one to your library, open this page on your iPhone, or <a href="https://apps.apple.com/us/app/footnotes-character-journeys/id6757349875">get the app first</a>.</p>
                 </div>
 
-                <!-- Distance Toggle -->
-                <div class="distance-toggle-container">
-                    <label class="distance-toggle-label">
-                        <span class="toggle-label toggle-label-miles">mi</span>
-                        <input type="checkbox" id="distance-toggle" class="distance-toggle-input">
-                        <span class="toggle-slider"></span>
-                        <span class="toggle-label toggle-label-km">km</span>
-                    </label>
+                <!-- Toolbar: world filter + unit toggle -->
+                <div class="toolbar">
+                    <div class="chips" role="group" aria-label="Filter by world" id="world-filters">
+                        <button class="chip" type="button" data-filter="all" aria-pressed="true">All worlds</button>
+                        <button class="chip" type="button" data-filter="middle-earth" aria-pressed="false" style="--swatch: var(--c-middle-earth)"><span class="swatch"></span>Middle-earth</button>
+                        <button class="chip" type="button" data-filter="wizarding" aria-pressed="false" style="--swatch: var(--c-wizarding)"><span class="swatch"></span>Wizarding World</button>
+                        <button class="chip" type="button" data-filter="panem" aria-pressed="false" style="--swatch: var(--c-panem)"><span class="swatch"></span>Panem</button>
+                        <button class="chip" type="button" data-filter="lecarre" aria-pressed="false" style="--swatch: var(--c-lecarre)"><span class="swatch"></span>le Carré</button>
+                        <button class="chip" type="button" data-filter="king" aria-pressed="false" style="--swatch: var(--c-king)"><span class="swatch"></span>Stephen King</button>
+                    </div>
+                    <div class="distance-toggle-container">
+                        <label class="distance-toggle-label">
+                            <span class="toggle-label toggle-label-miles">mi</span>
+                            <input type="checkbox" id="distance-toggle" class="distance-toggle-input" aria-label="Show distances in kilometres">
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-label toggle-label-km">km</span>
+                        </label>
+                    </div>
                 </div>
 
-                <!-- le Carre's Cold War -->
-                <h2 class="category-title">le Carré's Cold War</h2>
-                <div class="quest-grid">
-                    <!-- The Spy Who Came In -->
-                    <article class="quest-card">
-                        <div class="quest-card-accent accent-lecarre"></div>
-                        <div class="quest-card-content">
-                            <h3 class="quest-card-title">The Spy Who Came In: The Circus</h3>
-                            <p class="quest-card-description">Leamas returns to London and begins his degradation.</p>
-                            <div class="quest-card-meta">
-                                <span>6 waypoints</span>
-                                <span>Leamas</span>
+                <!-- ============================== Middle-earth -->
+                <section class="world" data-world="middle-earth" id="middle-earth" aria-labelledby="world-middle-earth">
+                    <div class="world-head">
+                        <div class="world-mark" aria-hidden="true">&#9968;</div>
+                        <h2 id="world-middle-earth">Middle-earth <span class="world-count">3 quests</span></h2>
+                        <p>Three legs of the Fellowship's road, laid over the hills and ranges of New Zealand. Walk them in order and you'll have crossed from Bag End to the Golden Wood.</p>
+                    </div>
+                    <div class="quest-grid">
+                        <article class="quest-card" data-world="middle-earth" data-waypoints="10">
+                            <div class="quest-card-band"><span>Middle-earth</span><span class="theme">Epic</span></div>
+                            <div class="quest-card-content">
+                                <h3 class="quest-card-title">The Shire to Bree</h3>
+                                <p class="quest-card-description">A dangerous journey through the Old Forest to the Prancing Pony.</p>
+                                <ul class="quest-facts">
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>Frodo</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 21V4l7 3 7-3v17l-7 3z"/></svg>10 waypoints</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-11a6 6 0 0 1 12 0c0 5.7-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></svg>New Zealand</li>
+                                </ul>
+                                <div class="quest-distance-row">
+                                    <span class="quest-distance" data-km="112.5">69.9 mi</span>
+                                    <span class="quest-length-label"></span>
+                                </div>
+                                <div class="quest-card-buttons">
+                                    <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('lotr_shire_to_bree.journey')">Preview</button>
+                                    <button class="btn btn-primary quest-card-button" onclick="openQuest('lotr_shire_to_bree.journey')">Open in Footnotes</button>
+                                </div>
                             </div>
-                            <div class="quest-card-details">
-                                <span class="quest-distance" data-km="19.5">12.1 mi</span>
-                                <span class="quest-region">London, UK</span>
-                            </div>
-                            <div class="quest-card-buttons">
-                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('lecarre_circus.journey')">Preview</button>
-                                <button class="btn btn-primary quest-card-button" onclick="openQuest('lecarre_circus.journey')">Open in Footnotes</button>
-                            </div>
-                        </div>
-                    </article>
+                        </article>
 
-                    <!-- Smiley's London -->
-                    <article class="quest-card">
-                        <div class="quest-card-accent accent-lecarre"></div>
-                        <div class="quest-card-content">
-                            <h3 class="quest-card-title">Smiley's London</h3>
-                            <p class="quest-card-description">A contemplative walk through George Smiley's city, from Chelsea to Hampstead.</p>
-                            <div class="quest-card-meta">
-                                <span>12 waypoints</span>
-                                <span>Smiley</span>
+                        <article class="quest-card" data-world="middle-earth" data-waypoints="7">
+                            <div class="quest-card-band"><span>Middle-earth</span><span class="theme">Epic</span></div>
+                            <div class="quest-card-content">
+                                <h3 class="quest-card-title">Bree to Rivendell</h3>
+                                <p class="quest-card-description">The Flight to the Ford. Escape the Nazgûl and find refuge in the Last Homely House.</p>
+                                <ul class="quest-facts">
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>Aragorn</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 21V4l7 3 7-3v17l-7 3z"/></svg>7 waypoints</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-11a6 6 0 0 1 12 0c0 5.7-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></svg>New Zealand</li>
+                                </ul>
+                                <div class="quest-distance-row">
+                                    <span class="quest-distance" data-km="281.0">174.6 mi</span>
+                                    <span class="quest-length-label"></span>
+                                </div>
+                                <div class="quest-card-buttons">
+                                    <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('rivendell.journey')">Preview</button>
+                                    <button class="btn btn-primary quest-card-button" onclick="openQuest('rivendell.journey')">Open in Footnotes</button>
+                                </div>
                             </div>
-                            <div class="quest-card-details">
-                                <span class="quest-distance" data-km="23.1">14.4 mi</span>
-                                <span class="quest-region">London, UK</span>
-                            </div>
-                            <div class="quest-card-buttons">
-                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('smiley_london.journey')">Preview</button>
-                                <button class="btn btn-primary quest-card-button" onclick="openQuest('smiley_london.journey')">Open in Footnotes</button>
-                            </div>
-                        </div>
-                    </article>
-                </div>
+                        </article>
 
-                <!-- Middle-earth -->
-                <h2 class="category-title">Middle-earth</h2>
-                <div class="quest-grid">
-                    <!-- The Shire to Bree -->
-                    <article class="quest-card">
-                        <div class="quest-card-accent accent-middle-earth"></div>
-                        <div class="quest-card-content">
-                            <h3 class="quest-card-title">The Shire to Bree</h3>
-                            <p class="quest-card-description">A dangerous journey through the Old Forest to the Prancing Pony.</p>
-                            <div class="quest-card-meta">
-                                <span>10 waypoints</span>
-                                <span>Frodo</span>
+                        <article class="quest-card" data-world="middle-earth" data-waypoints="8">
+                            <div class="quest-card-band"><span>Middle-earth</span><span class="theme">Epic</span></div>
+                            <div class="quest-card-content">
+                                <h3 class="quest-card-title">The Mines of Moria</h3>
+                                <p class="quest-card-description">Journey through the dark heart of the mountain, from the West Gate to the Golden Wood.</p>
+                                <ul class="quest-facts">
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>Aragorn</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 21V4l7 3 7-3v17l-7 3z"/></svg>8 waypoints</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-11a6 6 0 0 1 12 0c0 5.7-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></svg>New Zealand</li>
+                                </ul>
+                                <div class="quest-distance-row">
+                                    <span class="quest-distance" data-km="93.0">57.8 mi</span>
+                                    <span class="quest-length-label"></span>
+                                </div>
+                                <div class="quest-card-buttons">
+                                    <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('moria.journey')">Preview</button>
+                                    <button class="btn btn-primary quest-card-button" onclick="openQuest('moria.journey')">Open in Footnotes</button>
+                                </div>
                             </div>
-                            <div class="quest-card-details">
-                                <span class="quest-distance" data-km="112.5">69.9 mi</span>
-                                <span class="quest-region">New Zealand</span>
-                            </div>
-                            <div class="quest-card-buttons">
-                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('lotr_shire_to_bree.journey')">Preview</button>
-                                <button class="btn btn-primary quest-card-button" onclick="openQuest('lotr_shire_to_bree.journey')">Open in Footnotes</button>
-                            </div>
-                        </div>
-                    </article>
+                        </article>
+                    </div>
+                </section>
 
-                    <!-- Bree to Rivendell -->
-                    <article class="quest-card">
-                        <div class="quest-card-accent accent-middle-earth"></div>
-                        <div class="quest-card-content">
-                            <h3 class="quest-card-title">Bree to Rivendell</h3>
-                            <p class="quest-card-description">The Flight to the Ford. Escape the Nazgul and find refuge in the Last Homely House.</p>
-                            <div class="quest-card-meta">
-                                <span>7 waypoints</span>
-                                <span>Aragorn</span>
+                <!-- ============================== Wizarding World -->
+                <section class="world" data-world="wizarding" id="wizarding" aria-labelledby="world-wizarding">
+                    <div class="world-head">
+                        <div class="world-mark" aria-hidden="true">&#10022;</div>
+                        <h2 id="world-wizarding">Wizarding World <span class="world-count">3 quests</span></h2>
+                        <p>From a cupboard under the stairs to a castle in the Highlands. One short village stroll, one London errand, and the whole length of Britain by steam train.</p>
+                    </div>
+                    <div class="quest-grid">
+                        <article class="quest-card" data-world="wizarding" data-waypoints="11">
+                            <div class="quest-card-band"><span>Wizarding World</span><span class="theme">Mystical</span></div>
+                            <div class="quest-card-content">
+                                <h3 class="quest-card-title">Privet Drive to Platform 9&frac34;</h3>
+                                <p class="quest-card-description">An eleven-year-old's first steps into the wizarding world.</p>
+                                <ul class="quest-facts">
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>Harry</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 21V4l7 3 7-3v17l-7 3z"/></svg>11 waypoints</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-11a6 6 0 0 1 12 0c0 5.7-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></svg>London, UK</li>
+                                </ul>
+                                <div class="quest-distance-row">
+                                    <span class="quest-distance" data-km="31.5">19.6 mi</span>
+                                    <span class="quest-length-label"></span>
+                                </div>
+                                <div class="quest-card-buttons">
+                                    <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('diagon_alley.journey')">Preview</button>
+                                    <button class="btn btn-primary quest-card-button" onclick="openQuest('diagon_alley.journey')">Open in Footnotes</button>
+                                </div>
                             </div>
-                            <div class="quest-card-details">
-                                <span class="quest-distance" data-km="207.0">128.6 mi</span>
-                                <span class="quest-region">New Zealand</span>
-                            </div>
-                            <div class="quest-card-buttons">
-                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('rivendell.journey')">Preview</button>
-                                <button class="btn btn-primary quest-card-button" onclick="openQuest('rivendell.journey')">Open in Footnotes</button>
-                            </div>
-                        </div>
-                    </article>
+                        </article>
 
-                    <!-- The Mines of Moria -->
-                    <article class="quest-card">
-                        <div class="quest-card-accent accent-middle-earth"></div>
-                        <div class="quest-card-content">
-                            <h3 class="quest-card-title">The Mines of Moria</h3>
-                            <p class="quest-card-description">Journey through the dark heart of the mountain, from the West Gate to the Golden Wood.</p>
-                            <div class="quest-card-meta">
-                                <span>8 waypoints</span>
-                                <span>Aragorn</span>
+                        <article class="quest-card" data-world="wizarding" data-waypoints="15">
+                            <div class="quest-card-band"><span>Wizarding World</span><span class="theme">Mystical</span></div>
+                            <div class="quest-card-content">
+                                <h3 class="quest-card-title">The Hogwarts Express</h3>
+                                <p class="quest-card-description">A magical journey from King's Cross to the castle in the Highlands.</p>
+                                <ul class="quest-facts">
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>Harry</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 21V4l7 3 7-3v17l-7 3z"/></svg>15 waypoints</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-11a6 6 0 0 1 12 0c0 5.7-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></svg>England to Scotland, UK</li>
+                                </ul>
+                                <div class="quest-distance-row">
+                                    <span class="quest-distance" data-km="972.0">604.0 mi</span>
+                                    <span class="quest-length-label"></span>
+                                </div>
+                                <div class="quest-card-buttons">
+                                    <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('potter_hogwarts_express.journey')">Preview</button>
+                                    <button class="btn btn-primary quest-card-button" onclick="openQuest('potter_hogwarts_express.journey')">Open in Footnotes</button>
+                                </div>
                             </div>
-                            <div class="quest-card-details">
-                                <span class="quest-distance" data-km="93.0">57.8 mi</span>
-                                <span class="quest-region">New Zealand</span>
-                            </div>
-                            <div class="quest-card-buttons">
-                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('moria.journey')">Preview</button>
-                                <button class="btn btn-primary quest-card-button" onclick="openQuest('moria.journey')">Open in Footnotes</button>
-                            </div>
-                        </div>
-                    </article>
-                </div>
+                        </article>
 
-                <!-- Panem -->
-                <h2 class="category-title">Panem</h2>
-                <div class="quest-grid">
-                    <!-- The 74th Hunger Games -->
-                    <article class="quest-card">
-                        <div class="quest-card-accent accent-panem"></div>
-                        <div class="quest-card-content">
-                            <h3 class="quest-card-title">The 74th Hunger Games</h3>
-                            <p class="quest-card-description">Survival in the woods. From the bloodbath at the Cornucopia to the final showdown.</p>
-                            <div class="quest-card-meta">
-                                <span>6 waypoints</span>
-                                <span>Katniss</span>
+                        <article class="quest-card" data-world="wizarding" data-waypoints="12">
+                            <div class="quest-card-band"><span>Wizarding World</span><span class="theme">Mystical</span></div>
+                            <div class="quest-card-content">
+                                <h3 class="quest-card-title">Hogwarts to Hogsmeade</h3>
+                                <p class="quest-card-description">A weekend stroll to the wizarding village for butterbeer and sweets.</p>
+                                <ul class="quest-facts">
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>Hermione</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 21V4l7 3 7-3v17l-7 3z"/></svg>12 waypoints</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-11a6 6 0 0 1 12 0c0 5.7-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></svg>Scotland, UK</li>
+                                </ul>
+                                <div class="quest-distance-row">
+                                    <span class="quest-distance" data-km="5.6">3.5 mi</span>
+                                    <span class="quest-length-label"></span>
+                                </div>
+                                <div class="quest-card-buttons">
+                                    <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('hogsmeade.journey')">Preview</button>
+                                    <button class="btn btn-primary quest-card-button" onclick="openQuest('hogsmeade.journey')">Open in Footnotes</button>
+                                </div>
                             </div>
-                            <div class="quest-card-details">
-                                <span class="quest-distance" data-km="81.0">50.3 mi</span>
-                                <span class="quest-region">North Carolina, USA</span>
-                            </div>
-                            <div class="quest-card-buttons">
-                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('hunger_games_74th.journey')">Preview</button>
-                                <button class="btn btn-primary quest-card-button" onclick="openQuest('hunger_games_74th.journey')">Open in Footnotes</button>
-                            </div>
-                        </div>
-                    </article>
+                        </article>
+                    </div>
+                </section>
 
-                    <!-- Mockingjay: The Final March -->
-                    <article class="quest-card">
-                        <div class="quest-card-accent accent-panem"></div>
-                        <div class="quest-card-content">
-                            <h3 class="quest-card-title">Mockingjay: The Final March</h3>
-                            <p class="quest-card-description">The Star Squad's final mission. Navigate the pods and traps of the Capitol on foot.</p>
-                            <div class="quest-card-meta">
-                                <span>6 waypoints</span>
-                                <span>Katniss</span>
+                <!-- ============================== Panem -->
+                <section class="world" data-world="panem" id="panem" aria-labelledby="world-panem">
+                    <div class="world-head">
+                        <div class="world-mark" aria-hidden="true">&#10147;</div>
+                        <h2 id="world-panem">Panem <span class="world-count">2 quests</span></h2>
+                        <p>Two arenas, both staged in the forests of North Carolina. Survival walks: shorter legs, higher stakes, and a Mockingjay at the end of each.</p>
+                    </div>
+                    <div class="quest-grid">
+                        <article class="quest-card" data-world="panem" data-waypoints="10">
+                            <div class="quest-card-band"><span>Panem</span><span class="theme">Survival</span></div>
+                            <div class="quest-card-content">
+                                <h3 class="quest-card-title">The 74th Hunger Games</h3>
+                                <p class="quest-card-description">Survival in the woods. From the bloodbath at the Cornucopia to the final showdown.</p>
+                                <ul class="quest-facts">
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>Katniss</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 21V4l7 3 7-3v17l-7 3z"/></svg>10 waypoints</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-11a6 6 0 0 1 12 0c0 5.7-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></svg>North Carolina, USA</li>
+                                </ul>
+                                <div class="quest-distance-row">
+                                    <span class="quest-distance" data-km="81.0">50.3 mi</span>
+                                    <span class="quest-length-label"></span>
+                                </div>
+                                <div class="quest-card-buttons">
+                                    <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('hunger_games_74th.journey')">Preview</button>
+                                    <button class="btn btn-primary quest-card-button" onclick="openQuest('hunger_games_74th.journey')">Open in Footnotes</button>
+                                </div>
                             </div>
-                            <div class="quest-card-details">
-                                <span class="quest-distance" data-km="104.0">64.6 mi</span>
-                                <span class="quest-region">North Carolina, USA</span>
-                            </div>
-                            <div class="quest-card-buttons">
-                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('hunger_games_mockingjay.journey')">Preview</button>
-                                <button class="btn btn-primary quest-card-button" onclick="openQuest('hunger_games_mockingjay.journey')">Open in Footnotes</button>
-                            </div>
-                        </div>
-                    </article>
-                </div>
+                        </article>
 
-                <!-- Stephen King's Maine -->
-                <h2 class="category-title">Stephen King's Maine</h2>
-                <div class="quest-grid">
-                    <!-- The Losers' Club -->
-                    <article class="quest-card">
-                        <div class="quest-card-accent accent-king"></div>
-                        <div class="quest-card-content">
-                            <h3 class="quest-card-title">The Losers' Club</h3>
-                            <p class="quest-card-description">Face your fears in Derry, Maine. Walk the haunted streets where the Losers confronted It.</p>
-                            <div class="quest-card-meta">
-                                <span>10 waypoints</span>
-                                <span>Bill</span>
+                        <article class="quest-card" data-world="panem" data-waypoints="10">
+                            <div class="quest-card-band"><span>Panem</span><span class="theme">Survival</span></div>
+                            <div class="quest-card-content">
+                                <h3 class="quest-card-title">Mockingjay: The Final March</h3>
+                                <p class="quest-card-description">The Star Squad's final mission. Navigate the pods and traps of the Capitol on foot.</p>
+                                <ul class="quest-facts">
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>Katniss</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 21V4l7 3 7-3v17l-7 3z"/></svg>10 waypoints</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-11a6 6 0 0 1 12 0c0 5.7-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></svg>North Carolina, USA</li>
+                                </ul>
+                                <div class="quest-distance-row">
+                                    <span class="quest-distance" data-km="104.0">64.6 mi</span>
+                                    <span class="quest-length-label"></span>
+                                </div>
+                                <div class="quest-card-buttons">
+                                    <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('hunger_games_mockingjay.journey')">Preview</button>
+                                    <button class="btn btn-primary quest-card-button" onclick="openQuest('hunger_games_mockingjay.journey')">Open in Footnotes</button>
+                                </div>
                             </div>
-                            <div class="quest-card-details">
-                                <span class="quest-distance" data-km="47.8">29.7 mi</span>
-                                <span class="quest-region">Maine, USA</span>
-                            </div>
-                            <div class="quest-card-buttons">
-                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('king_it.journey')">Preview</button>
-                                <button class="btn btn-primary quest-card-button" onclick="openQuest('king_it.journey')">Open in Footnotes</button>
-                            </div>
-                        </div>
-                    </article>
+                        </article>
+                    </div>
+                </section>
 
-                    <!-- The Long Walk -->
-                    <article class="quest-card">
-                        <div class="quest-card-accent accent-king"></div>
-                        <div class="quest-card-content">
-                            <h3 class="quest-card-title">The Long Walk</h3>
-                            <p class="quest-card-description">Walk or die. From the Canadian border, 100 boys walk south until only one remains.</p>
-                            <div class="quest-card-meta">
-                                <span>11 waypoints</span>
-                                <span>Garraty</span>
+                <!-- ============================== le Carré -->
+                <section class="world" data-world="lecarre" id="lecarre" aria-labelledby="world-lecarre">
+                    <div class="world-head">
+                        <div class="world-mark" aria-hidden="true">&#9730;</div>
+                        <h2 id="world-lecarre">le Carré's Cold War <span class="world-count">2 quests</span></h2>
+                        <p>Grey London, real streets. Two quiet, watchful walks through the city of the Circus: short enough for a week of commutes, heavy enough to linger.</p>
+                    </div>
+                    <div class="quest-grid">
+                        <article class="quest-card" data-world="lecarre" data-waypoints="6">
+                            <div class="quest-card-band"><span>le Carré</span><span class="theme">Dramatic</span></div>
+                            <div class="quest-card-content">
+                                <h3 class="quest-card-title">The Spy Who Came In: The Circus</h3>
+                                <p class="quest-card-description">Leamas returns to London and begins his degradation.</p>
+                                <ul class="quest-facts">
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>Leamas</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 21V4l7 3 7-3v17l-7 3z"/></svg>6 waypoints</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-11a6 6 0 0 1 12 0c0 5.7-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></svg>London, UK</li>
+                                </ul>
+                                <div class="quest-distance-row">
+                                    <span class="quest-distance" data-km="19.5">12.1 mi</span>
+                                    <span class="quest-length-label"></span>
+                                </div>
+                                <div class="quest-card-buttons">
+                                    <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('lecarre_circus.journey')">Preview</button>
+                                    <button class="btn btn-primary quest-card-button" onclick="openQuest('lecarre_circus.journey')">Open in Footnotes</button>
+                                </div>
                             </div>
-                            <div class="quest-card-details">
-                                <span class="quest-distance" data-km="701.0">435.6 mi</span>
-                                <span class="quest-region">Maine to Massachusetts, USA</span>
-                            </div>
-                            <div class="quest-card-buttons">
-                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('king_long_walk.journey')">Preview</button>
-                                <button class="btn btn-primary quest-card-button" onclick="openQuest('king_long_walk.journey')">Open in Footnotes</button>
-                            </div>
-                        </div>
-                    </article>
-                </div>
+                        </article>
 
-                <!-- Wizarding World -->
-                <h2 class="category-title">Wizarding World</h2>
-                <div class="quest-grid">
-                    <!-- The Hogwarts Express -->
-                    <article class="quest-card">
-                        <div class="quest-card-accent accent-wizarding"></div>
-                        <div class="quest-card-content">
-                            <h3 class="quest-card-title">The Hogwarts Express</h3>
-                            <p class="quest-card-description">A magical journey from King's Cross to the castle in the Highlands.</p>
-                            <div class="quest-card-meta">
-                                <span>15 waypoints</span>
-                                <span>Harry</span>
+                        <article class="quest-card" data-world="lecarre" data-waypoints="12">
+                            <div class="quest-card-band"><span>le Carré</span><span class="theme">Dramatic</span></div>
+                            <div class="quest-card-content">
+                                <h3 class="quest-card-title">Smiley's London</h3>
+                                <p class="quest-card-description">A contemplative walk through George Smiley's city, from Chelsea to Hampstead.</p>
+                                <ul class="quest-facts">
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>Smiley</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 21V4l7 3 7-3v17l-7 3z"/></svg>12 waypoints</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-11a6 6 0 0 1 12 0c0 5.7-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></svg>London, UK</li>
+                                </ul>
+                                <div class="quest-distance-row">
+                                    <span class="quest-distance" data-km="23.1">14.4 mi</span>
+                                    <span class="quest-length-label"></span>
+                                </div>
+                                <div class="quest-card-buttons">
+                                    <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('smiley_london.journey')">Preview</button>
+                                    <button class="btn btn-primary quest-card-button" onclick="openQuest('smiley_london.journey')">Open in Footnotes</button>
+                                </div>
                             </div>
-                            <div class="quest-card-details">
-                                <span class="quest-distance" data-km="972.0">604.0 mi</span>
-                                <span class="quest-region">England to Scotland, UK</span>
-                            </div>
-                            <div class="quest-card-buttons">
-                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('potter_hogwarts_express.journey')">Preview</button>
-                                <button class="btn btn-primary quest-card-button" onclick="openQuest('potter_hogwarts_express.journey')">Open in Footnotes</button>
-                            </div>
-                        </div>
-                    </article>
+                        </article>
+                    </div>
+                </section>
 
-                    <!-- Privet Drive to Platform 9 3/4 -->
-                    <article class="quest-card">
-                        <div class="quest-card-accent accent-wizarding"></div>
-                        <div class="quest-card-content">
-                            <h3 class="quest-card-title">Privet Drive to Platform 9 3/4</h3>
-                            <p class="quest-card-description">An eleven-year-old's first steps into the wizarding world.</p>
-                            <div class="quest-card-meta">
-                                <span>11 waypoints</span>
-                                <span>Harry</span>
+                <!-- ============================== Stephen King -->
+                <section class="world" data-world="king" id="king" aria-labelledby="world-king">
+                    <div class="world-head">
+                        <div class="world-mark" aria-hidden="true">&#9784;</div>
+                        <h2 id="world-king">Stephen King's Maine <span class="world-count">2 quests</span></h2>
+                        <p>Small-town streets and a very long highway. One walk you'll want to finish quickly, and one that was never meant to end.</p>
+                    </div>
+                    <div class="quest-grid">
+                        <article class="quest-card" data-world="king" data-waypoints="10">
+                            <div class="quest-card-band"><span>Stephen King</span><span class="theme">Gothic</span></div>
+                            <div class="quest-card-content">
+                                <h3 class="quest-card-title">The Losers' Club</h3>
+                                <p class="quest-card-description">Face your fears in Derry, Maine. Walk the haunted streets where the Losers confronted It.</p>
+                                <ul class="quest-facts">
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>Bill</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 21V4l7 3 7-3v17l-7 3z"/></svg>10 waypoints</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-11a6 6 0 0 1 12 0c0 5.7-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></svg>Maine, USA</li>
+                                </ul>
+                                <div class="quest-distance-row">
+                                    <span class="quest-distance" data-km="47.8">29.7 mi</span>
+                                    <span class="quest-length-label"></span>
+                                </div>
+                                <div class="quest-card-buttons">
+                                    <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('king_it.journey')">Preview</button>
+                                    <button class="btn btn-primary quest-card-button" onclick="openQuest('king_it.journey')">Open in Footnotes</button>
+                                </div>
                             </div>
-                            <div class="quest-card-details">
-                                <span class="quest-distance" data-km="31.5">19.6 mi</span>
-                                <span class="quest-region">London, UK</span>
-                            </div>
-                            <div class="quest-card-buttons">
-                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('diagon_alley.journey')">Preview</button>
-                                <button class="btn btn-primary quest-card-button" onclick="openQuest('diagon_alley.journey')">Open in Footnotes</button>
-                            </div>
-                        </div>
-                    </article>
+                        </article>
 
-                    <!-- Hogwarts to Hogsmeade -->
-                    <article class="quest-card">
-                        <div class="quest-card-accent accent-wizarding"></div>
-                        <div class="quest-card-content">
-                            <h3 class="quest-card-title">Hogwarts to Hogsmeade</h3>
-                            <p class="quest-card-description">A weekend stroll to the wizarding village for butterbeer and sweets.</p>
-                            <div class="quest-card-meta">
-                                <span>12 waypoints</span>
-                                <span>Hermione</span>
+                        <article class="quest-card" data-world="king" data-waypoints="11">
+                            <div class="quest-card-band"><span>Stephen King</span><span class="theme">Gothic</span></div>
+                            <div class="quest-card-content">
+                                <h3 class="quest-card-title">The Long Walk</h3>
+                                <p class="quest-card-description">Walk or die. From the Canadian border, 100 boys walk south until only one remains.</p>
+                                <ul class="quest-facts">
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>Garraty</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 21V4l7 3 7-3v17l-7 3z"/></svg>11 waypoints</li>
+                                    <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6-5.3-6-11a6 6 0 0 1 12 0c0 5.7-6 11-6 11z"/><circle cx="12" cy="10" r="2"/></svg>Maine to Massachusetts, USA</li>
+                                </ul>
+                                <div class="quest-distance-row">
+                                    <span class="quest-distance" data-km="701.0">435.6 mi</span>
+                                    <span class="quest-length-label"></span>
+                                </div>
+                                <div class="quest-card-buttons">
+                                    <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('king_long_walk.journey')">Preview</button>
+                                    <button class="btn btn-primary quest-card-button" onclick="openQuest('king_long_walk.journey')">Open in Footnotes</button>
+                                </div>
                             </div>
-                            <div class="quest-card-details">
-                                <span class="quest-distance" data-km="5.6">3.5 mi</span>
-                                <span class="quest-region">Scotland, UK</span>
-                            </div>
-                            <div class="quest-card-buttons">
-                                <button class="btn btn-secondary quest-preview-button" onclick="previewQuest('hogsmeade.journey')">Preview</button>
-                                <button class="btn btn-primary quest-card-button" onclick="openQuest('hogsmeade.journey')">Open in Footnotes</button>
-                            </div>
-                        </div>
-                    </article>
-                </div>
+                        </article>
+                    </div>
+                </section>
 
+                <p class="empty-state" id="quest-empty">No quests match that filter yet.</p>
             </div>
         </section>
 
-        <!-- Back to Home CTA -->
-        <section class="cta-section">
-            <div class="container">
-                <h2>Don't have the app yet?</h2>
-                <p>Download Footnotes for iPhone to start your literary adventures.</p>
-                <a href="https://apps.apple.com/us/app/footnotes-character-journeys/id6757349875" class="btn btn-primary">Download on the App Store</a>
-            </div>
-        </section>
+        <!-- ============================================================ CTA -->
+        <div class="container">
+            <section class="cta-band reveal" aria-labelledby="cta-title">
+                <h2 id="cta-title">Don't have the app yet?</h2>
+                <p>The routes are free to preview here, but they open in the Footnotes app on your iPhone. Download it, come back to this page, and every quest above is one tap from your Storybook.</p>
+                <div class="actions">
+                    <a href="https://apps.apple.com/us/app/footnotes-character-journeys/id6757349875" class="app-store-badge">
+                        <img src="../assets/app-store-badge.svg" alt="Download on the App Store" height="52">
+                    </a>
+                    <a href="/build/" class="btn btn-secondary">Write your own quest</a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <!-- Quest Preview Modal -->
-    <div class="modal-overlay" id="preview-modal">
+    <div class="modal-overlay" id="preview-modal" role="dialog" aria-modal="true" aria-labelledby="preview-modal-title">
         <div class="preview-modal">
             <div class="preview-modal-header" id="preview-modal-header">
                 <div class="preview-modal-header-content">
@@ -367,16 +431,14 @@
                 <button class="preview-tab" data-tab="map" onclick="switchPreviewTab('map')">Map</button>
             </div>
             <div class="preview-modal-content">
-                <div class="preview-modal-body" id="preview-modal-body">
-                </div>
-                <div class="preview-modal-map" id="preview-modal-map">
-                </div>
+                <div class="preview-modal-body" id="preview-modal-body"></div>
+                <div class="preview-modal-map" id="preview-modal-map"></div>
             </div>
         </div>
     </div>
 
     <!-- App Store Modal -->
-    <div class="modal-overlay" id="app-store-modal">
+    <div class="modal-overlay" id="app-store-modal" role="dialog" aria-modal="true">
         <div class="modal">
             <h3>Get Footnotes</h3>
             <p>Download the Footnotes app to open this quest and start your journey.</p>
@@ -387,9 +449,35 @@
         </div>
     </div>
 
-    <footer class="footer">
+    <footer class="site-footer">
         <div class="container">
-            <p>&copy; 2025 Footnotes. Available on iOS. A project by <a href="https://keithadair.com">Keith Adair</a>.</p>
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="brand"><img src="/assets/app-icon.png" alt="" width="34" height="34"><span>Footnotes</span></a>
+                    <p>Walking adventures through the world's great stories, measured in your own footsteps.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/build/">Journey Builder</a></li>
+                        <li><a href="/#library">Included journeys</a></li>
+                        <li><a href="/#faq">Questions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Get it</h4>
+                    <ul>
+                        <li><a href="https://apps.apple.com/us/app/footnotes-character-journeys/id6757349875">Download on the App Store</a></li>
+                        <li><a href="https://github.com/kad-air/footnotes-site">Journey file format</a></li>
+                        <li><a href="https://keithadair.com">Made by Keith Adair</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2025 Footnotes. Available on iOS.</span>
+                <span>Bonus quests are fan-made tributes; the worlds belong to their authors.</span>
+            </div>
         </div>
     </footer>
 
