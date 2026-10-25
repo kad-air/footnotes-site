@@ -5,7 +5,7 @@ A static website for the Footnotes iOS app, hosted on GitHub Pages at `footnotes
 ## What This Site Does
 
 1. **Landing Page** (`/`) - Promotes the Footnotes iOS app with features, how it works, and App Store download link
-2. **Quest Gallery** (`/quests/`) - Displays cards for 10 quests that can be opened directly in the iOS app via deep links
+2. **Quest Gallery** (`/quests/`) - Displays cards for 12 bonus quests that can be previewed in the browser and opened directly in the iOS app via deep links
 
 ## About the Footnotes iOS App
 
@@ -104,13 +104,13 @@ Another waypoint's story text...
 
 ---
 
-## Quest Data (10 Quests)
+## Quest Data (12 Quests)
 
 ### Middle-earth (Lord of the Rings)
 
 | File | ID | Title | Description | Color | Character | Waypoints |
 |------|-----|-------|-------------|-------|-----------|-----------|
-| `lotr_shire_to_bree.journey` | `lotr` | The Shire to Bree | A dangerous journey through the Old Forest to the Prancing Pony. | #00FF00 | Frodo | 12 |
+| `lotr_shire_to_bree.journey` | `lotr` | The Shire to Bree | A dangerous journey through the Old Forest to the Prancing Pony. | #2E6B4F | Frodo | 10 |
 | `rivendell.journey` | `rivendell` | Bree to Rivendell | The Flight to the Ford. Escape the Nazgul and find refuge in the Last Homely House. | #0000FF | Aragorn | 7 |
 | `moria.journey` | `moria` | The Mines of Moria | Journey through the dark heart of the mountain, from the West Gate to the Golden Wood. | #808080 | Aragorn | 8 |
 
@@ -126,8 +126,8 @@ Another waypoint's story text...
 
 | File | ID | Title | Description | Color | Character | Waypoints |
 |------|-----|-------|-------------|-------|-----------|-----------|
-| `hunger_games_74th.journey` | `74th_arena` | The 74th Hunger Games | Survival in the woods. From the bloodbath at the Cornucopia to the final showdown. | #FF0000 | Katniss | 6 |
-| `hunger_games_mockingjay.journey` | `mockingjay_march` | Mockingjay: The Final March | The Star Squad's final mission. Navigate the pods and traps of the Capitol on foot. | #FFA500 | Katniss | 6 |
+| `hunger_games_74th.journey` | `74th_arena` | The 74th Hunger Games | Survival in the woods. From the bloodbath at the Cornucopia to the final showdown. | #FF0000 | Katniss | 10 |
+| `hunger_games_mockingjay.journey` | `mockingjay_march` | Mockingjay: The Final March | The Star Squad's final mission. Navigate the pods and traps of the Capitol on foot. | #FFA500 | Katniss | 10 |
 
 ### le Carre's Cold War
 
@@ -136,28 +136,41 @@ Another waypoint's story text...
 | `lecarre_circus.journey` | `lecarre1` | The Spy Who Came In: The Circus | Leamas returns to London and begins his degradation. | #0000FF | Leamas | 6 |
 | `smiley_london.journey` | `smiley` | Smiley's London | A contemplative walk through George Smiley's city, from Chelsea to Hampstead. | #8B4513 | Smiley | 12 |
 
+### Stephen King's Maine
+
+| File | ID | Title | Description | Color | Character | Waypoints |
+|------|-----|-------|-------------|-------|-----------|-----------|
+| `king_it.journey` | `king_it` | The Losers' Club | Face your fears in Derry, Maine. Walk the haunted streets where the Losers confronted It. | #8B0000 | Bill | 10 |
+| `king_long_walk.journey` | `king_long_walk` | The Long Walk | Walk or die. From the Canadian border, 100 boys walk south until only one remains. | #8B0000 | Garraty | 11 |
+
 ---
 
 ## CSS Design System
 
-### Colors
+The marketing pages (`/` and `/quests/`) use `css/site.css`; the Journey Builder and debug page use the older `css/styles.css`.
+
+### Colors (`css/site.css`)
 
 ```css
 :root {
-  /* App colors */
-  --color-primary: #007AFF;        /* iOS system blue */
-  --color-background: #F2F2F7;     /* iOS system background */
-  --color-surface: #FFFFFF;        /* Card/surface background */
-  --color-text: #1C1C1E;           /* Primary text */
-  --color-text-secondary: #8E8E93; /* Secondary text */
+  /* Parchment & ink */
+  --c-bg: #F3EBDD;        /* page background */
+  --c-surface: #FBF7EF;   /* cards */
+  --c-ink: #1F1510;       /* primary text */
+  --c-ink-2: #5B493B;     /* secondary text */
+  --c-primary: #7A3E12;   /* leather brown — buttons, links */
+  --c-gold: #B48C3C;      /* foil accents, route line */
 
-  /* Category accent colors (from journey files) */
-  --color-middle-earth: #00FF00;   /* Green */
-  --color-wizarding: #800080;      /* Purple */
-  --color-panem: #FF0000;          /* Red */
-  --color-lecarre: #0000FF;        /* Blue */
+  /* World accent colors */
+  --c-middle-earth: #2E6B4F;
+  --c-wizarding: #6D2F8A;
+  --c-panem: #B8232F;
+  --c-lecarre: #30589C;
+  --c-king: #7F1414;
 }
 ```
+
+Dark mode overrides the same tokens under `prefers-color-scheme: dark` and `html[data-theme="dark"]`.
 
 ### Responsive Breakpoints
 
@@ -179,17 +192,9 @@ Another waypoint's story text...
 
 ### Typography
 
-```css
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-h1 { font-size: 2rem; font-weight: 700; }
-h2 { font-size: 1.5rem; font-weight: 600; }
-h3 { font-size: 1.25rem; font-weight: 600; }
-```
+- Display headings: **Fraunces** (variable; optical size + SOFT axis), loaded from Google Fonts with Iowan Old Style / Georgia fallbacks
+- Body copy: **Newsreader**
+- UI labels, buttons, chips: system sans-serif stack
 
 ---
 
@@ -234,9 +239,12 @@ footnotes-site/
 │   ├── rivendell.journey
 │   ├── moria.journey
 │   ├── hunger_games_mockingjay.journey
-│   └── hunger_games_74th.journey
+│   ├── hunger_games_74th.journey
+│   ├── king_it.journey
+│   └── king_long_walk.journey
 ├── css/
-│   └── styles.css          # Mobile-first responsive styles
+│   ├── site.css            # Marketing pages (landing + quests)
+│   └── styles.css          # Legacy styles used by build/ and debug/
 ├── js/
 │   └── main.js             # Platform detection + deep links
 ├── assets/

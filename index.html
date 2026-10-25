@@ -3,218 +3,453 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Footnotes - Walk Through Your Favorite Stories</title>
-    <meta name="description" content="Turn your daily walks into epic literary adventures. Track your steps through Middle-earth, Hogwarts, and beyond.">
+    <title>Footnotes — Every mile turns a page</title>
+    <meta name="description" content="Footnotes turns the distance you walk into passages from the world's great stories. Twelve journeys included, bonus quests from Middle-earth to Maine, and a builder for writing your own. For iPhone, powered by Apple Health.">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Footnotes - Walk Through Your Favorite Stories">
-    <meta property="og:description" content="Turn your daily walks into epic literary adventures. Track your steps through Middle-earth, Hogwarts, and beyond.">
+    <meta property="og:title" content="Footnotes — Every mile turns a page">
+    <meta property="og:description" content="Turn your daily walks into literary journeys. Walk with Odysseus, Beowulf, Poe and more. For iPhone.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://footnotes.keithadair.com">
+    <meta property="og:image" content="https://footnotes.keithadair.com/assets/app-icon.png">
 
     <!-- iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#F3EBDD" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#15100E" media="(prefers-color-scheme: dark)">
 
     <!-- Favicons -->
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-    <link rel="stylesheet" href="css/styles.css">
+    <!-- Type: Fraunces for display, Newsreader for reading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap">
+
+    <link rel="stylesheet" href="css/site.css">
+    <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
-    <header class="header">
-        <nav class="nav container">
-            <a href="/" class="nav-logo"><img src="/assets/app-icon.png" alt="" width="24" height="24">Footnotes</a>
+    <header class="site-header" id="site-header">
+        <nav class="site-nav container" aria-label="Primary">
+            <a href="/" class="brand"><img src="/assets/app-icon.png" alt="" width="34" height="34"><span>Footnotes</span></a>
             <div class="nav-links">
                 <a href="/quests/" class="nav-link">Bonus Quests</a>
-                <a href="/build/" class="nav-link">Build</a>
+                <a href="/build/" class="nav-link nav-link-hide-sm">Journey Builder</a>
+                <a href="https://apps.apple.com/us/app/footnotes-character-journeys/id6757349875" class="btn btn-primary nav-cta">Get the app</a>
             </div>
         </nav>
     </header>
 
-    <main>
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="container hero-content">
-                <div class="hero-icon">
-                    <img src="assets/app-icon.png" alt="Footnotes App Icon" width="120" height="120">
-                </div>
-                <h1 class="hero-title">Footnotes</h1>
-                <p class="hero-tagline">Step into the story</p>
-                <p class="hero-description">Your morning walk becomes Odysseus's voyage home. Your evening stroll, a path through Poe's shadowed lanes. Footnotes transforms the miles beneath your feet into passages from the world's greatest tales.</p>
+    <main id="main">
+        <!-- ============================================================ Hero -->
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="container hero-grid">
+                <div class="hero-copy">
+                    <p class="eyebrow">For iPhone &middot; Works with Apple Health</p>
+                    <h1 class="hero-title" id="hero-title">Every mile turns a <em>page.</em></h1>
+                    <p class="lede hero-lede">Footnotes turns the distance you walk into passages from the world's great tales. Set out from Ithaca with Odysseus, cross the whale-road with Beowulf, or trace Poe's shadowed lanes, one real-world mile at a time.</p>
 
-                <div class="hero-cta">
-                    <a href="https://apps.apple.com/us/app/footnotes-character-journeys/id6757349875" class="app-store-badge" id="app-store-link">
-                        <img src="assets/app-store-badge.svg" alt="Download on the App Store" height="50">
-                    </a>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- Features Section -->
-        <section class="features">
-            <div class="container">
-                <h2 class="section-title">Your Steps, Their Story</h2>
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style="color: var(--color-icon)">
-                                <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="3"/>
-                                <path d="M24 14V24L30 28" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-                            </svg>
-                        </div>
-                        <h3>Track Real Progress</h3>
-                        <p>Your actual steps (via Apple Health) unlock waypoints in the story. Reach Ithaca with Odysseus without leaving your neighborhood.</p>
+                    <div class="hero-actions">
+                        <a href="https://apps.apple.com/us/app/footnotes-character-journeys/id6757349875" class="app-store-badge" id="app-store-link">
+                            <img src="assets/app-store-badge.svg" alt="Download on the App Store" height="52">
+                        </a>
+                        <a href="/quests/" class="btn btn-ghost">Browse bonus quests <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style="color: var(--color-icon)">
-                                <path d="M8 38L24 10L40 38H8Z" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
-                                <circle cx="24" cy="28" r="4" fill="currentColor"/>
-                            </svg>
-                        </div>
-                        <h3>Literary Adventures</h3>
-                        <p>Journey through classic tales. Each waypoint reveals story moments that match your progress through the narrative.</p>
+
+                    <dl class="hero-facts">
+                        <div><dt>Included</dt><dd>12 journeys</dd></div>
+                        <div><dt>Steps from</dt><dd>Apple Health</dd></div>
+                        <div><dt>Custom quests</dt><dd>Import &amp; build</dd></div>
+                    </dl>
+                </div>
+
+                <div class="hero-stage" aria-hidden="true">
+                    <div class="phone">
+                        <img src="assets/screenshot-map.png" alt="" width="1320" height="2868" fetchpriority="high">
                     </div>
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style="color: var(--color-icon)">
-                                <rect x="8" y="8" width="32" height="32" rx="4" stroke="currentColor" stroke-width="3"/>
-                                <path d="M16 24H32M24 16V32" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-                            </svg>
-                        </div>
-                        <h3>Import Custom Quests</h3>
-                        <p>Create your own journeys or import quests shared by other fans. Any story, any route, any adventure.</p>
+                    <div class="float-card float-unlock">
+                        <div class="glyph">&#128214;</div>
+                        <div><strong>Waypoint unlocked</strong><span>The Ship's Prow &middot; Beowulf</span></div>
+                    </div>
+                    <div class="float-card float-progress">
+                        <div><strong>4.6 mi to the next passage</strong><div class="bar"><i></i></div></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Screenshots Section -->
-        <section class="screenshots">
+        <!-- ============================================================ Route ticker -->
+        <div class="ticker" aria-hidden="true">
+            <div class="ticker-track">
+                <ul>
+                    <li>Bag End <small>Hobbiton</small></li>
+                    <li>Weathertop</li>
+                    <li>The Ford of Bruinen</li>
+                    <li>Heorot <small>Beowulf</small></li>
+                    <li>Calypso's Isle <small>The Odyssey</small></li>
+                    <li>Ithaca</li>
+                    <li>Elsinore <small>Hamlet</small></li>
+                    <li>Verona</li>
+                    <li>Hannibal, Missouri <small>Twain</small></li>
+                    <li>Platform 9&frac34;</li>
+                    <li>Hogsmeade</li>
+                    <li>The Cornucopia <small>Panem</small></li>
+                    <li>Derry, Maine <small>King</small></li>
+                    <li>Hampstead Heath <small>Smiley</small></li>
+                    <li>The Red Sea <small>Exodus</small></li>
+                    <li>The Raven's Path <small>Poe</small></li>
+                </ul>
+                <ul>
+                    <li>Bag End <small>Hobbiton</small></li>
+                    <li>Weathertop</li>
+                    <li>The Ford of Bruinen</li>
+                    <li>Heorot <small>Beowulf</small></li>
+                    <li>Calypso's Isle <small>The Odyssey</small></li>
+                    <li>Ithaca</li>
+                    <li>Elsinore <small>Hamlet</small></li>
+                    <li>Verona</li>
+                    <li>Hannibal, Missouri <small>Twain</small></li>
+                    <li>Platform 9&frac34;</li>
+                    <li>Hogsmeade</li>
+                    <li>The Cornucopia <small>Panem</small></li>
+                    <li>Derry, Maine <small>King</small></li>
+                    <li>Hampstead Heath <small>Smiley</small></li>
+                    <li>The Red Sea <small>Exodus</small></li>
+                    <li>The Raven's Path <small>Poe</small></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ============================================================ How it works -->
+        <section class="section" id="how" aria-labelledby="how-title">
             <div class="container">
-                <h2 class="section-title">See It In Action</h2>
+                <div class="section-head reveal">
+                    <p class="eyebrow">How it works</p>
+                    <h2 id="how-title"><span class="chapter"><span class="numeral">I.</span> Three waypoints to <em>begin</em></span></h2>
+                    <p class="lede">No routes to plan, no GPS trail to follow. Walk wherever you like; the story keeps pace with you.</p>
+                </div>
+
+                <ol class="route">
+                    <li class="route-step reveal" style="--delay: 0s">
+                        <span class="route-pin" aria-hidden="true">1</span>
+                        <h3>Open a journey</h3>
+                        <p>Pick a tale from the Storybook. Each journey is a real-world route, mapped waypoint by waypoint, with a passage waiting at every stop.</p>
+                        <span class="hint">Twelve included &middot; more in the quest gallery</span>
+                    </li>
+                    <li class="route-step reveal" style="--delay: 0.1s">
+                        <span class="route-pin" aria-hidden="true">2</span>
+                        <h3>Walk anywhere</h3>
+                        <p>Your neighbourhood loop, the commute, a Sunday ramble. Footnotes reads your walking distance from Apple Health, so there is nothing to start or stop.</p>
+                        <span class="hint">Tap Sync to pull in the latest steps</span>
+                    </li>
+                    <li class="route-step reveal" style="--delay: 0.2s">
+                        <span class="route-pin" aria-hidden="true">3</span>
+                        <h3>Unlock the story</h3>
+                        <p>As the miles add up, your marker advances along the route and the next passage opens. Finish the road and the tale is yours.</p>
+                        <span class="hint">Earn achievements along the way</span>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- ============================================================ Features -->
+        <section class="section section-alt" id="features" aria-labelledby="features-title">
+            <div class="container">
+                <div class="section-head reveal">
+                    <p class="eyebrow">What's inside</p>
+                    <h2 id="features-title"><span class="chapter"><span class="numeral">II.</span> Built for walkers who <em>read</em></span></h2>
+                </div>
+
+                <div class="bento">
+                    <article class="tile tile-wide reveal">
+                        <div class="tile-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6.5 9 4l6 2.5 6-2.5v13l-6 2.5L9 17l-6 2.5z"/><path d="M9 4v13M15 6.5v13"/></svg>
+                        </div>
+                        <h3>A story map that moves with you</h3>
+                        <p>Every journey is pinned to real geography. Your marker travels the actual road from Geatland to Heorot, from the Shire to Bree, and the map shows how far the next passage lies.</p>
+                        <div class="tile-art" aria-hidden="true">
+                            <div class="story-card">
+                                <h4>Beowulf: The Coming of Grendel</h4>
+                                <div class="place">&#128205; Geatland</div>
+                                <div class="next"><span>&#10140; The Ship's Prow</span><b>4.6 mi</b></div>
+                                <blockquote>Word has come across the whale-road: Hrothgar's mead-hall is cursed. For twelve winters, Grendel has feasted on Danish warriors. You will end this.</blockquote>
+                                <div class="bar"><i></i></div>
+                                <div class="stats"><span>Total<b>3.4 mi</b></span><span>Progress<b>38%</b></span><span>Remaining<b>5.6 mi</b></span></div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="tile reveal" style="--delay: 0.05s">
+                        <div class="tile-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 8.6c0 5.4-8.8 11-8.8 11s-8.8-5.6-8.8-11a5 5 0 0 1 8.8-3.2 5 5 0 0 1 8.8 3.2z"/><path d="M3.6 10h4l1.5-3 2 6 1.5-3h7.8"/></svg>
+                        </div>
+                        <h3>Powered by Apple Health</h3>
+                        <p>No start button, no tracking screen. Footnotes reads the walking distance your iPhone already records and turns it into progress.</p>
+                    </article>
+
+                    <article class="tile reveal" style="--delay: 0.1s">
+                        <div class="tile-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/><path d="M9 7h7M9 10.5h5"/></svg>
+                        </div>
+                        <h3>Passages, not push alerts</h3>
+                        <p>Each waypoint reveals a short, atmospheric passage written for that moment in the tale. Read it on the spot or save it for the kettle.</p>
+                    </article>
+
+                    <article class="tile reveal" style="--delay: 0.15s">
+                        <div class="tile-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M8.5 12.5 7 22l5-3 5 3-1.5-9.5"/></svg>
+                        </div>
+                        <h3>Achievements and history</h3>
+                        <p>Every finished road goes on the shelf. Look back over the tales you've walked, the miles behind them, and the milestones you hit along the way.</p>
+                    </article>
+
+                    <article class="tile reveal" style="--delay: 0.2s">
+                        <div class="tile-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-4-4m4 4 4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+                        </div>
+                        <h3>Import any quest</h3>
+                        <p>Journeys are plain text files. Tap one on the web and it opens straight into your library, so fans can write and share roads of their own.</p>
+                    </article>
+
+                    <article class="tile reveal" style="--delay: 0.25s">
+                        <div class="tile-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 9 9c0-1-.8-1.5-1.6-1.5H18a2 2 0 0 1-2-2V7.6c0-.9-.6-1.6-1.5-1.6A9 9 0 0 0 12 3z"/><circle cx="7.5" cy="10.5" r="1"/><circle cx="10.5" cy="7" r="1"/><circle cx="15" cy="6" r="1"/></svg>
+                        </div>
+                        <h3>Six moods for the road</h3>
+                        <p>Epic, adventure, mystical, gothic, dramatic, survival. Each theme restyles the map, the route line and the markers to suit the story you're walking.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================ Screenshots -->
+        <section class="section gallery" id="screens" aria-labelledby="screens-title">
+            <div class="container">
+                <div class="section-head center reveal">
+                    <p class="eyebrow">In the app</p>
+                    <h2 id="screens-title"><span class="chapter"><span class="numeral">III.</span> A look <em>inside</em></span></h2>
+                </div>
+
                 <div class="screenshot-carousel">
                     <div class="screenshot-track" id="screenshot-track">
-                        <div class="screenshot-slide">
-                            <img src="assets/screenshot-storybook.png" alt="Storybook - Browse available quests" loading="lazy">
-                            <p class="screenshot-caption">Browse quests from classic literature</p>
-                        </div>
-                        <div class="screenshot-slide">
-                            <img src="assets/screenshot-map.png" alt="Journey Map - Track your progress" loading="lazy">
-                            <p class="screenshot-caption">Track your journey on the map</p>
-                        </div>
-                        <div class="screenshot-slide">
-                            <img src="assets/screenshot-preview.png" alt="Story Preview - See waypoints" loading="lazy">
-                            <p class="screenshot-caption">Preview waypoints before you start</p>
-                        </div>
-                        <div class="screenshot-slide">
-                            <img src="assets/screenshot-history.png" alt="History - Achievements and stats" loading="lazy">
-                            <p class="screenshot-caption">Earn achievements as you walk</p>
-                        </div>
+                        <figure class="screenshot-slide">
+                            <div class="phone phone-sm"><img src="assets/screenshot-storybook.png" alt="The Storybook tab, listing journeys grouped by author with Preview and Begin Tale buttons" loading="lazy" width="1320" height="2868"></div>
+                            <figcaption class="screenshot-caption">The Storybook<span class="screenshot-sub">Journeys shelved by author, ready to begin</span></figcaption>
+                        </figure>
+                        <figure class="screenshot-slide">
+                            <div class="phone phone-sm"><img src="assets/screenshot-map.png" alt="The Journey map showing Beowulf's route down the Swedish coast with a progress card" loading="lazy" width="1320" height="2868"></div>
+                            <figcaption class="screenshot-caption">The Journey map<span class="screenshot-sub">Your marker on the real road, with the next passage in sight</span></figcaption>
+                        </figure>
+                        <figure class="screenshot-slide">
+                            <div class="phone phone-sm"><img src="assets/screenshot-preview.png" alt="A journey preview listing its waypoints before you begin" loading="lazy" width="1320" height="2868"></div>
+                            <figcaption class="screenshot-caption">Preview the road<span class="screenshot-sub">See every waypoint and distance before you commit</span></figcaption>
+                        </figure>
+                        <figure class="screenshot-slide">
+                            <div class="phone phone-sm"><img src="assets/screenshot-history.png" alt="The History tab with achievements and walking statistics" loading="lazy" width="1320" height="2868"></div>
+                            <figcaption class="screenshot-caption">History<span class="screenshot-sub">Achievements and the miles behind every finished tale</span></figcaption>
+                        </figure>
                     </div>
                     <div class="screenshot-nav">
-                        <button class="screenshot-btn" onclick="scrollScreenshots(-1)" aria-label="Previous screenshot">&larr;</button>
+                        <button class="screenshot-btn" onclick="scrollScreenshots(-1)" aria-label="Previous screenshot"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M12.5 4 6.5 10l6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                         <div class="screenshot-dots" id="screenshot-dots"></div>
-                        <button class="screenshot-btn" onclick="scrollScreenshots(1)" aria-label="Next screenshot">&rarr;</button>
+                        <button class="screenshot-btn" onclick="scrollScreenshots(1)" aria-label="Next screenshot"><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m7.5 4 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- How It Works -->
-        <section class="how-it-works">
+        <!-- ============================================================ Library -->
+        <section class="section section-alt" id="library" aria-labelledby="library-title">
             <div class="container">
-                <h2 class="section-title">How It Works</h2>
-                <div class="steps-grid">
-                    <div class="step">
-                        <div class="step-number">1</div>
-                        <h3>Choose a Journey</h3>
-                        <p>Browse quests from classic literature or import your own custom adventures.</p>
+                <div class="section-head reveal">
+                    <p class="eyebrow">Included with the app</p>
+                    <h2 id="library-title"><span class="chapter"><span class="numeral">IV.</span> Twelve journeys, <em>six</em> shelves</span></h2>
+                    <p class="lede">Public-domain classics, each told in two walks: a short tale to get you started and a longer road for the weeks ahead.</p>
+                </div>
+
+                <div class="library">
+                    <article class="volume reveal">
+                        <span class="numeral" aria-hidden="true">i</span>
+                        <div>
+                            <h3>Beowulf</h3>
+                            <p class="era">Old English epic</p>
+                            <ul><li>The Coming of Grendel</li><li>The Dragon's Barrow</li></ul>
+                        </div>
+                    </article>
+                    <article class="volume reveal" style="--delay: 0.05s">
+                        <span class="numeral" aria-hidden="true">ii</span>
+                        <div>
+                            <h3>The Odyssey</h3>
+                            <p class="era">Homer</p>
+                            <ul><li>Calypso's Isle</li><li>The Long Way Home</li></ul>
+                        </div>
+                    </article>
+                    <article class="volume reveal" style="--delay: 0.1s">
+                        <span class="numeral" aria-hidden="true">iii</span>
+                        <div>
+                            <h3>Edgar Allan Poe</h3>
+                            <p class="era">American Gothic</p>
+                            <ul><li>The Raven's Path</li><li>The Tell-Tale Heart</li></ul>
+                        </div>
+                    </article>
+                    <article class="volume reveal" style="--delay: 0.15s">
+                        <span class="numeral" aria-hidden="true">iv</span>
+                        <div>
+                            <h3>Mark Twain</h3>
+                            <p class="era">Along the Mississippi</p>
+                            <ul><li>Tom Sawyer's Hannibal</li><li>Huckleberry Finn's River</li></ul>
+                        </div>
+                    </article>
+                    <article class="volume reveal" style="--delay: 0.2s">
+                        <span class="numeral" aria-hidden="true">v</span>
+                        <div>
+                            <h3>Shakespeare</h3>
+                            <p class="era">Tragedies</p>
+                            <ul><li>Hamlet's Elsinore</li><li>Romeo &amp; Juliet's Verona</li></ul>
+                        </div>
+                    </article>
+                    <article class="volume reveal" style="--delay: 0.25s">
+                        <span class="numeral" aria-hidden="true">vi</span>
+                        <div>
+                            <h3>The Bible</h3>
+                            <p class="era">Old Testament</p>
+                            <ul><li>Exodus: Out of Egypt</li><li>David and Goliath</li></ul>
+                        </div>
+                    </article>
+                </div>
+
+                <p class="lede reveal" style="margin-top: var(--sp-6)">Want Middle-earth, Hogwarts, Panem, Cold War London or Stephen King's Maine? <a href="/quests/">Those live in the bonus quest gallery</a>, one tap away from your library.</p>
+            </div>
+        </section>
+
+        <!-- ============================================================ Builder -->
+        <section class="section" id="build" aria-labelledby="build-title">
+            <div class="container split">
+                <div>
+                    <div class="section-head reveal">
+                        <p class="eyebrow">Journey Builder</p>
+                        <h2 id="build-title"><span class="chapter"><span class="numeral">V.</span> Write your <em>own</em> road</span></h2>
+                        <p class="lede">A journey is just a text file: a title, a handful of pins on a map, and a passage for each. Our free web builder does the fiddly parts.</p>
                     </div>
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <h3>Walk Your Way</h3>
-                        <p>Head outside and walk anywhere. Your steps are tracked automatically via Apple Health.</p>
+                    <ul class="checklist reveal">
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></svg><span>Drop waypoints on a map; distances between them are measured for you.</span></li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></svg><span>Write a passage per stop, pick a theme colour and a mood for the map.</span></li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></svg><span>Export a <code>.journey</code> file, host it anywhere, and share a tap-to-import link.</span></li>
+                    </ul>
+                    <div class="hero-actions reveal">
+                        <a href="/build/" class="btn btn-primary">Open the Journey Builder</a>
+                        <a href="https://github.com/kad-air/footnotes-site/blob/main/README.md#journey-file-format" class="btn btn-ghost">Read the file format</a>
                     </div>
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <h3>Unlock the Story</h3>
-                        <p>As you hit distance milestones, waypoints unlock with story text from your journey.</p>
+                </div>
+
+                <div class="reveal" style="--delay: 0.1s">
+                    <div class="paper" data-filename="hollow_hill.journey" aria-label="Example journey file">
+<pre><span class="h"># The Walk to Hollow Hill</span>
+
+<span class="k">**Description:**</span> A lantern-lit climb through the
+old orchard to the stones above the village.
+<span class="k">**Category:**</span> Village Tales
+<span class="k">**Color:**</span> #7A3E12
+<span class="k">**Character:**</span> The Lamplighter
+<span class="k">**Theme:**</span> mystical
+
+---
+
+<span class="h">## Waypoints</span>
+
+<span class="h">### The Lychgate</span>
+<span class="m">&#128205; 51.4034, -2.3542</span>
+<span class="m">&#128207; 1800m</span>
+
+The gate groans as you pass. Behind you the
+village lamps go out one by one...</pre>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Built-in Journeys Section -->
-        <section class="built-in-journeys">
-            <div class="container">
-                <h2 class="section-title">12 Journeys Included</h2>
-                <p class="section-subtitle">Start walking through these public domain classics the moment you download the app.</p>
-                <div class="journey-list">
-                    <div class="journey-category">
-                        <h3>Beowulf</h3>
-                        <ul>
-                            <li>The Coming of Grendel</li>
-                            <li>The Dragon's Barrow</li>
-                        </ul>
-                    </div>
-                    <div class="journey-category">
-                        <h3>The Odyssey</h3>
-                        <ul>
-                            <li>Calypso's Isle</li>
-                            <li>The Long Way Home</li>
-                        </ul>
-                    </div>
-                    <div class="journey-category">
-                        <h3>Edgar Allan Poe</h3>
-                        <ul>
-                            <li>The Raven's Path</li>
-                            <li>The Tell-Tale Heart</li>
-                        </ul>
-                    </div>
-                    <div class="journey-category">
-                        <h3>Mark Twain</h3>
-                        <ul>
-                            <li>Tom Sawyer's Hannibal</li>
-                            <li>Huckleberry Finn's River</li>
-                        </ul>
-                    </div>
-                    <div class="journey-category">
-                        <h3>Shakespeare</h3>
-                        <ul>
-                            <li>Hamlet's Elsinore</li>
-                            <li>Romeo & Juliet's Verona</li>
-                        </ul>
-                    </div>
-                    <div class="journey-category">
-                        <h3>The Bible</h3>
-                        <ul>
-                            <li>Exodus: Out of Egypt</li>
-                            <li>David and Goliath</li>
-                        </ul>
-                    </div>
+        <!-- ============================================================ FAQ -->
+        <section class="section section-alt" id="faq" aria-labelledby="faq-title">
+            <div class="container container-narrow">
+                <div class="section-head reveal">
+                    <p class="eyebrow">Good to know</p>
+                    <h2 id="faq-title"><span class="chapter"><span class="numeral">VI.</span> Questions from the <em>trailhead</em></span></h2>
+                </div>
+                <div class="faq reveal">
+                    <details open>
+                        <summary>Do I have to walk the actual route?</summary>
+                        <p>No. The routes are real places, but you walk wherever you are. Footnotes maps the distance you cover at home onto the story's road, so a loop of your own park can carry you from the Shire to Bree.</p>
+                    </details>
+                    <details>
+                        <summary>Where does my walking data come from?</summary>
+                        <p>From Apple Health, which your iPhone (and Apple Watch, if you wear one) already fills in as you move. Footnotes reads your walking distance from there, so there is nothing to start or stop.</p>
+                    </details>
+                    <details>
+                        <summary>How long does a journey take?</summary>
+                        <p>It depends on the road. The short tales run a few miles and suit a week of ordinary walking; the longer journeys stretch to hundreds of miles and make a fine season-long project. Every quest shows its total distance before you begin.</p>
+                    </details>
+                    <details>
+                        <summary>Is there an Android version?</summary>
+                        <p>Not yet. Footnotes is built for iPhone and relies on Apple Health. The quest gallery and Journey Builder on this site work in any browser.</p>
+                    </details>
+                    <details>
+                        <summary>Can I write a journey for my own town, book club or school?</summary>
+                        <p>Yes. Open the Journey Builder, place your waypoints, write your passages and export. Anyone with the app can import the file with a single tap.</p>
+                    </details>
                 </div>
             </div>
         </section>
 
-        <!-- Quest Gallery CTA -->
-        <section class="cta-section">
-            <div class="container">
-                <h2>Want Even More Adventures?</h2>
-                <p>Looking for journeys beyond the classics? Browse bonus quests from Middle-earth, Hogwarts, Panem, and more that you can add to your library.</p>
-                <a href="/quests/" class="btn btn-primary">Browse Bonus Quests</a>
-            </div>
-        </section>
+        <!-- ============================================================ CTA -->
+        <div class="container">
+            <section class="cta-band reveal" aria-labelledby="cta-title">
+                <h2 id="cta-title">Lace up. The first chapter is waiting.</h2>
+                <p>Download Footnotes, choose a tale, and let tomorrow's walk carry you somewhere worth reading about.</p>
+                <div class="actions">
+                    <a href="https://apps.apple.com/us/app/footnotes-character-journeys/id6757349875" class="app-store-badge">
+                        <img src="assets/app-store-badge.svg" alt="Download on the App Store" height="52">
+                    </a>
+                    <a href="/quests/" class="btn btn-secondary">Browse bonus quests</a>
+                </div>
+                <p class="fine">Requires an iPhone with Apple Health.</p>
+            </section>
+        </div>
     </main>
 
-    <footer class="footer">
+    <footer class="site-footer">
         <div class="container">
-            <p>&copy; 2025 Footnotes. Available on iOS. A project by <a href="https://keithadair.com">Keith Adair</a>.</p>
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="/" class="brand"><img src="/assets/app-icon.png" alt="" width="34" height="34"><span>Footnotes</span></a>
+                    <p>Walking adventures through the world's great stories, measured in your own footsteps.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Explore</h4>
+                    <ul>
+                        <li><a href="/quests/">Bonus Quests</a></li>
+                        <li><a href="/build/">Journey Builder</a></li>
+                        <li><a href="/#library">Included journeys</a></li>
+                        <li><a href="/#faq">Questions</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Get it</h4>
+                    <ul>
+                        <li><a href="https://apps.apple.com/us/app/footnotes-character-journeys/id6757349875">Download on the App Store</a></li>
+                        <li><a href="https://github.com/kad-air/footnotes-site">Journey file format</a></li>
+                        <li><a href="https://keithadair.com">Made by Keith Adair</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2025 Footnotes. Available on iOS.</span>
+                <span>Place names belong to their authors. Your miles belong to you.</span>
+            </div>
         </div>
     </footer>
 

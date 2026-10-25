@@ -120,13 +120,15 @@ function initModalBehavior() {
  * Screenshot carousel functionality
  */
 let currentScreenshot = 0;
-const totalScreenshots = 4;
+let totalScreenshots = 4;
 
 function initScreenshotCarousel() {
     const track = document.getElementById('screenshot-track');
     const dotsContainer = document.getElementById('screenshot-dots');
 
     if (!track || !dotsContainer) return;
+
+    totalScreenshots = track.querySelectorAll('.screenshot-slide').length || totalScreenshots;
 
     // Create dots
     for (let i = 0; i < totalScreenshots; i++) {
@@ -138,7 +140,9 @@ function initScreenshotCarousel() {
 
     // Update dots on scroll
     track.addEventListener('scroll', () => {
-        const slideWidth = track.querySelector('.screenshot-slide').offsetWidth + 24; // gap
+        const firstSlide = track.querySelector('.screenshot-slide');
+        const gap = parseFloat(getComputedStyle(track).columnGap) || 24;
+        const slideWidth = firstSlide.offsetWidth + gap;
         const newIndex = Math.round(track.scrollLeft / slideWidth);
         if (newIndex !== currentScreenshot && newIndex >= 0 && newIndex < totalScreenshots) {
             currentScreenshot = newIndex;
@@ -174,6 +178,132 @@ function updateDots() {
     });
 }
 
+
+/**
+ * Sticky header: add a hairline once the page has scrolled
+ */
+function initHeaderScroll() {
+    const header = document.getElementById('site-header');
+    if (!header) return;
+    const update = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+}
+
+/**
+ * Scroll reveal for .reveal elements (no-op without IntersectionObserver)
+ */
+function initReveal() {
+    const items = document.querySelectorAll('.reveal');
+    if (!items.length) return;
+    if (!('IntersectionObserver' in window)) {
+        items.forEach(el => el.classList.add('is-visible'));
+        return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    items.forEach(el => observer.observe(el));
+}
+
+/**
+ * Describe a quest's length in plain words, from kilometres
+ */
+function describeLength(km) {
+    if (km < 10) return 'An afternoon’s walk';
+    if (km < 40) return 'A week of walks';
+    if (km < 150) return 'A month on the road';
+    if (km < 500) return 'A season’s expedition';
+    return 'An odyssey';
+}
+
+/**
+ * Quest gallery: fill in length labels and the summary stats
+ */
+function initQuestStats() {
+    const cards = document.querySelectorAll('.quest-card[data-world]');
+    if (!cards.length) return;
+
+    let totalKm = 0;
+    let totalWaypoints = 0;
+    const worlds = new Set();
+
+    cards.forEach(card => {
+        const distanceEl = card.querySelector('.quest-distance');
+        const km = distanceEl ? parseFloat(distanceEl.getAttribute('data-km')) : NaN;
+        if (!isNaN(km)) {
+            totalKm += km;
+            const label = card.querySelector('.quest-length-label');
+            if (label && !label.textContent.trim()) label.textContent = describeLength(km);
+        }
+        totalWaypoints += parseInt(card.getAttribute('data-waypoints'), 10) || 0;
+        worlds.add(card.getAttribute('data-world'));
+    });
+
+    const set = (name, value) => {
+        const el = document.querySelector(`[data-stat="${name}"]`);
+        if (el) el.textContent = value;
+    };
+    set('quests', cards.length);
+    set('worlds', worlds.size);
+    set('waypoints', totalWaypoints);
+
+    const distanceStat = document.querySelector('[data-stat="distance"]');
+    if (distanceStat) {
+        distanceStat.setAttribute('data-km', totalKm.toFixed(1));
+        distanceStat.setAttribute('data-round', 'true');
+    }
+}
+
+/**
+ * Quest gallery: filter chips by world
+ */
+function initQuestFilters() {
+    const group = document.getElementById('world-filters');
+    if (!group) return;
+
+    const chips = group.querySelectorAll('.chip[data-filter]');
+    const worlds = document.querySelectorAll('.world[data-world]');
+    const cards = document.querySelectorAll('.quest-card[data-world]');
+    const empty = document.getElementById('quest-empty');
+
+    function applyFilter(filter) {
+        chips.forEach(chip => chip.setAttribute('aria-pressed', String(chip.dataset.filter === filter)));
+        let shown = 0;
+        worlds.forEach(section => {
+            const match = filter === 'all' || section.dataset.world === filter;
+            section.classList.toggle('is-hidden', !match);
+        });
+        cards.forEach(card => {
+            const match = filter === 'all' || card.dataset.world === filter;
+            card.classList.toggle('is-hidden', !match);
+            if (match) shown++;
+        });
+        if (empty) empty.classList.toggle('is-visible', shown === 0);
+    }
+
+    chips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            const filter = chip.dataset.filter;
+            applyFilter(filter);
+            const url = new URL(window.location.href);
+            if (filter === 'all') url.searchParams.delete('world');
+            else url.searchParams.set('world', filter);
+            history.replaceState(null, '', url);
+        });
+    });
+
+    const initial = new URL(window.location.href).searchParams.get('world');
+    if (initial && [...chips].some(c => c.dataset.filter === initial)) {
+        applyFilter(initial);
+    }
+}
+
 /**
  * Distance toggle functionality (miles/km)
  */
@@ -206,12 +336,10 @@ function updateAllDistances(showKm) {
     distances.forEach(element => {
         const km = parseFloat(element.getAttribute('data-km'));
         if (!isNaN(km)) {
-            if (showKm) {
-                element.textContent = km.toFixed(1) + ' km';
-            } else {
-                const miles = (km * 0.621371).toFixed(1);
-                element.textContent = miles + ' mi';
-            }
+            const round = element.hasAttribute('data-round');
+            const value = showKm ? km : km * 0.621371;
+            const text = round ? Math.round(value).toLocaleString() : value.toFixed(1);
+            element.textContent = text + (showKm ? ' km' : ' mi');
         }
     });
 }
@@ -544,9 +672,13 @@ function initDarkMode() {
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     initDarkMode();
+    initHeaderScroll();
     initPlatformUI();
     initModalBehavior();
     initScreenshotCarousel();
+    initQuestStats();
     initDistanceToggle();
+    initQuestFilters();
     initPreviewModal();
+    initReveal();
 });
